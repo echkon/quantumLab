@@ -4,3 +4,4 @@ psycopg2-binary
 whitenoise
 dj-database-url
 django-extensions
+pandas
