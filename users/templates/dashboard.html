@@ -1,0 +1,51 @@
+<!-- users/templates/dashboard.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+</head>
+<body>
+    <h2>Welcome, {{ user.username }}</h2>
+
+    <h3>Working Record</h3>
+    <ul>
+        {% for session in work_sessions %}
+            <li>{{ session.status }} - Started at: {{ session.start_time }}{% if session.end_time %} - Ended at: {{ session.end_time }}{% endif %}</li>
+        {% empty %}
+            <li>No working recorded.</li>
+        {% endfor %}
+    </ul>
+
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" name="start">Start Working</button>
+        <button type="submit" name="stop">Stop Working</button>
+        <button type="submit" name="export">Export to Excel</button>  <!-- Export button -->
+        <button type="button" onclick="confirmReset()">Reset Record</button>  <!-- Button with JavaScript -->
+    </form>
+
+    <script>
+        function confirmReset() {
+            // Display a confirmation dialog to the user
+            var confirmAction = confirm("Are you sure you want to reset all your working records? This action cannot be undone. Please reset at the end of the month.");
+            
+            // If the user confirms, submit the form with the 'reset' action
+            if (confirmAction) {
+                // Create a hidden input field to indicate the reset action
+                var form = document.querySelector('form');
+                var resetInput = document.createElement('input');
+                resetInput.type = 'hidden';
+                resetInput.name = 'reset';
+                resetInput.value = 'true';
+                form.appendChild(resetInput);
+                form.submit();  // Submit the form
+            }
+        }
+    </script>
+
+    <a href="/users/logout/">Logout</a>
+</body>
+</html>
