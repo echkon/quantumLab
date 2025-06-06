@@ -127,7 +127,7 @@ import dj_database_url
 import os
 
 DEBUG = False
-ALLOWED_HOSTS = ['<your-render-url>.onrender.com']  # sẽ sửa sau khi deploy
+ALLOWED_HOSTS = ['quantumlab.onrender.com']
 
 DATABASES = {
     'default': dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600)
