@@ -7,5 +7,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),  # Include users app URLs
     path('', views.home, name='home'),  # Root path for home page
-    path('', views.people_view, name='people'),
 ]
