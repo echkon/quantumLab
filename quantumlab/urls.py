@@ -1,4 +1,4 @@
-# worktracker/urls.py
+# quantumlab/urls.py
 from django.contrib import admin
 from django.urls import path, include
 from users import views  # Import the views from the users app
