@@ -16,6 +16,9 @@ from openpyxl.worksheet.protection import SheetProtection
 def home(request):
     return render(request, 'home.html')  # Render a simple home page template
 
+def people_view(request):
+    return render(request, 'people.html')
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
