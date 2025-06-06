@@ -128,6 +128,7 @@ ALLOWED_HOSTS = ['quantumlab.onrender.com']
 #}
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')  # thêm dòng này

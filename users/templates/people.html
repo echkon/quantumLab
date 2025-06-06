@@ -1,55 +1,61 @@
+<!-- templates/people.html -->
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>People | Quantum Lab</title>
+    <title>People</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f0f4f8;
-            margin: 0;
-            padding: 40px;
-        }
-        h1, h2 {
-            text-align: center;
+            font-family: Arial, sans-serif; 
+            margin: 40px; 
+            background: #f9f9f9;
             color: #2c3e50;
         }
-        section {
-            max-width: 1000px;
-            margin: 40px auto;
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        h1 {
+            color: #2c3e50; 
+            margin-bottom: 30px;
+            text-align: center;
         }
-        .person-grid {
+        h2 {
+            color: #34495e; 
+            border-bottom: 2px solid #ccc; 
+            padding-bottom: 5px; 
+            margin-top: 40px;
+        }
+        .person-list {
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            justify-content: center;
+            padding: 0;
+            list-style: none;
+            margin-top: 15px;
         }
-        .person-card {
-            background: #fafafa;
-            border-radius: 8px;
+        .person-list li {
+            background: white;
             padding: 15px;
-            width: 200px;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            width: 220px;
             text-align: center;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
         }
-        .person-card img {
-            width: 100%;
-            height: 200px;
+        .person-list img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
             object-fit: cover;
-            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 3px solid #2c3e50;
         }
-        .person-card h3 {
-            margin-top: 10px;
-            font-size: 18px;
-            color: #333;
+        .person-name {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 5px;
         }
-        .person-card p {
-            font-size: 14px;
-            color: #555;
+        .person-role {
+            font-style: italic;
+            color: #666;
+            font-size: 0.9em;
         }
     </style>
 </head>
@@ -57,41 +63,56 @@
     <h1>Our People</h1>
 
     <section>
-        <h2>Lab Members</h2>
-        <div class="person-grid">
-            <div class="person-card">
-                <img src="/static/images/binho.jpg" alt="Binho Le">
-                <h3>Dr. Binho Le</h3>
-                <p>Principal Investigator</p>
-            </div>
-            <div class="person-card">
-                <img src="/static/images/avata.jpg" alt="Member 1">
-                <h3>Member 1</h3>
-                <p>Research Assistant</p>
-            </div>
-        </div>
+        <h2>Lab Members (alphabet order)</h2>
+        <ul class="person-list">
+            <li>
+                <img src="{% static 'images/binho.jpg' %}" alt="Binho Le">
+                <div class="person-name">Binho Le</div>
+                <div class="person-role">Principal Investigator</div>
+            </li>
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Member 1">
+                <div class="person-name">Member 1</div>
+                <div class="person-role">Researcher</div>
+            </li>
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Member 2">
+                <div class="person-name">Member 2</div>
+                <div class="person-role">Research Assistant</div>
+            </li>
+        </ul>
     </section>
 
     <section>
-        <h2>Collaborators</h2>
-        <div class="person-grid">
-            <div class="person-card">
-                <img src="/static/images/avata.jpg" alt="Collaborator 1">
-                <h3>Prof. Collaborator 1</h3>
-                <p>XYZ University</p>
-            </div>
-        </div>
+        <h2>Collaborators (alphabet order)</h2>
+        <ul class="person-list">
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Collaborator 1">
+                <div class="person-name">Prof. Collaborator 1</div>
+                <div class="person-role">Institution 1</div>
+            </li>
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Collaborator 2">
+                <div class="person-name">Dr. Collaborator 2</div>
+                <div class="person-role">Institution 2</div>
+            </li>
+        </ul>
     </section>
 
     <section>
         <h2>Visitors</h2>
-        <div class="person-grid">
-            <div class="person-card">
-                <img src="/static/images/avata.jpg" alt="Visitor 1">
-                <h3>Visitor 1</h3>
-                <p>ABC Institute</p>
-            </div>
-        </div>
+        <ul class="person-list">
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Visitor 1">
+                <div class="person-name">Visitor 1</div>
+                <div class="person-role">Affiliation 1</div>
+            </li>
+            <li>
+                <img src="{% static 'images/avata.jpg' %}" alt="Visitor 2">
+                <div class="person-name">Visitor 2</div>
+                <div class="person-role">Affiliation 2</div>
+            </li>
+        </ul>
     </section>
 </body>
 </html>
