@@ -19,6 +19,9 @@ def home(request):
 def people_view(request):
     return render(request, 'people.html')
 
+def contact_view(request):
+    return render(request, 'contact.html')
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
