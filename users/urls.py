@@ -11,8 +11,13 @@ urlpatterns = [
     path('stop/', views.stop_work, name='stop_work'),
     path('test-log/', views.test_logging, name='test_log'),
     path('register/', views.register, name='register'),
-    path('people/', views.people_view, name='people'),
+    path('member/', views.member_view, name='member'),
+    path('publication/', views.publication_view, name='publication'),
+    path('visitor/', views.visitor_view, name='visitor'),
     path('contact/', views.contact_view, name='contact'),
+    path('position/', views.position_view, name='position'),
+    path('event/', views.event_view, name='event'),
+    path('resource/', views.resource_view, name='resource'),
 ]
 
 #path('', views.user_login, name='login'),  # Redirect users/ to login page

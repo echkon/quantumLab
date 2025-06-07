@@ -1,41 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Contact | Quantum Lab</title>
+    <title>Contact</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 40px;
-            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
         }
-        h1 {
-            color: #2c3e50;
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
         }
-        .contact-section {
-            background: white;
-            padding: 20px 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px #ccc;
+
+        .header img {
             max-width: 600px;
-            margin: auto;
+            height: auto;
         }
-        .contact-section p {
-            margin-bottom: 10px;
-        }
-        .label {
-            font-weight: bold;
+
+        .main {
+            flex: 1;
+            margin-left: 0px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 0px;
         }
     </style>
+    {% load static %}
 </head>
 <body>
-    <div class="contact-section">
-        <h1>Contact Us</h1>
-        <p><span class="label">Lab Name:</span> Quantum Lab, FRIS, Tohoku University</p>
-        <p><span class="label">Principal Investigator:</span> Binho Le</p>
-        <p><span class="label">Address:</span> 3F, FRIS, Aramaki aza Aoba 6-3, Aoba-ku, Sendai 980-8578, Japan</p>
-        <p><span class="label">Email:</span> <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a></p>
-        <p><span class="label">Website:</span> <a href="https://quantumlab.onrender.com" target="_blank">quantumlab.onrender.com</a></p>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
     </div>
+
+    <div class="main">
+            <h1>Contact Us</h1>
+            <p><span class="label">Lab Name:</span> Quantum Lab, FRIS, Tohoku University</p>
+            <p><span class="label">Principal Investigator:</span> Binho Le</p>
+            <p><span class="label">Address:</span> 3F, FRIS, Aramaki aza Aoba 6-3, Aoba-ku, Sendai 980-8578, Japan</p>
+            <p><span class="label">Email:</span> <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a></p>
+            <p><span class="label">Website:</span> <a href="https://quantumlab.onrender.com" target="_blank">quantumlab.onrender.com</a></p>
+    </div>    
 </body>
 </html>

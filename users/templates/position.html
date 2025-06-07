@@ -1,0 +1,98 @@
+<!-- templates/people.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+        .main {
+            flex: 1;
+            margin-left: 0px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 0px;
+        }
+        .position-entry {
+            border-left: 4px solid #007ACC;
+            padding-left: 16px;
+            margin-bottom: 24px;
+            max-width: 900px
+        }
+        .position-entry h2 {
+            margin: 0;
+            color: #007ACC;
+        }
+        .position-entry p {
+            margin: 8px 0;
+        }
+        a {
+            color: #007ACC;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+    <div class="main">
+
+    <h1>Open Positions</h1>    
+    <section>
+        <div class="position-entry">
+        <h2>JSPS Postdoctoral Fellowship</h2>
+        <p>We welcome applications for the <strong>Japan Society for the Promotion of Science (JSPS) Postdoctoral Fellowship</strong>. This program supports young international researchers who wish to conduct advanced research in Japan.</p>
+        <p><a href="https://www.jsps.go.jp/english/e-fellow/index.html" target="_blank">Learn more and apply</a></p>
+    </div>
+
+    <div class="position-entry">
+        <h2>FRIS URO</h2>
+        <p> Undergraduate students from Tohoku University are eligible to participate in research projects. This program aims to give students hands-on experience with cutting-edge research while supporting their academic growth and providing financial assistance. 
+</p>
+        <p><a href="https://www.fris.tohoku.ac.jp/recruit/fris-uro/" target="_blank">詳細・応募はこちら（日本語）</a></p>
+        <p><a href="https://www.fris.tohoku.ac.jp/en/recruit/fris-uro/" target="_blank">Learn more and apply (Eng)</a></p>
+    </div>
+
+
+
+    <div class="position-entry">
+        <h2>Internships</h2>
+        <p>Undergraduate and graduate students interested in quantum technologies, machine learning, or quantum sensing are encouraged to apply for research internships. Projects can be customized based on your background and interests.</p>
+        <p><a href="{% url 'contact' %}">Contact us</a> directly to discuss available projects and timelines.
+        </p>
+    </div>
+
+    <div class="position-entry">
+        <h2>Other Opportunities</h2>
+        <p>We occasionally open funded research assistant positions, collaborative research programs, and international exchange opportunities.</p>
+        <p>If you're interested, please send your CV and a short motivation letter to <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a>.</p>
+    </div>
+    </section>
+</div>
+</body>
+</html>
+
+

@@ -2,17 +2,82 @@
 <html>
 <head>
     <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+
+        .main {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left {
+            width: 250px;
+        }
+
+        .left p a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .right {
+            flex: 1;
+            margin-left: 40px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .right h1 {
+            margin-top: 0;
+        }
+    </style>
+    {% load static %}
 </head>
 <body>
-    <h1>Welcome to Quantum Lab @ Tohoku University</h1>
-    <p><a href="{% url 'login' %}"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Login (for staffs only)</a></p>
-    <p><a href="/users/"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Binho Le</a></p>
-    <p><a href="{% url 'people' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">People</a></p>
-    <p><a href="/people/"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Publications</a></p>
-    <p><a href="/people/"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Positions</a></p>
-    <p><a href="/people/"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Upcoming Events</a></p>
-    <p><a href="/people/"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Resources</a></p>
-    <p><a href="{% url 'contact' %}"style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Contact</a></p>
+    <div class="header">
+        <img src="{% static 'images/logo.png' %}" alt="Lab Logo">
+    </div>
+
+    <div class="main">
+        <div class="left">
+            <p><a href="{% url 'login' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Login (for staffs only)</a></p>
+            <p><a href="/users/" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Binho Le</a></p>
+            <p><a href="{% url 'member' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Members</a></p>
+            <p><a href="{% url 'publication' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Publications</a></p>
+            <p><a href="{% url 'position' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Positions</a></p>
+            <p><a href="{% url 'event' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Upcoming Events</a></p>
+            <p><a href="{% url 'resource' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Resources</a></p>
+            <p><a href="{% url 'visitor' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Visitors</a></p>
+            <p><a href="{% url 'contact' %}" style="padding: 8px 12px; background-color: #2c3e50; color: white; text-decoration: none; border-radius: 5px;">Contact</a></p>
+        </div>
+
+        <div class="right">
+            <h1>Quantum Lab</h1>
+            <p>Our lab focuses on advancing the frontiers of quantum science and technology through four key research areas:</p>
+            <ul>
+                <li><strong>Quantum Algorithms:</strong> Developing novel algorithms tailored for quantum computers to solve complex problems more efficiently.</li>
+                <li><strong>Foundational Physics:</strong> Investigating fundamental principles of quantum mechanics to deepen our understanding of the quantum world.</li>
+                <li><strong>Quantum Metrology and Sensing:</strong> Enhancing measurement precision by leveraging unique quantum properties, pushing beyond classical limits.</li>
+                <li><strong>Quantum Measurement:</strong> Designing precise measurement techniques at the quantum scale, including exploring nonlocal measurement methods.</li>
+            </ul>
+            <p>By integrating these areas, our goal is to innovate practical quantum technologies that improve sensing, computation, and fundamental understanding of nature.</p>
+        </div>
+    </div>
 </body>
 </html>
-

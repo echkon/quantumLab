@@ -1,0 +1,83 @@
+<!-- templates/people.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+        .main {
+            flex: 1;
+            margin-left: 0px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 0px;
+        }
+        .year {
+            font-size: 24px;
+            margin-top: 30px;
+            margin-bottom: 12px;
+        }
+        .visitor {
+            margin-bottom: 12px;
+        }
+        .date {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+    <div class="main">
+        <h1>Visitors</h1>
+        <div class="year">2025</div>
+            <div class="visitor">
+                <span class="date">Mar 3 - Mar 7</span>
+                Thomás Fogarty (Staff Scientist, Okinawa Institute of Science and Technology, Japan)
+            </div>
+            <div class="visitor">
+                <span class="date">Mar 3 - Mar 7</span>
+                Hoang Tuan Duc (Student, Okinawa Institute of Science and Technology, Japan)
+            </div>
+
+        <div class="year">2024</div>
+            <div class="visitor">
+                <span class="date">Nov 11 - Nov 15</span>
+                Thomás Fogarty (Staff Scientist, Okinawa Institute of Science and Technology, Japan)
+            </div>
+            <div class="visitor">
+                <span class="date">Nov 11 - Nov 15</span>
+                Tran Duong Anh Tai (Student, Okinawa Institute of Science and Technology, Japan)
+            </div>
+            <div class="visitor">
+                <span class="date">Nov 11 - Nov 15</span>
+                Hoang Tuan Duc (Student, Okinawa Institute of Science and Technology, Japan)
+            </div>
+
+</div>
+</body>
+</html>

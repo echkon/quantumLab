@@ -1,0 +1,106 @@
+<!-- templates/resource.html -->
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resource</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+        .main {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 40px 0; /* vertical padding only */
+        }
+        .main .content {
+            max-width: 800px;
+            margin: 0 auto;       /* center the content */
+            padding: 0 20px;      /* optional horizontal padding */
+            text-align: left;     /* left-align the text inside the content box */
+        }
+        .divider {
+        border: none;
+        border-top: 2px solid #ccc;
+        margin: 60px 0 30px 0; /* top and bottom spacing */
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .pub-entry {
+        margin-bottom: 24px; /* space between different publications */
+        }
+
+        .title,
+        .authors,
+        .journal {
+            margin: 0; /* no space between lines within one publication */
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+    <div class="main">
+        <div class="content">
+        <h1>Resources</h1>
+            <h2>tqix</h2>
+                <div class="section">
+                        <div class="pub-entry">
+                            <p class="title">tqix is an open-source computer program written in Python language for quantum physics measurement and related issues. In the program, quantum states and operators, including quantum gates, can be developed into a quantum object function matrix presentation. Many tutorials illustrate the program performance, including the application of quantum state tomography and quantum metrology. The program is built in a general language of quantum physics and thus is widely adaptable to various physical platforms, such as quantum optics, ion traps, superconducting circuit devices, and others. It is also ideal to use in classroom guidance with simulations and visualizations of various quantum systems.</p>
+                            <p><li><a href="https://vqisinfo.wixsite.com/tqix" target="_blank">
+                                    See more
+                            </a></li></p>
+                            <p><li><a href="https://tqix-developers.readthedocs.io/en/latest/" target="_blank">
+                                    Documents
+                            </a></li></p>
+                            <p><li><a href="https://github.com/echkon/tqix-developers" target="_blank">
+                                    Github
+                            </a></li></p>
+                            <p><li><a href="https://pypi.org/project/tqix/" target="_blank">
+                                    Install
+                            </a></li></p>
+                        </div>
+                </div>
+
+            <h2>Lecture note: Introduction to variational quantum algorithms</h2>
+                <div class="section">
+                    <ul>
+                        <li><a href="{% static 'pdfs/lecture_vqa.pdf' %}" target="_blank">Lecture note (PDF)</a></li>
+                    </ul>
+
+            <h2>Lecture note: Spin ensemble</h2>
+                <div class="section">
+                    <ul>
+                        <li><a href="{% static 'pdfs/lecture_spin.pdf' %}" target="_blank">Lecture note (PDF)</a></li>
+                    </ul>
+    </div>
+    <footer>
+        <p>&copy; 2025 Binho Le</p>
+    </footer>    
+</body>
+</html>

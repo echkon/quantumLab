@@ -16,8 +16,23 @@ from openpyxl.worksheet.protection import SheetProtection
 def home(request):
     return render(request, 'home.html')  # Render a simple home page template
 
-def people_view(request):
-    return render(request, 'people.html')
+def member_view(request):
+    return render(request, 'member.html')
+
+def publication_view(request):
+    return render(request, 'publication.html')
+
+def visitor_view(request):
+    return render(request, 'visitor.html')
+
+def position_view(request):
+    return render(request, 'position.html')
+
+def event_view(request):
+    return render(request, 'event.html')
+
+def resource_view(request):
+    return render(request, 'resource.html')
 
 def contact_view(request):
     return render(request, 'contact.html')

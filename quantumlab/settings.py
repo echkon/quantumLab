@@ -25,9 +25,11 @@ SECRET_KEY = 'django-insecure-cq8hx!-xs2^02c8qz^)x0!!w3=&-*eesyk@g)d#1f&i-kuo@gc
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.3.4', 'localhost', '127.0.0.1', '0.0.0.0', '192.168.11.5']
-
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.3.4', 'localhost', '0.0.0.0', '192.168.11.5']
 # Application definition
+
+DEBUG = False
+ALLOWED_HOSTS = ['quantumlab.onrender.com']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -119,9 +121,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 #import dj_database_url
 import os
-
-DEBUG = False
-ALLOWED_HOSTS = ['quantumlab.onrender.com']
 
 #DATABASES = {
 #    'default': dj_database_url.config(default='sqlite:///db.sqlite3', conn_max_age=600)

@@ -1,0 +1,298 @@
+<!-- templates/people.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Publications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+        .main {
+            width: 100%;
+            background-color: #ffffff;
+            padding: 40px 0; /* vertical padding only */
+        }
+        .main .content {
+            max-width: 800px;
+            margin: 0 auto;       /* center the content */
+            padding: 0 20px;      /* optional horizontal padding */
+            text-align: left;     /* left-align the text inside the content box */
+        }
+        .divider {
+        border: none;
+        border-top: 2px solid #ccc;
+        margin: 60px 0 30px 0; /* top and bottom spacing */
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        .section {
+            margin-top: 20px;
+        }
+        .pub-entry {
+        margin-bottom: 24px; /* space between different publications */
+        }
+
+        .title,
+        .authors,
+        .journal {
+            margin: 0; /* no space between lines within one publication */
+            font-size: 18px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+    <div class="main">
+        <div class="content">
+        <h1>Publications</h1>
+<hr class="divider">
+            <h2>FY2025</h2>
+                <div class="section">
+                    <h2>Peer Reviewed</h2>
+                        <div class="pub-entry">
+                            <p class="title">Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements</p>
+                            <p class="authors">Haruki Matsunaga, Le Bin Ho</p>
+                            <p class="journal"><a href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239" target="_blank">
+                                    Physical Review Research 7, 013239 (2025)
+                            </a></p>
+                        </div>
+                </div>
+
+                <div class="section">
+                    <h2>Preprints</h2>
+                        <div class="pub-entry">
+                            <p class="title">Optimized quantum sensor networks for ultralight dark matter detection</p>
+                            <p class="authors">Adriel I Santoso, Le Bin Ho</p>
+                            <p class="journal"><a href="https://arxiv.org/abs/2505.21188" target="_blank">arXiv:2505.21188</a></p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Advancing quantum process tomography through universal compilation</p>
+                            <p class="authors">Huynh Le Dan Linh, Vu Tuan Hai, Le Bin Ho</p>
+                            <p class="journal"><a href="https://arxiv.org/abs/2504.14958" target="_blank" rel="noopener noreferrer">arXiv.2504.14958</a></p>
+                        </div>
+                </div>
+
+<hr class="divider">
+            <h2>FY2024</h2>
+                <div class="section">
+                    <h2>Peer Reviewed</h2>
+                        <div class="pub-entry">
+                            <p class="title">Multi-target quantum compilation algorithm</p>
+                            <p class="authors">Vu Tuan Hai, Nguyen Tan Viet, Jesus Urbaneja, Nguyen Vu Linh, Lan Nguyen Tran, Le Bin Ho</p>
+                            <p class="journal"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ad9705" target="_blank" rel="noopener noreferrer">Machine Learning: Science and Technology 5, 045057 (2024)</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Quantum Battery Optimization through Quantum Machine Learning Techniques</p>
+                            <p class="authors">VT Hai, VM Kiet, LVT Duong, PH Luan, LB Ho, Y Nakashima</p>
+                            <p class="journal"><a href="https://ieeexplore.ieee.org/document/10762673" target="_blank" rel="noopener noreferrer">2024 21st International SoC Design Conference (ISOCC)</a></p>
+
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Squeezing-induced quantum-enhanced multiphase estimation</p>
+                            <p class="authors">Le Bin Ho</p>
+                            <p class="journal"><a href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033292" target="_blank" rel="noopener noreferrer">Physical Review Research 6 (3), 033292 (2024)</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Harnessing graph state resources for robust quantum magnetometry under noise</p>
+                            <p class="authors">Phu Trong Nguyen, Trung Kien Le, Hung Q. Nguyen, Le Bin Ho</p>
+                            <p class="journal"><a href="https://www.nature.com/articles/s41598-024-71365-8" target="_blank" rel="noopener noreferrer">Scientific Reports 14, 20528 (2024)</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">&lt;qo|op&gt;: A quantum object optimizer</p>
+                            <p class="authors">VT Hai, NT Viet, LB Ho</p>
+                            <p class="journal"><a href="https://doi.org/10.1016/j.softx.2024.101726" target="_blank">SoftwareX 26, 101726</a></p>
+                        </div>
+                </div>
+
+<hr class="divider">
+            <h2>FY2023</h2>
+                <div class="section">
+                    <h2>Peer Reviewed</h2>
+                        <div class="pub-entry">
+                            <p class="title">Variational quantum metrology for multiparameter estimation under dephasing noise</p>
+                            <p class="authors">Trung Kien Le, Hung Q. Nguyen, Le Bin Ho</p>
+                            <p class="journal"><a href="https://www.nature.com/articles/s41598-023-44786-0" target="_blank">Scientific Reports, 13(1), Oct 18, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">A stochastic evaluation of quantum Fisher information matrix with generic Hamiltonians</p>
+                            <p class="authors">Le Bin Ho</p>
+                            <p class="journal"><a href="https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-023-00195-w" target="_blank">EPJ Quantum Technology, 10(37), Sep, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Quantum backaction effects in sequential measurements</p>
+                            <p class="authors">Le Bin Ho</p>
+                            <p class="journal"><a href="https://www.sciencedirect.com/science/article/pii/S0003491623000969?via%3Dihub" target="_blank">Annals of Physics, 453, 169310-169310, Jun, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Increased success probability in Hardy's nonlocality: Theory and demonstration</p>
+                            <p class="authors">Duc Minh Tran, Van-Duy Nguyen, Le Bin Ho, Hung Q. Nguyen</p>
+                            <p class="journal"><a href="https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042210" target="_blank">Physical Review A, 107(4), Apr 14, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">No-go result for quantum postselection measurements of a rank-m degenerate subspace</p>
+                            <p class="authors">Le Bin Ho</p>
+                            <p class="journal"><a href="https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042204" target="_blank">Physical Review A, 107(4), Apr 7, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Universal compilation for quantum state tomography</p>
+                            <p class="authors">Vu Tuan Hai, Le Bin Ho</p>
+                            <p class="journal"><a href="https://www.nature.com/articles/s41598-023-30983-4" target="_blank">Scientific Reports, 13(1), Mar 6, 2023</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">tqix.pis: A toolbox for quantum dynamics simulation of spin ensembles in Dicke basis</p>
+                            <p class="authors">Nguyen Tan Viet, Nguyen Thi Chuong, Vu Thi Ngoc Huyen, Le Bin Ho</p>
+                            <p class="journal"><a href="https://www.sciencedirect.com/science/article/pii/S0010465523000310" target="_blank">Computer Physics Communications 286, 108686 (2023)</a></p>
+                        </div>
+                </div>
+
+<hr class="divider">
+            <h2>FY2022</h2>
+                <div class="section">
+                    <h2>Peer Reviewed</h2>
+                        <div class="pub-entry">
+                            <p class="title">Error-disturbance uncertainty relations in Faraday measurements</p>
+                            <p class="authors">Le Bin Ho, Keiichi Edamatsu</p>
+                            <p class="journal"><a href="https://journals.aps.org/pra/abstract/10.1103/PhysRevA.105.052228" target="_blank">Physical Review A, 105(5) (2022)</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Qsun: an open-source platform towards practical quantum machine learning applications</p>
+                            <p class="authors">Quoc Chuong Nguyen, Le Bin Ho, Lan Nguyen Tran, Hung Q Nguyen</p>
+                            <p class="journal"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ac5997" target="_blank">Machine Learning: Science and Technology, 3(1) 015034-015034, Mar 1, 2022</a></p>
+                        </div>
+                        <div class="pub-entry">
+                            <p class="title">Experimenting quantum phenomena on NISQ computers using high level quantum programming</p>
+                            <p class="authors">Duc M. Tran, Duy V. Nguyen, Bin Ho Le, Hung Q. Nguyen</p>
+                            <p class="journal"><a href="https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-022-00126-1" target="_blank">EPJ Quantum Technology, 9(1), Feb, 2022</a></p>
+                        </div>
+<hr class="divider">
+            <h2>Before 2022</h2>
+                <div class="section">
+                    <h2>Peer Reviewed</h2>
+                        <div class="pub-entry">
+                            <p class="title">tqix: A toolbox for Quantum in X: X: Quantum measurement, quantum tomography, quantum metrology, and others</p>
+                            <p class="authors">Ho, L.B., Tuan, K.Q., Nguyen, H.Q.</p>
+                            <p class="journal">Computer Physics Communications, 263, Jun, 2021</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Direct state measurements under state-preparation-and-measurement errors</p>
+                            <p class="authors">Tuan, K.Q., Nguyen, H.Q., Ho, L.B.</p>
+                            <p class="journal">Quantum Information Processing, 20(6), Jun, 2021</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Multiparameter quantum metrology with postselection measurements</p>
+                            <p class="authors">Ho, L.B., Kondo, Y.</p>
+                            <p class="journal">Journal of Mathematical Physics, 62(1), Jan 1, 2021</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Multiparameter quantum estimation under dephasing noise</p>
+                            <p class="authors">Ho, L.B., Hakoshima, H., Matsuzaki, Y., Matsuzaki, M., Kondo, Y.</p>
+                            <p class="journal">Physical Review A, 102(2), Aug 4, 2020</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Systematic errors in direct state measurements with quantum controlled measurements</p>
+                            <p class="authors">Ho, L.B.</p>
+                            <p class="journal">Journal of Physics B: Atomic, Molecular and Optical Physics, 53(11), Jun 14, 2020</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Nuclear Magnetic Resonance Model of an Entangled Sensor under Noise</p>
+                            <p class="authors">Le Bin Ho, Yuichiro Matsuzaki, Masayuki Matsuzaki, Yasushi Kondo</p>
+                            <p class="journal">Journal of the Physical Society of Japan, 89(5), May 15, 2020</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Realization of controllable open system with NMR</p>
+                            <p class="authors">Ho, L.B., Matsuzaki, Y., Matsuzaki, M., Kondo, Y.</p>
+                            <p class="journal">New Journal of Physics, 21(9) 093008-093008, Sep 1, 2019</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Continuous-monitoring measured signals bounded by past and future conditions in enlarged quantum systems</p>
+                            <p class="authors">Ho, L.B.</p>
+                            <p class="journal">Quantum Information Processing, 18(7), Jul, 2019</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Modular-value-based metrology with spin coherent pointers</p>
+                            <p class="authors">Le Bin Ho, Yasushi Kondo</p>
+                            <p class="journal">Physics Letters A, 383(2-3) 153-157, Jan, 2019</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Improving direct state measurements by using rebits in real enlarged Hilbert spaces</p>
+                            <p class="authors">Le Bin Ho</p>
+                            <p class="journal">Physics Letters A, 383(4) 289-294, Jan, 2019</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Various pointer states approaches to polar modular values</p>
+                            <p class="authors">Le Bin Ho, Nobuyuki Imoto</p>
+                            <p class="journal">Journal of Mathematical Physics, 59(4) 042107-042107, Apr, 2018</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Quantum weak and modular values in enlarged Hilbert spaces</p>
+                            <p class="authors">Ho, L.B., Imoto, N.</p>
+                            <p class="journal">Physical Review A, 97(1), Jan, 2018</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Generalized modular-value-based scheme and its generalized modular value</p>
+                            <p class="authors">Le Bin Ho, Nobuyuki Imoto</p>
+                            <p class="journal">Physical Review A, 95(3), Mar, 2017</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Photoenhanced spin/valley polarization and tunneling magnetoresistance in a ferromagnetic-normal-ferromagnetic silicene junction</p>
+                            <p class="authors">Le Bin Ho, Tran Nguyen Lan</p>
+                            <p class="journal">J. Phys. D: Appl. Phys., 49(37) 375106-375106, Aug, 2016</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Full characterization of modular values for finite-dimensional systems</p>
+                            <p class="authors">Le Bin Ho, Nobuyuki Imoto</p>
+                            <p class="journal">Physics Letters A, 380(25-26) 2129-2135, Jun, 2016</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Electronic, magnetic, and spin-polarized transport properties of hybrid graphene/boron-nitride nanoribbons having 5-8-5 line defects at the heterojunction</p>
+                            <p class="authors">Tran Nguyen Lan, Le Bin Ho, Tran Hoang Hai</p>
+                            <p class="journal">Phys. Status Solidi B, 252(3), Nov, 2014</p>
+                        </div>
+
+                        <div class="pub-entry">
+                            <p class="title">Monte Carlo simulations of core/shell nanoparticles containing interfacial defects: Role of disordered ferromagnetic spins</p>
+                            <p class="authors">Le Bin Ho, Tran Nguyen Lan, Tran Hoang Hai</p>
+                            <p class="journal">Physica B: Condensed Matter, 430, 2013</p>
+                        </div>
+    </div>
+    
+</body>
+</html>

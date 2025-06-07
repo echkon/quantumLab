@@ -1,0 +1,196 @@
+<!-- templates/people.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+        .main {
+            flex: 1;
+            margin-left: 0px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 0px;
+        }
+        .profile {
+        display: flex;
+        align-items: flex-start;
+        gap: 20px;
+        margin-bottom: 40px;
+        max-width: 900px;
+        }
+        .profile img {
+            width: 150px;
+            height: auto;
+            border-radius: 8px;
+        }
+        .profile-text {
+            flex: 1;
+        }
+        .profile-text h2 {
+            margin: 0 0 5px;
+        }
+        .profile-text h3 {
+            margin: 0 0 10px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+    <div class="main">
+
+    <h1>Lab Members (Alphabetical order)</h1>    
+    <section>
+            <div class="profile">
+                <img src="{% static 'images/leon.png' %}" alt="Adachi">
+                <div class="profile-text">
+                <h2>Adachi, Leon</h2>
+                <h3> Administrative Assistant (AA, FRIS URO)</h3>
+                <p>
+                    Research Theme: 
+                    Quantum foundation physics, Nonlocal measurement. 
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/binho.png' %}" alt="Binho Le">
+                <div class="profile-text">
+                <h2>Le, Binho</h2>
+                <h3><a href="https://www.fris.tohoku.ac.jp/en/researcher/creative/lebinho.html" target="_blank" style="text-decoration: none; color: blue;">
+                Assistant Professor (PI)</a></h3>
+                <h3><a href="https://web.tohoku.ac.jp/dr/index.html" target="_blank" style="text-decoration: none; color: blue;">
+                Prominent Research Fellow of Tohoku University (Title)</a></h3>
+                <p><strong>Email:</strong> <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a></p>
+                <p>
+                    Our group explores quantum algorithms and their applications in foundational quantum mechanics, measurement, and quantum-enhanced metrology and sensing. We focus on developing precise and efficient quantum protocols using tools like estimation theory, optimal control, and machine learning. Our goal is to advance quantum technologies through both theoretical insights and interdisciplinary collaboration.                </p>
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/haruki.png' %}" alt="Matsunaga">
+                <div class="profile-text">
+                <h2>Matsunaga, Haruki</h2>
+                <h3> Student (St. Paul's School, London)</h3>
+                <p>
+                    Research Theme: Detecting and protecting entanglement through nonlocality, variational entanglement
+                    witness, and nonlocal measurements.
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/takahashi.png' %}" alt="Takahashi">
+                <div class="profile-text">
+                <h2>Takahashi, Nozomu</h2>
+                <h3> Administrative Assistant (AA, FRIS URO)</h3>
+                <h3> B4 student (Matsueda Lab)</h3>
+                <p>
+                    Research theme: Squeezing effect for quantum-enhanced metrology, Quantum control for metrology.                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/ryou.png' %}" alt="Tatsumi">
+                <div class="profile-text">
+                <h2>Tatsumi, Ryou</h2>
+                <h3> Master student (Matsueda Lab)</h3>
+                <p>
+                    Research Theme: 
+                    Critical quantum metrology.
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/jesus.jpeg' %}" alt="Urbaneja">
+                <div class="profile-text">
+                <h2>Urbaneja, Jesus</h2>
+                <h3> Administrative Assistant (AA, FRIS URO)</h3>
+                <p>
+                    Research Theme: Development of quantum algorithms with a focus on the parameter-shift rule and understanding the barren plateau phenomenon in variational quantum circuits. 
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/vu.png' %}" alt="Vu">
+                <div class="profile-text">
+                <h2>Vu, Xuan Tung Duong</h2>
+                <h3> Administrative Assistant (AA, FRIS URO)</h3>
+                <p>
+                    Research Theme: 
+                    Squeezing effect in spin ensemble and applications.
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/adril.png' %}" alt="Santoso">
+                <div class="profile-text">
+                <h2>Santoso, Adriel</h2>
+                <h3> Administrative Assistant (AA, FRIS URO)</h3>
+                <p>
+                    Research theme: Quantum sensor network for dark matter detection.
+                </div>
+            </div>
+    </section>
+
+    <h1>Alumni (Alphabetical order)</h1>
+    <section>
+            <div class="profile">
+                <img src="{% static 'images/nara.png' %}" alt="Manlaibaatar">
+                <div class="profile-text">
+                <h2>Manlaibaatar, Narantsetseg</h2>
+                <h3>Administrative Assistant (AA, FRIS URO)</h3>
+                <p>Research theme:
+                </div>
+            </div>
+            
+            <div class="profile">
+                <img src="{% static 'images/ruchir.png' %}" alt="Rawat">
+                <div class="profile-text">
+                <h2>Rawat, Ruchir</h2>
+                <h3>Administrative Assistant (AA, FRIS URO)</h3>
+                <p>Research theme:
+                </div>
+            </div>
+
+            <div class="profile">
+                <img src="{% static 'images/sathy.png' %}" alt="Sathyanarayanan">
+                <div class="profile-text">
+                <h2>Sathyanarayanan, Kamalakkannan Umarani  </h2>
+                <h3>Administrative Assistant (AA, FRIS URO)</h3>
+                <p>Research theme:
+                </div>
+            </div>
+            <div class="profile">
+                <img src="{% static 'images/avin.png' %}" alt="Sharma">
+                <div class="profile-text">
+                <h2>Sharma, Avin  </h2>
+                <h3>Administrative Assistant (AA, FRIS URO)</h3>
+                <p>Research theme:
+                </div>
+            </div>
+            
+    </section>
+</div>
+</body>
+</html>

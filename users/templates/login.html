@@ -1,35 +1,68 @@
-<!-- users/templates/login.html -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color:rgb(222, 224, 232);
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+
+        .main {
+            flex: 1;
+            margin-left: 0px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 0px;
+        }
+    </style>
+    {% load static %}
 </head>
 <body>
-    <h2>Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" required><br><br>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
 
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" required><br><br>
+    <div class="main">
+        <h2>Login</h2>
+            <form method="POST">
+            {% csrf_token %}
+            
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username" required><br><br>
 
-        <button type="submit">Login</button>
-    </form>
+            <label for="password">Password:</label>
+            <input type="password" name="password" id="password" required><br><br>
 
-    {% if form.errors %}
-        <div style="color: red;">
-            {% for field in form %}
-                {% for error in field.errors %}
-                    <p>{{ error }}</p>
+            <button type="submit">Login</button>
+            </form>
+
+            {% if form.errors %}
+            <div style="color: red;">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </div>
-    {% endif %}
-    <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>  <!-- Link to register -->
+            </div>
+            {% endif %}
+            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>  <!-- Link to register -->
+    </div>    
 </body>
 </html>

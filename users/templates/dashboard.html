@@ -1,51 +1,115 @@
 <!-- users/templates/dashboard.html -->
 
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            text-align: left;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+
+        .main {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left {
+            width: 250px;
+        }
+
+        .left p a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .right {
+            flex: 1;
+            margin-left: 40px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .right h1 {
+            margin-top: 0;
+        }
+    </style>
+    {% load static %}
 </head>
 <body>
-    <h2>Welcome, {{ user.username }}</h2>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
 
-    <h3>Working Record</h3>
-    <ul>
-        {% for session in work_sessions %}
-            <li>{{ session.status }} - Started at: {{ session.start_time }}{% if session.end_time %} - Ended at: {{ session.end_time }}{% endif %}</li>
-        {% empty %}
-            <li>No working recorded.</li>
-        {% endfor %}
-    </ul>
+    <div class="main">
+        <div class="left">
+            <form method="POST">
+                {% csrf_token %}
+                <p>
+                    <button type="submit" name="start" style="width: 220px; padding: 14px; font-size: 16px; background-color: #2c3e50; color: white; border: none; border-radius: 6px;">Start Working</button>
+                </p>
+                <p>
+                    <button type="submit" name="stop" style="width: 220px; padding: 14px; font-size: 16px; background-color: #2c3e50; color: white; border: none; border-radius: 6px;">Stop Working</button>
+                </p>
+                <p>
+                    <button type="submit" name="export" style="width: 220px; padding: 14px; font-size: 16px; background-color: #2c3e50; color: white; border: none; border-radius: 6px;">Export to Excel</button>
+                </p>
+                <p>
+                    <button type="button" onclick="confirmReset()" style="width: 220px; padding: 14px; font-size: 16px; background-color: #2c3e50; color: white; border: none; border-radius: 6px;">Reset Record</button>
+                </p>
+            </form>
+            <p style="margin-top: 20px;"><a href="/users/logout/" style="font-size: 14px; color: #2c3e50;">Logout</a></p>
+        </div>
 
-    <form method="POST">
-        {% csrf_token %}
-        <button type="submit" name="start">Start Working</button>
-        <button type="submit" name="stop">Stop Working</button>
-        <button type="submit" name="export">Export to Excel</button>  <!-- Export button -->
-        <button type="button" onclick="confirmReset()">Reset Record</button>  <!-- Button with JavaScript -->
-    </form>
+        <div class="right">
+            <h2>Welcome, {{ user.username }}</h2>
+                <h3>Working Record</h3>
+                <ul>
+                    {% for session in work_sessions %}
+                        <li>{{ session.status }} - Started at: {{ session.start_time }}{% if session.end_time %} - Ended at: {{ session.end_time }}{% endif %}</li>
+                    {% empty %}
+                        <li>No working recorded.</li>
+                    {% endfor %}
+                </ul>
 
-    <script>
-        function confirmReset() {
-            // Display a confirmation dialog to the user
-            var confirmAction = confirm("Are you sure you want to reset all your working records? This action cannot be undone. Please reset at the end of the month.");
-            
-            // If the user confirms, submit the form with the 'reset' action
-            if (confirmAction) {
-                // Create a hidden input field to indicate the reset action
-                var form = document.querySelector('form');
-                var resetInput = document.createElement('input');
-                resetInput.type = 'hidden';
-                resetInput.name = 'reset';
-                resetInput.value = 'true';
-                form.appendChild(resetInput);
-                form.submit();  // Submit the form
-            }
-        }
-    </script>
-
-    <a href="/users/logout/">Logout</a>
+                <script>
+                    function confirmReset() {
+                        // Display a confirmation dialog to the user
+                        var confirmAction = confirm("Are you sure you want to reset all your working records? This action cannot be undone. Please reset at the end of the month.");
+                        
+                        // If the user confirms, submit the form with the 'reset' action
+                        if (confirmAction) {
+                            // Create a hidden input field to indicate the reset action
+                            var form = document.querySelector('form');
+                            var resetInput = document.createElement('input');
+                            resetInput.type = 'hidden';
+                            resetInput.name = 'reset';
+                            resetInput.value = 'true';
+                            form.appendChild(resetInput);
+                            form.submit();  // Submit the form
+                        }
+                    }
+                </script>
+        </div>
+    </div>
 </body>
 </html>
