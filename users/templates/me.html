@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>me</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background-color:rgb(12, 9, 28);
+        }
+        .header img {
+            max-width: 600px;
+            height: auto;
+        }
+
+        .main {
+            display: flex;
+            padding: 20px;
+        }
+
+        .left {
+            width: 250px;
+        }
+
+        .left p a {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .right {
+            flex: 1;
+            margin-left: 40px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .right h1 {
+            margin-top: 0;
+        }
+    </style>
+    {% load static %}
+</head>
+<body>
+    <div class="header">
+        <p style="text-align: left;">
+            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none;">
+                Quantum Lab
+            </a>
+        </p>
+    </div>
+
+    <div class="main">
+        <div class="left">
+            <img src="{% static 'images/binho.png' %}" alt="Binho Le">
+        </div>
+
+        <div class="right">
+            <h1>Binho Le</h1>
+                <ul>
+                <li><a href="https://www.sciencedirect.com/journal/softwarex/about/editorial-board" target="_blank" style="text-decoration: none; color: blue;">
+                <strong>Associate Editor</strong></a>, SoftwareX, Elsevier (June 2024 - Present)</li>    
+                <li><a href="https://www.fris.tohoku.ac.jp/en/researcher/creative/lebinho.html" target="_blank" style="text-decoration: none; color: blue;">
+                <strong>Assistant Professor (PI)</strong></a>, Tohoku University, Japan (Apr. 2022 - Now)</li>
+                <li><a href="https://web.tohoku.ac.jp/dr/index.html" target="_blank" style="text-decoration: none; color: blue;">
+                <strong>Prominent Research Fellow of Tohoku University (Title)</strong></a>, Tohoku University, Japan (June. 2022 - Now)</li>
+                <li><a href="https://www.oist.jp/visiting-program/visitors-list" target="_blank" style="text-decoration: none; color: blue;">
+                <strong>Visiting Scholar</strong></a>, OIST, Japan (April 2025 - May 2025)</li>
+                </ul>
+
+                <h2>Education</h2>
+                <ul>
+                <li><strong>Osaka University</strong>, Osaka, Japan — Ph.D. in Quantum Physics (Apr. 2015 – Mar. 2018)</li>
+                <li><strong>University of Science HCMC</strong>, Vietnam — M.Sc. in Theoretical and Mathematical Physics (Oct. 2012 – Jun. 2014)</li>
+                <li><strong>University of Education HCMC</strong>, Vietnam — B.Ed. in Education Physics (Oct. 2007 – Jun. 2011)</li>
+                </ul>
+
+                <h2>Experience</h2>
+                <ul>
+                <li><strong>JSPS Postdoc</strong>, Tohoku University, Japan (Apr. 2020 – Mar. 2022)</li>
+                <li><strong>Postdoctoral Researcher</strong>, Kindai University, Japan (Apr. 2018 – Mar. 2020)</li>
+                <li><strong>Student Research Assistant</strong>, Osaka University, Japan (Oct. 2014 – Mar. 2015)</li>
+                </ul>
+
+                <h2>Projects</h2>
+                <ul>
+                <li><strong>OIST SHINKA</strong> – Quantum battery optimization (Aug. 2023 – Mar. 2024)</li>
+                <li><strong>KAKENHI</strong> – Quantum Compilation for Hamiltonian tomography (Apr. 2023 – Mar. 2026)</li>
+                <li><strong>KAKENHI</strong> – Nonlocal quantum metrology (Apr. 2020 – Mar. 2022)</li>
+                <li><strong>KAKENHI</strong> – Systematic error in quantum state measurements (Apr. 2019 – Mar. 2020)</li>
+                <li><strong>NAFOSTED</strong> – Silicene transport (Apr. 2019 – Mar. 2020)</li>
+                <li><strong>NAFOSTED</strong> – Spin nanoparticle phase transitions (2011 – Mar. 2013)</li>
+                </ul>
+
+                <h2>Skills</h2>
+                <ul>
+                <li><strong>Programming</strong>: Python (expert)</li>
+                <li><strong>Languages</strong>: Vietnamese (native), English (fluent), Japanese (beginner)</li>
+                <li><strong>Teaching & Supervising</strong>: Supervised several Master’s students in Japan and Vietnam</li>
+                </ul>
+
+                <h2>Invited Lectures</h2>
+                <ol>
+                <li>Variational quantum algorithms – Phenikaa University (2024)</li>
+                <li>Quantum ML – Shinshu University (2023)</li>
+                <li>Quantum Computing Summer School, Vietnam (2022, 2021)</li>
+                <li>JSPS Science Dialogue – Yokote HS, Japan (2021)</li>
+                <li>JSPS Science Dialogue – Kamaishi HS, Japan (2020)</li>
+                </ol>
+
+                <h2>Scholarships & Awards</h2>
+                <ul>
+                <li>Prominent Research Fellow, Tohoku University (2022–)</li>
+                <li>JSPS Postdoctoral Fellowship (2020–2022)</li>
+                <li>MEXT Ph.D. Scholarship (2015–2018)</li>
+                <li>MEXT Research Student Scholarship (2014–2015)</li>
+                </ul>
+
+        </div>
+    </div>
+</body>
+</html>

@@ -18,6 +18,7 @@ urlpatterns = [
     path('position/', views.position_view, name='position'),
     path('event/', views.event_view, name='event'),
     path('resource/', views.resource_view, name='resource'),
+    path('me/', views.me_view, name='me'),
 ]
 
 #path('', views.user_login, name='login'),  # Redirect users/ to login page
