@@ -23,10 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-cq8hx!-xs2^02c8qz^)x0!!w3=&-*eesyk@g)d#1f&i-kuo@gc'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.3.4', 'localhost', '0.0.0.0', '192.168.11.5']
-# Application definition
+#DEBUG = True
+#ALLOWED_HOSTS = ['127.0.0.1', '192.168.3.4', 'localhost', '0.0.0.0', '192.168.11.5']
 
 DEBUG = False
 ALLOWED_HOSTS = ['quantumlab.onrender.com']
@@ -42,8 +41,20 @@ INSTALLED_APPS = [
     'django_extensions',
 ]
 
+#Cu
+#MIDDLEWARE = [
+#    'django.middleware.security.SecurityMiddleware',
+#    'django.contrib.sessions.middleware.SessionMiddleware',
+#    'django.middleware.common.CommonMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.contrib.auth.middleware.AuthenticationMiddleware',
+#    'django.contrib.messages.middleware.MessageMiddleware',
+#    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # must be second
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
