@@ -63,10 +63,10 @@
         <h1>Upload your files</h1>    
         <section>
             <div class="position-entry">
-                <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="file" name="uploaded_file" required><br><br>
-                <button type="submit">Upload and Send</button>
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="file" name="uploaded_file" required>
+                    <button type="submit">Upload and Send</button>
                 </form>
             </div>
         </section>

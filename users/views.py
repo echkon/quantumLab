@@ -45,15 +45,19 @@ def contact_view(request):
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('uploaded_file'):
         uploaded_file = request.FILES['uploaded_file']
-        email = EmailMessage(
-            subject='New File Upload',
-            body='A file has been uploaded.',
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=['binho@fris.tohoku.ac.jp'],
-        )
-        email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
-        email.send()
-        return HttpResponse('File uploaded and emailed successfully.')
+        try:
+            email = EmailMessage(
+                subject='New File Upload',
+                body='A file has been uploaded.',
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                to=['binho@fris.tohoku.ac.jp'],
+            )
+            email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
+            email.send()
+            return HttpResponse('File uploaded and emailed successfully.')
+        except Exception as e:
+            return HttpResponse(f'Failed to send email: {str(e)}', status=500)
+
     return render(request, 'upload.html')
 
 def register(request):
