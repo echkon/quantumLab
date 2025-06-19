@@ -12,6 +12,8 @@ from .forms import RegistrationForm
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.worksheet.protection import SheetProtection
+from django.core.mail import EmailMessage
+from django.conf import settings
 
 def home(request):
     return render(request, 'home.html')  # Render a simple home page template
@@ -39,6 +41,20 @@ def resource_view(request):
 
 def contact_view(request):
     return render(request, 'contact.html')
+
+def upload_file(request):
+    if request.method == 'POST' and request.FILES.get('uploaded_file'):
+        uploaded_file = request.FILES['uploaded_file']
+        email = EmailMessage(
+            subject='New File Upload',
+            body='A file has been uploaded.',
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            to=['binho@fris.tohoku.ac.jp'],
+        )
+        email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
+        email.send()
+        return HttpResponse('File uploaded and emailed successfully.')
+    return render(request, 'upload.html')
 
 def register(request):
     if request.method == 'POST':
