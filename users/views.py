@@ -50,7 +50,7 @@ def upload_file(request):
                 subject='New File Upload',
                 body='A file has been uploaded.',
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                to=['ho.bin.le.e3@tohoku.ac.jp'],
+                to=['bin262@gmail.com'],
             )
             email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
             email.send()

@@ -139,9 +139,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # for upload files
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # or your SMTP provider
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'ho.bin.le.e3@tohoku.ac.jp'
-#EMAIL_HOST_PASSWORD = 'your_app_password'  # Use an App Password for Gmail
+EMAIL_HOST_USER = 'bin262@gmail.com'
+EMAIL_HOST_PASSWORD = 'gaHanchan2014'  # From step 1
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
