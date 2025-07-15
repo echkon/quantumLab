@@ -109,17 +109,18 @@ import os
 #    }
 #}
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
-    )
-}
-
-#old
+#da remove environement nen comment cai nay:
 #DATABASES = {
 #    'default': dj_database_url.config(
-#        default='sqlite:///db.sqlite3', conn_max_age=600)
+#        default=os.environ.get('DATABASE_URL')
+#    )
 #}
+
+#mo cai nay (old, khong mua database)
+DATABASES = {
+    'default': dj_database_url.config(
+        default='sqlite:///db.sqlite3', conn_max_age=600)
+}
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
