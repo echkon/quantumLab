@@ -25,24 +25,24 @@
             color:var(--text);
         }
 
-        /* Header */
+        /* ===== HEADER (MATCH OTHER PAGES) ===== */
         .header{
             background:#0c091c;
-            padding:20px;
+            padding:18px 20px;
         }
         .header a{
-            color:#fff;
             text-decoration:none;
-            font-size:28px;
+            color:white;
+            font-size:26px;
             line-height:1.2;
-            display:inline-block;
         }
         .header span{
-            font-size:18px;
-            color:#ddd;
+            display:block;
+            font-size:16px;
+            color:#d1d5db;
         }
 
-        /* Layout */
+        /* ===== LAYOUT ===== */
         .container{
             max-width:1100px;
             margin:0 auto;
@@ -70,10 +70,18 @@
             margin:0 0 6px 0;
             font-size:30px;
         }
+
         .subtitle{
             color:var(--muted);
             font-size:15px;
             margin-bottom:12px;
+        }
+
+        p{
+            font-size:14px;
+            line-height:1.7;
+            color:var(--muted);
+            margin:0 0 10px 0;
         }
 
         .section{
@@ -95,21 +103,13 @@
             padding:0;
             line-height:1.7;
             font-size:14px;
-            color:var(--text);
         }
 
         li{
             margin-bottom:6px;
         }
 
-        p{
-            font-size:14px;
-            line-height:1.7;
-            color:var(--muted);
-            margin:0 0 10px 0;
-        }
-
-        /* Responsive */
+        /* ===== RESPONSIVE ===== */
         @media(max-width:800px){
             .profile-card{
                 grid-template-columns:1fr;
@@ -125,17 +125,17 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- ===== HEADER ===== -->
 <div class="header">
     <a href="{% url 'home' %}">
-        Quantar Lab<br>
-        <span>(Quantum algorithms and technologies for advanced research)</span>
+        Quantar Lab
+        <span>Quantum algorithms and technologies for advanced research</span>
     </a>
 </div>
 
 <div class="container">
 
-    <!-- PROFILE -->
+    <!-- ===== PROFILE ===== -->
     <div class="profile-card">
         <img src="{% static 'images/binho.png' %}" alt="Binho Le">
         <div>
@@ -152,55 +152,34 @@
                 quantum platforms.
             </p>
 
-            <p>
-                <strong>Email:</strong> binho@fris.tohoku.ac.jp
-            </p>
+            <p><strong>Email:</strong> binho@fris.tohoku.ac.jp</p>
         </div>
     </div>
 
-    <!-- RESEARCH VISION -->
+    <!-- ===== RESEARCH VISION ===== -->
     <div class="section">
         <h2>Research Vision</h2>
-
         <p>
-            My research vision is to establish a unified framework that connects
-            quantum estimation theory, control, and algorithms with realistic quantum
-            hardware constraints. I aim to develop quantum protocols that are not only
-            theoretically optimal but also practically viable under noise, finite data,
-            and limited control.
+            My research vision is to establish a unified framework connecting quantum
+            estimation theory, control, and algorithms with realistic quantum hardware
+            constraints. I aim to develop protocols that remain effective under noise,
+            finite data, and limited control.
         </p>
 
         <ul>
-            <li>
-                <strong>Quantum metrology and sensing:</strong>
-                Understand when quantum resources such as entanglement, squeezing,
-                and nonlinearity genuinely improve multi-parameter precision.
-            </li>
-            <li>
-                <strong>Quantum algorithms and control:</strong>
-                Design feedback-based and variational algorithms with stable optimization
-                behavior and predictable performance.
-            </li>
-            <li>
-                <strong>Quantum energy technologies:</strong>
-                Explore collective quantum effects to optimize charging speed, power,
-                and robustness in quantum batteries.
-            </li>
-            <li>
-                <strong>Theory to platforms:</strong>
-                Translate abstract concepts such as QFI, QFIM, and optimal control
-                into protocols compatible with near-term quantum devices.
-            </li>
+            <li><strong>Quantum metrology & sensing:</strong> When and how quantum resources truly enhance multiparameter precision.</li>
+            <li><strong>Quantum algorithms & control:</strong> Feedback-based and variational methods with stable optimization.</li>
+            <li><strong>Quantum energy technologies:</strong> Collective effects for fast and robust quantum battery charging.</li>
+            <li><strong>Theory to platforms:</strong> Translating QFI/QFIM concepts into near-term device protocols.</li>
         </ul>
 
         <p>
-            Ultimately, my goal is to deliver practical quantum advantages in sensing,
-            computation, and energy applications by tightly integrating theory,
-            numerical optimization, and experimental constraints.
+            The long-term goal is to deliver practical quantum advantages in sensing,
+            computation, and energy applications.
         </p>
     </div>
 
-    <!-- EDUCATION -->
+    <!-- ===== EDUCATION ===== -->
     <div class="section">
         <h2>Education</h2>
         <ul>
@@ -210,7 +189,7 @@
         </ul>
     </div>
 
-    <!-- EXPERIENCE -->
+    <!-- ===== EXPERIENCE ===== -->
     <div class="section">
         <h2>Academic Experience</h2>
         <ul>
@@ -220,7 +199,7 @@
         </ul>
     </div>
 
-    <!-- PROJECTS -->
+    <!-- ===== PROJECTS ===== -->
     <div class="section">
         <h2>Selected Projects</h2>
         <ul>
@@ -230,17 +209,17 @@
         </ul>
     </div>
 
-    <!-- INVITED LECTURES -->
+    <!-- ===== LECTURES ===== -->
     <div class="section">
         <h2>Invited Lectures</h2>
         <ol>
-            <li>Variational quantum algorithms (Phenikaa University)</li>
-            <li>Quantum machine learning (Shinshu University)</li>
-            <li>Quantum computing summer schools (Vietnam)</li>
+            <li>Variational quantum algorithms</li>
+            <li>Quantum machine learning</li>
+            <li>Quantum computing summer schools</li>
         </ol>
     </div>
 
-    <!-- AWARDS -->
+    <!-- ===== AWARDS ===== -->
     <div class="section">
         <h2>Scholarships & Awards</h2>
         <ul>
