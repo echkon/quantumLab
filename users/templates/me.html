@@ -2,234 +2,362 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Binho Le | Quantar Lab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Binho Le • Quantar Lab</title>
 
-    <style>
-        :root{
-            --bg:#f4f6f8;
-            --card:#ffffff;
-            --text:#0f172a;
-            --muted:#475569;
-            --line:#e2e8f0;
-            --accent:#2c3e50;
-            --shadow:0 10px 28px rgba(15,23,42,.08);
-            --radius:16px;
-        }
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --shadow: 0 14px 40px rgba(15,23,42,.10);
+      --accent:#2563eb;
+      --max: 1100px;
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      color:var(--text);
+      background: var(--bg);
+    }
+    a{color:inherit}
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
 
-        body{
-            margin:0;
-            font-family:Arial, sans-serif;
-            background:var(--bg);
-            color:var(--text);
-        }
+    /* ===== TOPBAR (MATCH /users/member/) ===== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      text-decoration:none;
+    }
+    .brand-dot{
+      width:12px;height:12px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
+      flex: 0 0 auto;
+    }
+    .brand-title{
+      font-weight: 900;
+      letter-spacing:-0.01em;
+      line-height:1.1;
+    }
+    .brand-sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .nav-right{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      transition: transform .10s ease, background .10s ease;
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .pill.primary{
+      background: var(--accent);
+      color:#fff;
+      border-color: transparent;
+    }
 
-        /* ===== HEADER (MATCH OTHER PAGES) ===== */
-        .header{
-            background:#0c091c;
-            padding:18px 20px;
-        }
-        .header a{
-            text-decoration:none;
-            color:white;
-            font-size:26px;
-            line-height:1.2;
-        }
-        .header span{
-            display:block;
-            font-size:16px;
-            color:#d1d5db;
-        }
+    /* ===== PAGE ===== */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 40px 16px;
+    }
 
-        /* ===== LAYOUT ===== */
-        .container{
-            max-width:1100px;
-            margin:0 auto;
-            padding:28px 20px 60px;
-        }
+    .section{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+      padding: 18px 22px;
+      margin-bottom: 14px;
+    }
 
-        .profile-card{
-            display:grid;
-            grid-template-columns:220px 1fr;
-            gap:26px;
-            background:var(--card);
-            border:1px solid var(--line);
-            border-radius:var(--radius);
-            box-shadow:var(--shadow);
-            padding:24px;
-            margin-bottom:26px;
-        }
+    /* Profile card */
+    .profile-card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      display:grid;
+      grid-template-columns: 220px 1fr;
+      gap: 22px;
+      margin-bottom: 14px;
+    }
+    .avatar{
+      width: 100%;
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      object-fit: cover;
+      background:#fff;
+    }
+    .name{
+      margin:0;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing:-0.01em;
+    }
+    .title{
+      margin: 6px 0 12px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+    }
+    .badges{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .badge{
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge.pi{
+      background: rgba(245,158,11,0.12);
+      border-color: rgba(245,158,11,0.25);
+      color: #92400e;
+    }
+    .badge.fellow{
+      background: rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.25);
+      color: #1d4ed8;
+    }
+    .bio{
+      margin:0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+      max-width: 760px;
+    }
 
-        .profile-card img{
-            width:100%;
-            border-radius:14px;
-        }
+    .section h2{
+      margin: 0 0 10px 0;
+      font-size: 18px;
+      letter-spacing:-0.01em;
+    }
+    .section p{
+      margin: 0 0 10px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .section ul,
+    .section ol{
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .section li{ margin-bottom: 6px; }
+    .section strong{ color: var(--text); }
 
-        h1{
-            margin:0 0 6px 0;
-            font-size:30px;
-        }
+    .footer{
+      text-align:center;
+      color: var(--muted);
+      font-size: 12px;
+      padding: 16px 0 30px 0;
+    }
 
-        .subtitle{
-            color:var(--muted);
-            font-size:15px;
-            margin-bottom:12px;
-        }
-
-        p{
-            font-size:14px;
-            line-height:1.7;
-            color:var(--muted);
-            margin:0 0 10px 0;
-        }
-
-        .section{
-            background:var(--card);
-            border:1px solid var(--line);
-            border-radius:var(--radius);
-            box-shadow:var(--shadow);
-            padding:22px;
-            margin-bottom:22px;
-        }
-
-        .section h2{
-            margin:0 0 12px 0;
-            font-size:20px;
-        }
-
-        ul, ol{
-            margin:6px 0 0 18px;
-            padding:0;
-            line-height:1.7;
-            font-size:14px;
-        }
-
-        li{
-            margin-bottom:6px;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media(max-width:800px){
-            .profile-card{
-                grid-template-columns:1fr;
-                text-align:center;
-            }
-            .profile-card img{
-                max-width:220px;
-                margin:0 auto;
-            }
-        }
-    </style>
+    @media (max-width: 860px){
+      .profile-card{grid-template-columns: 1fr;}
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- ===== HEADER ===== -->
-<div class="header">
-    <a href="{% url 'home' %}">
-        Quantar Lab
-        <span>Quantum algorithms and technologies for advanced research</span>
-    </a>
-</div>
-
-<div class="container">
-
-    <!-- ===== PROFILE ===== -->
-    <div class="profile-card">
-        <img src="{% static 'images/binho.png' %}" alt="Binho Le">
+  <!-- Topbar (same style as /users/member/) -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
         <div>
-            <h1>Binho Le</h1>
-            <div class="subtitle">
-                Assistant Professor (PI), Tohoku University<br>
-                Prominent Research Fellow · TI-FRIS Fellow
-            </div>
-
-            <p>
-                I lead the Quantar Lab, focusing on quantum algorithms, quantum metrology,
-                quantum sensing, and quantum energy technologies. My work bridges
-                foundational quantum theory and practical implementations on near-term
-                quantum platforms.
-            </p>
-
-            <p><strong>Email:</strong> binho@fris.tohoku.ac.jp</p>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
         </div>
-    </div>
+      </a>
 
-    <!-- ===== RESEARCH VISION ===== -->
-    <div class="section">
-        <h2>Research Vision</h2>
-        <p>
-            My research vision is to establish a unified framework connecting quantum
-            estimation theory, control, and algorithms with realistic quantum hardware
-            constraints. I aim to develop protocols that remain effective under noise,
-            finite data, and limited control.
+      <div class="nav-right">
+        <a class="pill" href="{% url 'publication' %}">Publications</a>
+        <a class="pill" href="{% url 'position' %}">Positions</a>
+        <a class="pill primary" href="{% url 'contact' %}">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- Profile -->
+    <div class="profile-card">
+      <img class="avatar" src="{% static 'images/binho.png' %}" alt="Binho Le">
+      <div>
+        <h1 class="name">Binho Le</h1>
+        <div class="title">
+          Assistant Professor (PI), Tohoku University<br>
+          Prominent Research Fellow · TI-FRIS Fellow
+        </div>
+
+        <div class="badges">
+          <span class="badge pi">Principal Investigator</span>
+          <span class="badge fellow">TI-FRIS Fellow</span>
+          <span class="badge fellow">Prominent Research Fellow</span>
+        </div>
+
+        <p class="bio">
+          I lead Quantar Lab at Tohoku University, focusing on quantum algorithms, quantum metrology,
+          quantum sensing, and quantum energy technologies. My work bridges foundational theory and
+          practical protocols under realistic constraints such as noise, finite measurements, and
+          limited control.
         </p>
 
-        <ul>
-            <li><strong>Quantum metrology & sensing:</strong> When and how quantum resources truly enhance multiparameter precision.</li>
-            <li><strong>Quantum algorithms & control:</strong> Feedback-based and variational methods with stable optimization.</li>
-            <li><strong>Quantum energy technologies:</strong> Collective effects for fast and robust quantum battery charging.</li>
-            <li><strong>Theory to platforms:</strong> Translating QFI/QFIM concepts into near-term device protocols.</li>
-        </ul>
-
-        <p>
-            The long-term goal is to deliver practical quantum advantages in sensing,
-            computation, and energy applications.
+        <p class="bio" style="margin-top:10px;">
+          <strong>Email:</strong> binho@fris.tohoku.ac.jp
         </p>
+      </div>
     </div>
 
-    <!-- ===== EDUCATION ===== -->
-    <div class="section">
-        <h2>Education</h2>
-        <ul>
-            <li>Ph.D. in Quantum Physics, Osaka University (2015–2018)</li>
-            <li>M.Sc. in Theoretical and Mathematical Physics, University of Science HCMC (2012–2014)</li>
-            <li>B.Ed. in Physics Education, University of Education HCMC (2007–2011)</li>
-        </ul>
+    <!-- Research Vision -->
+    <section class="section">
+      <h2>Research Vision</h2>
+      <p>
+        My research vision is to establish a unified framework that connects quantum estimation theory,
+        control, and algorithms with realistic quantum hardware constraints. I aim to develop protocols
+        that remain effective under noise, finite data, and limited control.
+      </p>
+      <ul>
+        <li><strong>Quantum metrology & sensing:</strong> Identify when and how quantum resources (entanglement, squeezing, nonlinearity) genuinely improve multiparameter precision.</li>
+        <li><strong>Quantum algorithms & control:</strong> Design feedback-based and variational methods with stable optimization behavior and predictable performance.</li>
+        <li><strong>Quantum energy technologies:</strong> Explore collective quantum effects to optimize charging speed, power, and robustness in quantum batteries.</li>
+        <li><strong>Theory to platforms:</strong> Translate concepts such as QFI/QFIM and optimal control into protocols compatible with near-term devices.</li>
+      </ul>
+      <p style="margin-top:10px;">
+        The long-term goal is to deliver practical quantum advantages in sensing, computation, and energy applications
+        by integrating theory, numerical optimization, and experimental constraints.
+      </p>
+    </section>
+
+    <!-- Appointments -->
+    <section class="section">
+      <h2>Appointments & Positions</h2>
+      <ul>
+        <li><strong>Assistant Professor (PI)</strong>, Tohoku University, Japan (Apr. 2022 – Present)</li>
+        <li><strong>Prominent Research Fellow</strong>, Tohoku University (Jun. 2022 – Present)</li>
+        <li><strong>TI-FRIS Fellow</strong>, Tohoku University (Jun. 2025 – Present)</li>
+        <li><strong>Associate Editor</strong>, SoftwareX (Elsevier) (Jun. 2024 – Present)</li>
+        <li><strong>Visiting Scholar</strong>, OIST, Japan (Apr. 2025 – May 2025)</li>
+      </ul>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <h2>Education</h2>
+      <ul>
+        <li><strong>Ph.D. in Quantum Physics</strong>, Osaka University, Japan (Apr. 2015 – Mar. 2018)</li>
+        <li><strong>M.Sc. in Theoretical & Mathematical Physics</strong>, University of Science HCMC, Vietnam (Oct. 2012 – Jun. 2014)</li>
+        <li><strong>B.Ed. in Physics Education</strong>, University of Education HCMC, Vietnam (Oct. 2007 – Jun. 2011)</li>
+      </ul>
+    </section>
+
+    <!-- Experience -->
+    <section class="section">
+      <h2>Experience</h2>
+      <ul>
+        <li><strong>JSPS Postdoctoral Fellow</strong>, Tohoku University, Japan (Apr. 2020 – Mar. 2022)</li>
+        <li><strong>Postdoctoral Researcher</strong>, Kindai University, Japan (Apr. 2018 – Mar. 2020)</li>
+        <li><strong>Student Research Assistant</strong>, Osaka University, Japan (Oct. 2014 – Mar. 2015)</li>
+      </ul>
+    </section>
+
+    <!-- Projects -->
+    <section class="section">
+      <h2>Projects</h2>
+      <ul>
+        <li><strong>OIST SHINKA</strong> – Quantum battery optimization (Aug. 2023 – Mar. 2024)</li>
+        <li><strong>KAKENHI</strong> – Quantum compilation for Hamiltonian tomography (Apr. 2023 – Mar. 2026)</li>
+        <li><strong>KAKENHI</strong> – Nonlocal quantum metrology (Apr. 2020 – Mar. 2022)</li>
+        <li><strong>KAKENHI</strong> – Systematic error in quantum state measurements (Apr. 2019 – Mar. 2020)</li>
+        <li><strong>NAFOSTED</strong> – Silicene transport (Apr. 2019 – Mar. 2020)</li>
+        <li><strong>NAFOSTED</strong> – Spin nanoparticle phase transitions (2011 – Mar. 2013)</li>
+      </ul>
+    </section>
+
+    <!-- Invited Lectures -->
+    <section class="section">
+      <h2>Invited Lectures</h2>
+      <ol>
+        <li>Variational quantum algorithms – Phenikaa University (2024)</li>
+        <li>Quantum ML – Shinshu University (2023)</li>
+        <li>Quantum Computing Summer School, Vietnam (2022, 2021)</li>
+        <li>JSPS Science Dialogue – Yokote HS, Japan (2021)</li>
+        <li>JSPS Science Dialogue – Kamaishi HS, Japan (2020)</li>
+      </ol>
+    </section>
+
+    <!-- Scholarships & Awards -->
+    <section class="section">
+      <h2>Scholarships & Awards</h2>
+      <ul>
+        <li>Prominent Research Fellow, Tohoku University (2022–)</li>
+        <li>JSPS Postdoctoral Fellowship (2020–2022)</li>
+        <li>MEXT Ph.D. Scholarship (2015–2018)</li>
+        <li>MEXT Research Student Scholarship (2014–2015)</li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      © Quantar Lab • <span style="white-space:nowrap;">Tohoku University, Sendai, Japan</span>
     </div>
 
-    <!-- ===== EXPERIENCE ===== -->
-    <div class="section">
-        <h2>Academic Experience</h2>
-        <ul>
-            <li>Assistant Professor (PI), Tohoku University (2022–Present)</li>
-            <li>JSPS Postdoctoral Fellow, Tohoku University (2020–2022)</li>
-            <li>Postdoctoral Researcher, Kindai University (2018–2020)</li>
-        </ul>
-    </div>
-
-    <!-- ===== PROJECTS ===== -->
-    <div class="section">
-        <h2>Selected Projects</h2>
-        <ul>
-            <li>Quantum compilation and Hamiltonian tomography (KAKENHI)</li>
-            <li>Nonlocal quantum metrology (KAKENHI)</li>
-            <li>Quantum battery optimization (OIST SHINKA)</li>
-        </ul>
-    </div>
-
-    <!-- ===== LECTURES ===== -->
-    <div class="section">
-        <h2>Invited Lectures</h2>
-        <ol>
-            <li>Variational quantum algorithms</li>
-            <li>Quantum machine learning</li>
-            <li>Quantum computing summer schools</li>
-        </ol>
-    </div>
-
-    <!-- ===== AWARDS ===== -->
-    <div class="section">
-        <h2>Scholarships & Awards</h2>
-        <ul>
-            <li>Prominent Research Fellow, Tohoku University</li>
-            <li>JSPS Postdoctoral Fellowship</li>
-            <li>MEXT Ph.D. Scholarship</li>
-        </ul>
-    </div>
-
-</div>
-
+  </main>
 </body>
 </html>
