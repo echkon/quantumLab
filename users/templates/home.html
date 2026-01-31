@@ -5,7 +5,6 @@
   <title>Quantar Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   {% load static %}
-
   <style>
     :root{
       --bg:#ffffff;
@@ -15,8 +14,9 @@
       --card:#ffffff;
       --shadow: 0 14px 40px rgba(15,23,42,.10);
       --accent:#2563eb;
+      --accentDark:#0b1220;
       --radius:16px;
-      --max:1200px;
+      --max: 1200px;
     }
 
     *{box-sizing:border-box}
@@ -28,7 +28,7 @@
     }
     a{color:inherit}
 
-    /* ================= HEADER / NAV (GIỮ NGUYÊN) ================= */
+    /* ===== Header / Top Nav ===== */
     .topbar{
       position: sticky;
       top: 0;
@@ -67,6 +67,7 @@
       color:var(--muted);
       margin-top:2px;
     }
+
     .nav{
       display:flex;
       gap: 6px;
@@ -74,7 +75,9 @@
       flex:1;
       justify-content:flex-end;
     }
+
     .item{ position: relative; }
+
     .nav-btn{
       display:flex;
       align-items:center;
@@ -92,46 +95,80 @@
       border-color: rgba(37,99,235,0.18);
       transform: translateY(-1px);
     }
-    .dd-toggle{ background:transparent; cursor:pointer; font:inherit; }
+
+    /* Dropdown button reset */
+    .dd-toggle{
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
+    .dd-toggle:focus{
+      outline: none;
+      border-color: rgba(37,99,235,0.25);
+    }
+
+    /* Dropdown (CLICK to open) */
     .dropdown{
       position:absolute;
-      right:0; top:46px;
-      width:260px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      padding:10px;
+      right:0;
+      top: 46px;
+      width: 260px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 10px;
       display:none;
+      z-index: 1000;
     }
-    .item.open .dropdown{display:block;}
+    .item.open .dropdown{ display:block; }
+
     .dd-title{
       font-size:11px;
-      font-weight:900;
-      color:var(--muted);
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      padding:8px;
+      font-weight: 900;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 8px 6px 8px;
     }
     .dd-link{
       display:block;
-      padding:10px;
-      border-radius:12px;
+      padding: 10px 10px;
+      border-radius: 12px;
       text-decoration:none;
-      font-weight:800;
+      font-weight: 800;
+      color: var(--text);
+      transition: background .12s ease;
     }
-    .dd-link:hover{background:rgba(37,99,235,0.06);}
-    .pill{
-      padding:10px 12px;
-      border-radius:999px;
-      font-weight:900;
-      text-decoration:none;
-      border:1px solid var(--line);
-    }
-    .pill.primary{background:var(--accent); color:#fff; border:none;}
-    .pill.ghost{background:#fff;}
+    .dd-link:hover{background: rgba(37,99,235,0.06);}
 
-    /* ================= SLIDER (GIỮ NGUYÊN) ================= */
+    .nav-cta{
+      margin-left: 8px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid var(--line);
+    }
+    .pill.primary{
+      background: var(--accent);
+      color:#fff;
+      border-color: transparent;
+    }
+    .pill.ghost{
+      background:#fff;
+      color:var(--text);
+    }
+
+    /* ===== Slider ===== */
     .slider-wrap{
       max-width: var(--max);
       margin: 0 auto;
@@ -139,229 +176,517 @@
     }
     .slider{
       position:relative;
-      border-radius:22px;
+      border-radius: 22px;
       overflow:hidden;
-      box-shadow:var(--shadow);
-      border:1px solid var(--line);
-      min-height:380px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      min-height: 380px;
       background:#000;
     }
     .slide{
-      position:absolute; inset:0;
+      position:absolute;
+      inset:0;
       opacity:0;
-      transition:opacity .3s ease;
-      background-size:cover;
-      background-position:center;
+      transition: opacity 300ms ease;
+      background-size: cover;
+      background-position: center;
     }
     .slide.active{opacity:1;}
     .slide::after{
       content:"";
-      position:absolute; inset:0;
-      background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.2));
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.20));
     }
     .slide-content{
       position:absolute;
-      left:26px; bottom:26px;
-      max-width:720px;
+      left: 26px;
+      bottom: 26px;
+      max-width: 720px;
       color:#fff;
-      z-index:2;
+      z-index: 2;
     }
-    .slide-kicker{font-size:12px; letter-spacing:.1em; text-transform:uppercase;}
-    .slide-title{font-size:34px; font-weight:900;}
-    .slide-desc{font-size:15px; line-height:1.6;}
+    .slide-kicker{
+      font-size:12px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      opacity:.86;
+      margin-bottom: 10px;
+    }
+    .slide-title{
+      font-size: 34px;
+      line-height:1.15;
+      font-weight: 900;
+      margin:0 0 10px 0;
+      letter-spacing:-0.01em;
+    }
+    .slide-desc{
+      margin:0 0 14px 0;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.6;
+      font-size: 15px;
+    }
+    .slide-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
     .btn{
       display:inline-flex;
-      padding:11px 14px;
-      border-radius:12px;
-      font-weight:900;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-weight: 900;
       text-decoration:none;
-      border:1px solid rgba(255,255,255,.2);
+      border: 1px solid rgba(255,255,255,0.20);
       color:#fff;
-      background:rgba(255,255,255,.08);
+      background: rgba(255,255,255,0.08);
+      transition: transform .12s ease, background .12s ease;
     }
-    .btn.primary{background:var(--accent); border:none;}
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.12);
+    }
+    .btn.primary{
+      background: var(--accent);
+      border-color: transparent;
+    }
 
-    /* ================= CONTENT FROM NEWS DOWNWARD ================= */
+    .arrow{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.35);
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 3;
+      transition: background .12s ease, transform .12s ease;
+    }
+    .arrow:hover{background: rgba(0,0,0,0.5); transform: translateY(-50%) scale(1.03);}
+    .arrow.left{left: 14px;}
+    .arrow.right{right: 14px;}
+
+    .dots{
+      position:absolute;
+      right: 16px;
+      bottom: 16px;
+      display:flex;
+      gap: 8px;
+      z-index: 4;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      cursor:pointer;
+    }
+    .dot.active{background:#fff;}
+
+    /* ===== Sections ===== */
     .container{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 0 18px 40px;
+      padding: 0 18px 34px 18px;
     }
-    .stack{display:grid; gap:16px;}
+
+    .grid-2{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
     .section{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      padding:22px;
-      box-shadow:0 10px 28px rgba(15,23,42,.06);
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+    }
+    .section h2{
+      margin: 0 0 12px 0;
+      font-size: 20px;
+      letter-spacing:-0.01em;
+    }
+    .section p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
     }
 
-    /* ===== NEWS FULL WIDTH ===== */
-    .news-head{
+    /* News list */
+    .news-item{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap: 12px;
+      padding: 10px 0;
+      border-top: 1px dashed var(--line);
+    }
+    .news-item:first-child{border-top:none; padding-top:0;}
+    .news-date{font-weight: 900; font-size: 13px;}
+    .news-title{
+      font-weight: 800;
+      font-size: 14px;
+      line-height:1.5;
+    }
+    .more{
+      margin-top: 12px;
+      display:inline-block;
+      text-decoration:none;
+      font-weight: 900;
+      color: var(--accent);
+    }
+
+    /* Research teasers */
+    .teaser{
+      display:grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 16px;
+      align-items:center;
+    }
+    .teaser-img{
+      border-radius: 16px;
+      overflow:hidden;
+      border: 1px solid var(--line);
+      background:#000;
+      min-height: 160px;
+      background-size: cover;
+      background-position:center;
+    }
+    .teaser h3{
+      margin: 0 0 8px 0;
+      font-size: 18px;
+      letter-spacing:-0.01em;
+    }
+    .chips{
       display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
     }
-    .news-sub{font-size:13px; color:var(--muted);}
-    .news-feature{
-      margin-top:14px;
-      padding:14px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:linear-gradient(180deg,rgba(37,99,235,.06),rgba(37,99,235,.02));
-    }
-    .news-row{
-      display:grid;
-      grid-template-columns:120px 1fr auto;
-      gap:12px;
-      padding:10px 0;
-      border-bottom:1px dashed var(--line);
-    }
-    .news-date{font-weight:900; font-size:12px; color:var(--muted);}
-    .news-title{font-weight:900;}
-    .tag{
-      font-size:11px;
-      padding:4px 8px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(37,99,235,.06);
-      color:#1d4ed8;
-    }
-
-    /* ===== RESEARCH ===== */
-    .chips{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;}
     .chip{
-      font-size:12px;
-      font-weight:900;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(37,99,235,.06);
-      color:#1d4ed8;
+      font-size: 12px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(37,99,235,0.06);
+      color: #1d4ed8;
     }
-    .stats{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:10px;
-      margin-top:14px;
-    }
-    .stat{
-      border:1px solid var(--line);
-      border-radius:14px;
-      padding:12px;
-    }
-    .stat .num{font-size:18px; font-weight:1000;}
-    .stat .lbl{font-size:12px; color:var(--muted);}
 
-    /* ===== FOOTER ===== */
+    /* Footer */
     .footer{
-      margin-top:24px;
-      padding-top:18px;
-      border-top:1px solid var(--line);
-      font-size:12px;
-      color:var(--muted);
+      margin-top: 18px;
+      padding: 18px 0 40px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    .footer-row{
+      display:flex;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px){
+      .topbar-inner{justify-content: space-between;}
+      .brand{min-width:auto;}
+      .nav{display:none;} /* simple: hide top nav on mobile */
+      .slider{min-height: 340px;}
+      .slide-title{font-size: 28px;}
+      .grid-2{grid-template-columns:1fr;}
+      .teaser{grid-template-columns:1fr;}
+      .news-item{grid-template-columns:1fr;}
     }
   </style>
 </head>
 
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="{% url 'home' %}">
-      <div class="brand-dot"></div>
-      <div>
-        <div class="brand-title">Quantar Lab</div>
-        <div class="brand-sub">Quantum Science & Technology</div>
-      </div>
-    </a>
-  </div>
-</header>
+  <!-- Top Nav -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">Quantum Science & Technology</div>
+        </div>
+      </a>
 
-<!-- SLIDER (GIỮ NGUYÊN) -->
-<div class="slider-wrap">
-  <div class="slider">
-    <div class="slide active" style="background-image:url('{% static 'images/slide1.jpg' %}')">
-      <div class="slide-content">
-        <div class="slide-kicker">Quantar Lab</div>
-        <div class="slide-title">Quantum algorithms and compilation</div>
-        <p class="slide-desc">Device-aware workflows for optimization and simulation.</p>
-        <a class="btn primary" href="{% url 'publication' %}">Explore publications</a>
+      <nav class="nav">
+        <div class="item">
+          <a class="nav-btn" href="{% url 'home' %}">Home</a>
+        </div>
+
+        <!-- Research dropdown (click) -->
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Research ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Research</div>
+            <a class="dd-link" href="{% url 'publication' %}">Publications</a>
+            <a class="dd-link" href="{% url 'resource' %}">Resources</a>
+            <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
+          </div>
+        </div>
+
+        <!-- Members dropdown (click) -->
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Members ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Members</div>
+            <a class="dd-link" href="{% url 'me' %}">Profile</a>
+            <a class="dd-link" href="{% url 'member' %}">People</a>
+            <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn" href="{% url 'position' %}">Positions</a>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
+        </div>
+
+        <div class="nav-cta">
+          <a class="pill primary" href="{% url 'publication' %}">Publications</a>
+          <a class="pill ghost" href="{% url 'login' %}">Staff</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Slider -->
+  <div class="slider-wrap">
+    <div class="slider" id="slider">
+      <div class="slide active" style="background-image:url('{% static 'images/slide1.jpg' %}')">
+        <div class="slide-content">
+          <div class="slide-kicker">Quantar Lab</div>
+          <div class="slide-title">Quantum algorithms and compilation</div>
+          <p class="slide-desc">Device-aware workflows for optimization and simulation on near-term platforms.</p>
+          <div class="slide-actions">
+            <a class="btn primary" href="{% url 'publication' %}">Explore publications</a>
+            <a class="btn" href="{% url 'position' %}">Join the lab</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" style="background-image:url('{% static 'images/slide2.jpg' %}')">
+        <div class="slide-content">
+          <div class="slide-kicker">Quantar Lab</div>
+          <div class="slide-title">Quantum metrology and sensing</div>
+          <p class="slide-desc">Time-dependent and networked sensing protocols beyond classical limits.</p>
+          <div class="slide-actions">
+            <a class="btn primary" href="{% url 'publication' %}">Read results</a>
+            <a class="btn" href="{% url 'contact' %}">Collaborate</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" style="background-image:url('{% static 'images/slide3.jpg' %}')">
+        <div class="slide-content">
+          <div class="slide-kicker">Quantar Lab</div>
+          <div class="slide-title">Entanglement and measurement</div>
+          <p class="slide-desc">Practical strategies for scalable detection and robust quantum measurements.</p>
+          <div class="slide-actions">
+            <a class="btn primary" href="{% url 'resource' %}">Tools / resources</a>
+            <a class="btn" href="{% url 'member' %}">Meet the team</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide" style="background-image:url('{% static 'images/slide4.jpg' %}')">
+        <div class="slide-content">
+          <div class="slide-kicker">Quantar Lab</div>
+          <div class="slide-title">Quantum foundations and nonlocality</div>
+          <p class="slide-desc">Probing nonlocal correlations and measurement principles at the foundations of quantum mechanics.</p>
+          <div class="slide-actions">
+            <a class="btn primary" href="{% url 'publication' %}">Learn more</a>
+            <a class="btn" href="{% url 'contact' %}">Contact</a>
+          </div>
+        </div>
+      </div>
+
+      <button class="arrow left" id="prev" aria-label="Previous">‹</button>
+      <button class="arrow right" id="next" aria-label="Next">›</button>
+
+      <div class="dots" id="dots">
+        <div class="dot active" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+        <div class="dot" data-i="3"></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- ================= MAIN CONTENT ================= -->
-<main class="container">
-  <div class="stack">
+  <main class="container">
 
-    <!-- NEWS -->
+    <div class="grid-2">
+      <section class="section" id="news">
+        <h2>News</h2>
+
+        <div class="news-item">
+          <div class="news-date">2025 Jun 19</div>
+          <div class="news-title">Welcome Mr. Vu Tuan Hai as an Adjunct Researcher.</div>
+        </div>
+        <div class="news-item">
+          <div class="news-date">2025 Sep 02</div>
+          <div class="news-title">New results on squeezing-induced multiphase estimation are available.</div>
+        </div>
+
+        <a class="more" href="{% url 'event' %}">More →</a>
+      </section>
+
+      <section class="section" id="research">
+        <h2>Research Topic</h2>
+        <p>
+          We advance quantum technologies by connecting quantum estimation theory,
+          optimization, and realistic hardware constraints—aiming for both fundamental
+          insights and practical impact.
+        </p>
+        <div class="chips">
+          <span class="chip">Quantum metrology</span>
+          <span class="chip">Quantum sensing</span>
+          <span class="chip">Algorithms</span>
+          <span class="chip">Quantum foundations</span>
+        </div>
+        <a class="more" href="{% url 'publication' %}">See publications →</a>
+      </section>
+    </div>
+
+    <div style="height:16px"></div>
+
     <section class="section">
-      <div class="news-head">
+      <div class="teaser">
+        <div class="teaser-img" style="background-image:url('{% static 'images/research1.jpg' %}')"></div>
         <div>
-          <h2>News</h2>
-          <div class="news-sub">Latest updates from Quantar Lab</div>
+          <h3>Quantum Metrology & Sensing</h3>
+          <p>Time-dependent and networked sensing protocols for precision beyond classical limits.</p>
+          <div class="chips">
+            <span class="chip">QFI / QFIM</span>
+            <span class="chip">optimal control</span>
+            <span class="chip">noise-robust</span>
+          </div>
+          <a class="more" href="{% url 'publication' %}">More →</a>
         </div>
-      </div>
-
-      <div class="news-feature">
-        <strong>Featured</strong><br/>
-        New results on squeezing-induced multiphase estimation are available.
-      </div>
-
-      <div class="news-row">
-        <div class="news-date">2025 Sep 02</div>
-        <div class="news-title">Squeezing-induced multiphase estimation results released</div>
-        <span class="tag">Paper</span>
-      </div>
-
-      <div class="news-row">
-        <div class="news-date">2025 Jun 19</div>
-        <div class="news-title">Welcome Mr. Vu Tuan Hai as Adjunct Researcher</div>
-        <span class="tag">People</span>
       </div>
     </section>
 
-    <!-- RESEARCH -->
     <section class="section">
-      <h2>Research</h2>
-      <p>
-        We advance quantum technologies by connecting quantum estimation theory,
-        optimization, and realistic hardware constraints.
-      </p>
-
-      <div class="chips">
-        <span class="chip">Quantum metrology</span>
-        <span class="chip">Quantum sensing</span>
-        <span class="chip">Algorithms</span>
-        <span class="chip">Foundations</span>
-      </div>
-
-      <div class="stats">
-        <div class="stat">
-          <div class="num">20+</div>
-          <div class="lbl">Publications</div>
-        </div>
-        <div class="stat">
-          <div class="num">10+</div>
-          <div class="lbl">Collaborators</div>
-        </div>
-        <div class="stat">
-          <div class="num">3</div>
-          <div class="lbl">Core directions</div>
+      <div class="teaser">
+        <div class="teaser-img" style="background-image:url('{% static 'images/research2.jpg' %}')"></div>
+        <div>
+          <h3>Quantum Algorithms & Compilation</h3>
+          <p>Efficient, device-aware methods for near-term quantum optimization and simulation.</p>
+          <div class="chips">
+            <span class="chip">feedback control</span>
+            <span class="chip">gradients</span>
+            <span class="chip">benchmarks</span>
+          </div>
+          <a class="more" href="{% url 'publication' %}">More →</a>
         </div>
       </div>
     </section>
 
-    <!-- FOOTER -->
     <footer class="footer">
-      <b>Quantar Lab</b><br/>
-      Tohoku University, Sendai, Japan
+      <div class="footer-row">
+        <div>
+          <b>Quantar Lab</b><br/>
+          Tohoku University, Sendai, Japan
+        </div>
+        <div>
+          <a href="{% url 'contact' %}" class="more">Contact →</a><br/>
+          <a href="{% url 'position' %}" class="more">Positions →</a>
+        </div>
+      </div>
     </footer>
 
-  </div>
-</main>
+  </main>
+
+  <script>
+    (function(){
+      // ===== Slider =====
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      const prev = document.getElementById('prev');
+      const next = document.getElementById('next');
+      let i = 0;
+      let timer = null;
+
+      function show(idx){
+        i = (idx + slides.length) % slides.length;
+        slides.forEach((s,k)=>s.classList.toggle('active', k===i));
+        dots.forEach((d,k)=>d.classList.toggle('active', k===i));
+      }
+      function start(){
+        stop();
+        timer = setInterval(()=>show(i+1), 6000);
+      }
+      function stop(){
+        if(timer) clearInterval(timer);
+        timer = null;
+      }
+
+      prev.addEventListener('click', ()=>{ show(i-1); start(); });
+      next.addEventListener('click', ()=>{ show(i+1); start(); });
+      dots.forEach(d=>{
+        d.addEventListener('click', ()=>{
+          show(parseInt(d.dataset.i || "0", 10));
+          start();
+        });
+      });
+
+      start();
+
+      // ===== Dropdowns (CLICK to open; click outside to close) =====
+      const items = Array.from(document.querySelectorAll('.item.has-dd'));
+      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
+
+      function closeAll(except=null){
+        items.forEach(it=>{
+          if(it !== except){
+            it.classList.remove('open');
+            const btn = it.querySelector('.dd-toggle');
+            if(btn) btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      toggles.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const item = btn.closest('.item.has-dd');
+          const willOpen = !item.classList.contains('open');
+          closeAll(item);
+          item.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+      });
+
+      document.addEventListener('click', ()=> closeAll());
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeAll();
+      });
+    })();
+  </script>
 
 </body>
 </html>
