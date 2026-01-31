@@ -3,6 +3,7 @@
 <head>
     <title>Quantar Lab</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {% load static %}
     <style>
         :root{
             --bg: #f4f6f8;
@@ -10,43 +11,43 @@
             --text: #0f172a;
             --muted: #475569;
             --line: #e2e8f0;
-            --accent: #2c3e50;   /* giữ tone của bạn */
-            --accent2:#2563eb;   /* điểm nhấn xanh nhẹ */
+            --accent: #2c3e50;
+            --accent2:#2563eb;
             --shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-            --radius: 14px;
+            --radius: 16px;
         }
 
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 0;
             background-color: var(--bg);
             color: var(--text);
         }
 
+        /* ===== HEADER ===== */
         .header {
-            background-color: #ffffff;
+            background: #fff;
             border-bottom: 1px solid var(--line);
         }
         .header img {
             width: 100%;
-            height: auto;
             display: block;
         }
 
+        /* ===== LAYOUT ===== */
         .main {
             display: flex;
             gap: 24px;
-            padding: 20px;
+            padding: 24px;
             max-width: 1200px;
             margin: 0 auto;
         }
 
-        /* LEFT SIDEBAR */
+        /* ===== LEFT NAV ===== */
         .left {
             width: 260px;
             position: sticky;
-            top: 12px;
+            top: 16px;
             align-self: flex-start;
         }
         .nav-card{
@@ -54,466 +55,389 @@
             border: 1px solid var(--line);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 14px;
+            padding: 16px;
         }
         .nav-title{
-            font-weight: 700;
-            font-size: 14px;
+            font-weight: 800;
+            font-size: 13px;
             color: var(--muted);
-            margin: 0 0 10px 0;
-            letter-spacing: 0.02em;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 12px;
         }
-        .left a {
+        .left a{
             display: block;
+            padding: 11px 14px;
             margin-bottom: 10px;
-            padding: 10px 12px;
-            background-color: var(--accent);
+            border-radius: 10px;
+            background: var(--accent);
             color: white;
             text-decoration: none;
-            border-radius: 10px;
-            transition: transform 0.08s ease, opacity 0.08s ease;
-        }
-        .left a:hover{
-            transform: translateY(-1px);
-            opacity: 0.95;
+            font-weight: 700;
+            transition: transform .1s ease, opacity .1s ease;
         }
         .left a.secondary{
-            background: #0b1220;
+            background:#0b1220;
+        }
+        .left a:hover{
+            transform: translateY(-2px);
+            opacity: .95;
         }
 
-        /* RIGHT CONTENT */
-        .right {
-            flex: 1;
-            background-color: transparent;
-        }
+        /* ===== RIGHT CONTENT ===== */
+        .right{flex:1;}
 
         .section{
             background: var(--card);
             border: 1px solid var(--line);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            padding: 22px;
-            margin-bottom: 18px;
+            padding: 28px;
+            margin-bottom: 22px;
         }
 
+        /* ===== HERO ===== */
         .hero{
             display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 18px;
-            align-items: center;
-            overflow: hidden;
-            position: relative;
+            grid-template-columns: 1.2fr .8fr;
+            gap: 24px;
         }
-        .hero .kicker{
+        .kicker{
             font-size: 13px;
-            color: var(--muted);
             text-transform: uppercase;
-            letter-spacing: 0.06em;
-            margin-bottom: 8px;
+            letter-spacing: .08em;
+            color: var(--muted);
+            margin-bottom: 10px;
         }
         .hero h1{
-            margin: 0 0 10px 0;
-            font-size: 34px;
+            font-size: 36px;
             line-height: 1.15;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.01em;
         }
         .hero p{
-            margin: 0 0 14px 0;
-            color: var(--muted);
             font-size: 15px;
-            line-height: 1.6;
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 18px;
         }
         .cta-row{
-            display: flex;
-            gap: 10px;
+            display:flex;
+            gap:12px;
             flex-wrap: wrap;
         }
         .btn{
-            display: inline-block;
-            padding: 10px 14px;
+            padding: 11px 16px;
             border-radius: 12px;
+            font-weight: 800;
             text-decoration: none;
-            font-weight: 700;
             border: 1px solid var(--line);
         }
         .btn.primary{
             background: var(--accent2);
-            color: white;
+            color:white;
             border-color: transparent;
         }
         .btn.ghost{
-            background: #ffffff;
-            color: var(--text);
+            background:white;
+            color:var(--text);
         }
 
         .hero-panel{
-            border-radius: 16px;
-            border: 1px solid var(--line);
-            padding: 14px;
-            background: linear-gradient(180deg, rgba(37,99,235,0.08), rgba(15,23,42,0.02));
+            background: linear-gradient(180deg, rgba(37,99,235,.08), rgba(15,23,42,.02));
+            border:1px solid var(--line);
+            border-radius: var(--radius);
+            padding:18px;
         }
         .stat-grid{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 10px;
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+            margin-top:12px;
         }
         .stat{
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            padding: 12px;
+            background:#fff;
+            border:1px solid var(--line);
+            border-radius:12px;
+            padding:14px;
         }
         .stat .num{
-            font-size: 20px;
-            font-weight: 800;
-            margin-bottom: 2px;
+            font-size:22px;
+            font-weight:900;
         }
         .stat .label{
-            font-size: 12px;
-            color: var(--muted);
+            font-size:12px;
+            color:var(--muted);
         }
 
+        /* ===== SECTION HEADER ===== */
         .h2-row{
             display:flex;
             justify-content: space-between;
             align-items: baseline;
-            gap: 10px;
-            margin-bottom: 12px;
+            margin-bottom:18px;
         }
         .h2-row h2{
-            margin: 0;
-            font-size: 18px;
+            font-size:22px;
+            margin:0;
+            letter-spacing:-.01em;
         }
         .h2-row a{
-            color: var(--accent2);
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 13px;
+            font-size:14px;
+            font-weight:800;
+            text-decoration:none;
+            color:var(--accent2);
         }
 
+        /* ===== RESEARCH HIGHLIGHTS ===== */
         .card-grid{
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            display:grid;
+            grid-template-columns: repeat(2,1fr);
+            gap:16px;
         }
         .card{
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 14px;
-            background: #fff;
+            position:relative;
+            background:#fff;
+            border:1px solid var(--line);
+            border-radius:18px;
+            padding:22px;
+            box-shadow:0 6px 18px rgba(15,23,42,.06);
+            transition:transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+        }
+        .card::before{
+            content:"";
+            position:absolute;
+            top:0; left:0; right:0;
+            height:5px;
+            background:linear-gradient(90deg, rgba(37,99,235,.95), rgba(37,99,235,.15));
+        }
+        .card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 16px 36px rgba(15,23,42,.14);
+            border-color:rgba(37,99,235,.4);
+        }
+        .badge{
+            font-size:12px;
+            font-weight:900;
+            padding:6px 10px;
+            border-radius:999px;
+            border:1px solid var(--line);
+            color:var(--muted);
+            display:inline-block;
         }
         .card h3{
-            margin: 0 0 6px 0;
-            font-size: 15px;
+            font-size:19px;
+            margin:14px 0 10px 0;
+            letter-spacing:-.01em;
         }
         .card p{
-            margin: 0 0 10px 0;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.55;
+            font-size:14px;
+            line-height:1.6;
+            color:var(--muted);
+            margin-bottom:14px;
+        }
+        .chips{
+            display:flex;
+            gap:8px;
+            flex-wrap:wrap;
+            margin-bottom:14px;
+        }
+        .chip{
+            font-size:12px;
+            font-weight:800;
+            padding:6px 10px;
+            border-radius:999px;
+            background:rgba(37,99,235,.06);
+            border:1px solid var(--line);
+            color:#1d4ed8;
         }
         .card a{
-            text-decoration: none;
-            font-weight: 700;
-            color: var(--accent2);
-            font-size: 13px;
+            font-weight:900;
+            text-decoration:none;
+            color:var(--accent2);
+        }
+        .card a::after{
+            content:" →";
         }
 
-        .badge{
-            display: inline-block;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 5px 8px;
-            border-radius: 999px;
-            border: 1px solid var(--line);
-            color: var(--muted);
-            background: #fff;
-            margin-bottom: 8px;
+        /* ===== NEWS ===== */
+        .news-item{
+            display:grid;
+            grid-template-columns:140px 1fr;
+            gap:14px;
+            padding:10px 0;
+            border-top:1px dashed var(--line);
         }
-
-        .featured{
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-        .featured .box{
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 14px;
-            background: #fff;
-        }
-        .featured ul{
-            margin: 10px 0 0 18px;
-            color: var(--muted);
-            line-height: 1.6;
-            font-size: 13px;
-        }
-
-        .news-list .item{
-            display: grid;
-            grid-template-columns: 130px 1fr;
-            gap: 12px;
-            padding: 10px 0;
-            border-top: 1px dashed var(--line);
-        }
-        .news-list .item:first-child{
-            border-top: none;
-            padding-top: 0;
-        }
+        .news-item:first-child{border-top:none;}
         .date{
-            font-weight: 800;
-            color: #111827;
-            font-size: 13px;
-        }
-        .news-title{
-            font-size: 14px;
-            line-height: 1.5;
-            color: var(--text);
+            font-weight:900;
+            font-size:13px;
         }
         .tag{
-            display:inline-block;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 8px;
-            border-radius: 999px;
-            background: rgba(37,99,235,0.10);
-            color: #1d4ed8;
-            margin-right: 8px;
+            font-size:11px;
+            font-weight:900;
+            padding:4px 8px;
+            border-radius:999px;
+            background:rgba(37,99,235,.12);
+            color:#1d4ed8;
+            margin-right:8px;
         }
 
         .footer{
             text-align:center;
-            color: var(--muted);
-            font-size: 12px;
-            padding: 16px 0 30px 0;
+            font-size:12px;
+            color:var(--muted);
+            padding:20px 0 32px 0;
         }
 
-        /* Responsive */
-        @media (max-width: 980px){
-            .main{flex-direction: column;}
-            .left{width: 100%; position: static;}
-            .hero{grid-template-columns: 1fr;}
-            .card-grid{grid-template-columns: 1fr;}
-            .featured{grid-template-columns: 1fr;}
-            .news-list .item{grid-template-columns: 1fr;}
+        @media(max-width:980px){
+            .main{flex-direction:column;}
+            .left{width:100%; position:static;}
+            .hero{grid-template-columns:1fr;}
+            .card-grid{grid-template-columns:1fr;}
+            .news-item{grid-template-columns:1fr;}
         }
     </style>
-    {% load static %}
 </head>
 
 <body>
-    <div class="header">
-        <img src="{% static 'images/logo.png' %}" alt="Lab Logo">
+
+<div class="header">
+    <img src="{% static 'images/logo.png' %}" alt="Lab Logo">
+</div>
+
+<div class="main">
+
+    <div class="left">
+        <div class="nav-card">
+            <div class="nav-title">Navigation</div>
+            <a class="secondary" href="{% url 'login' %}">Login (staff)</a>
+            <a href="{% url 'me' %}">Binho Le</a>
+            <a href="{% url 'member' %}">Members</a>
+            <a href="{% url 'publication' %}">Publications</a>
+            <a href="{% url 'position' %}">Positions</a>
+            <a href="{% url 'event' %}">Events</a>
+            <a href="{% url 'resource' %}">Resources</a>
+            <a href="{% url 'visitor' %}">Visitors</a>
+            <a href="{% url 'contact' %}">Contact</a>
+        </div>
     </div>
 
-    <div class="main">
-        <div class="left">
-            <div class="nav-card">
-                <p class="nav-title">Navigation</p>
-                <a class="secondary" href="{% url 'login' %}">Login (for staffs only)</a>
-                <a href="{% url 'me' %}">Binho Le</a>
-                <a href="{% url 'member' %}">Members</a>
-                <a href="{% url 'publication' %}">Publications</a>
-                <a href="{% url 'position' %}">Positions</a>
-                <a href="{% url 'event' %}">Upcoming Events</a>
-                <a href="{% url 'resource' %}">Resources</a>
-                <a href="{% url 'visitor' %}">Visitors</a>
-                <a href="{% url 'contact' %}">Contact</a>
+    <div class="right">
+
+        <!-- HERO -->
+        <div class="section hero">
+            <div>
+                <div class="kicker">Quantar Lab • Quantum Science & Technology</div>
+                <h1>Quantum algorithms, sensing, and quantum energy technologies</h1>
+                <p>
+                    We develop theory-driven and practical methods for quantum metrology,
+                    compilation, entanglement detection, and quantum batteries,
+                    with attention to realistic noise and hardware constraints.
+                </p>
+                <div class="cta-row">
+                    <a class="btn primary" href="{% url 'publication' %}">Publications</a>
+                    <a class="btn ghost" href="{% url 'position' %}">Join the Lab</a>
+                    <a class="btn ghost" href="{% url 'contact' %}">Collaborate</a>
+                </div>
+            </div>
+
+            <div class="hero-panel">
+                <div class="badge">At a glance</div>
+                <div class="stat-grid">
+                    <div class="stat"><div class="num">12+</div><div class="label">Active projects</div></div>
+                    <div class="stat"><div class="num">30+</div><div class="label">Publications</div></div>
+                    <div class="stat"><div class="num">10+</div><div class="label">Collaborators</div></div>
+                    <div class="stat"><div class="num">Open</div><div class="label">Positions</div></div>
+                </div>
             </div>
         </div>
 
-        <div class="right">
-
-            <!-- HERO -->
-            <div class="section hero">
-                <div>
-                    <div class="kicker">Quantar Lab • Quantum Science & Technology</div>
-                    <h1>We build quantum algorithms, sensing protocols, and quantum energy technologies.</h1>
-                    <p>
-                        Our lab connects theory, numerical optimization, and near-term quantum platforms to advance
-                        quantum metrology, compilation, entanglement detection, and quantum batteries—aiming for both
-                        fundamental insights and practical impact.
-                    </p>
-                    <div class="cta-row">
-                        <a class="btn primary" href="{% url 'publication' %}">Explore Publications</a>
-                        <a class="btn ghost" href="{% url 'position' %}">Join the Lab</a>
-                        <a class="btn ghost" href="{% url 'contact' %}">Collaborate</a>
-                    </div>
-                </div>
-
-                <div class="hero-panel">
-                    <div class="badge">At a glance</div>
-                    <div class="stat-grid">
-                        <div class="stat">
-                            <div class="num">12+</div>
-                            <div class="label">Active projects</div>
-                        </div>
-                        <div class="stat">
-                            <div class="num">30+</div>
-                            <div class="label">Publications / preprints</div>
-                        </div>
-                        <div class="stat">
-                            <div class="num">10+</div>
-                            <div class="label">Collaborators</div>
-                        </div>
-                        <div class="stat">
-                            <div class="num">Open</div>
-                            <div class="label">Positions</div>
-                        </div>
-                    </div>
-                    <p style="margin:10px 0 0 0; color: var(--muted); font-size: 13px; line-height:1.55;">
-                        Tip: update these numbers quarterly to show momentum.
-                    </p>
-                </div>
+        <!-- RESEARCH HIGHLIGHTS -->
+        <div class="section">
+            <div class="h2-row">
+                <h2>Research Highlights</h2>
+                <a href="{% url 'publication' %}">See all →</a>
             </div>
 
-            <!-- RESEARCH HIGHLIGHTS -->
-            <div class="section">
-                <div class="h2-row">
-                    <h2>Research Highlights</h2>
-                    <a href="{% url 'publication' %}">See all →</a>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="badge">Quantum Metrology & Sensing</div>
+                    <h3>Time-dependent and networked quantum sensing</h3>
+                    <p>Precision-enhanced protocols beyond classical limits under realistic noise.</p>
+                    <div class="chips">
+                        <span class="chip">QFI</span>
+                        <span class="chip">QFIM</span>
+                        <span class="chip">sensor networks</span>
+                    </div>
+                    <a href="{% url 'publication' %}">Selected papers</a>
                 </div>
 
-                <div class="card-grid">
-                    <div class="card">
-                        <div class="badge">Quantum Metrology</div>
-                        <h3>Squeezing-enhanced multiphase estimation</h3>
-                        <p>
-                            We study when spin squeezing genuinely improves multi-parameter precision and how to approach
-                            optimal measurements under realistic constraints.
-                        </p>
-                        <a href="{% url 'publication' %}">Read related papers →</a>
+                <div class="card">
+                    <div class="badge">Algorithms & Compilation</div>
+                    <h3>Feedback-based optimization for near-term devices</h3>
+                    <p>Stable quantum control and compilation with limited expressibility.</p>
+                    <div class="chips">
+                        <span class="chip">FALQON</span>
+                        <span class="chip">gradients</span>
+                        <span class="chip">noise-aware</span>
                     </div>
+                    <a href="{% url 'publication' %}">Methods & benchmarks</a>
+                </div>
 
-                    <div class="card">
-                        <div class="badge">Quantum Sensing</div>
-                        <h3>Networked sensors for weak-signal detection</h3>
-                        <p>
-                            We design network topology, probe states, and measurements to boost sensitivity beyond
-                            standard entanglement-only strategies.
-                        </p>
-                        <a href="{% url 'publication' %}">See results →</a>
+                <div class="card">
+                    <div class="badge">Entanglement & Measurement</div>
+                    <h3>Measurement-efficient entanglement detection</h3>
+                    <p>Practical strategies for detecting entanglement with limited measurements.</p>
+                    <div class="chips">
+                        <span class="chip">variational</span>
+                        <span class="chip">witness</span>
+                        <span class="chip">robustness</span>
                     </div>
+                    <a href="{% url 'resource' %}">Resources</a>
+                </div>
 
-                    <div class="card">
-                        <div class="badge">Algorithms & Compilation</div>
-                        <h3>Feedback-based quantum control</h3>
-                        <p>
-                            We develop stable, practical control rules for ground-state preparation and optimization,
-                            with robustness in challenging spectra.
-                        </p>
-                        <a href="{% url 'publication' %}">Methods & benchmarks →</a>
+                <div class="card">
+                    <div class="badge">Quantum Energy & Batteries</div>
+                    <h3>Fast charging in collective quantum systems</h3>
+                    <p>Design principles for charging speed, power, and stability.</p>
+                    <div class="chips">
+                        <span class="chip">collective effects</span>
+                        <span class="chip">charging power</span>
+                        <span class="chip">open systems</span>
                     </div>
-
-                    <div class="card">
-                        <div class="badge">Entanglement</div>
-                        <h3>Variational entanglement detection</h3>
-                        <p>
-                            We build trainable, measurement-efficient protocols that detect entanglement with fewer
-                            assumptions and scalable workflows.
-                        </p>
-                        <a href="{% url 'resource' %}">Resources →</a>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge">Quantum Energy</div>
-                        <h3>Charging protocols for quantum batteries</h3>
-                        <p>
-                            We investigate collective quantum systems to optimize charging speed, power, and stability
-                            under noise and constraints.
-                        </p>
-                        <a href="{% url 'publication' %}">Learn more →</a>
-                    </div>
-
-                    <div class="card">
-                        <div class="badge">Open to collaboration</div>
-                        <h3>Work with us</h3>
-                        <p>
-                            We welcome collaborations in quantum sensing, optimization, and quantum-device-aware algorithm design.
-                        </p>
-                        <a href="{% url 'contact' %}">Contact →</a>
-                    </div>
+                    <a href="{% url 'publication' %}">Related work</a>
                 </div>
             </div>
-
-            <!-- FEATURED WORK -->
-            <div class="section">
-                <div class="h2-row">
-                    <h2>Featured Work</h2>
-                    <a href="{% url 'publication' %}">All publications →</a>
-                </div>
-
-                <div class="featured">
-                    <div class="box">
-                        <div class="badge">Featured paper / project</div>
-                        <h3 style="margin:0 0 6px 0;">Quantum-enhanced multiphase metrology under squeezing</h3>
-                        <p style="margin:0; color:var(--muted); font-size:13px; line-height:1.6;">
-                            A practical framework to understand when squeezing helps multi-parameter estimation, and how to
-                            approach near-optimal strategies.
-                        </p>
-                        <ul>
-                            <li><b>What:</b> multiphase estimation with nonlinear squeezing dynamics</li>
-                            <li><b>Why it matters:</b> precision improvements beyond classical limits</li>
-                            <li><b>Outcome:</b> conditions and recipes to approach quantum limits</li>
-                        </ul>
-                    </div>
-
-                    <div class="box">
-                        <div class="badge">How we work</div>
-                        <p style="margin:0; color:var(--muted); font-size:13px; line-height:1.6;">
-                            We combine (i) rigorous theory (QET/QFI/QFIM), (ii) numerics + optimization, and (iii) realistic
-                            constraints (noise, finite measurements, hardware limits) to deliver results that remain useful
-                            outside ideal settings.
-                        </p>
-                        <div style="margin-top:12px;" class="cta-row">
-                            <a class="btn primary" href="{% url 'resource' %}">Tools / Code</a>
-                            <a class="btn ghost" href="{% url 'event' %}">Talks / Events</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- NEWS -->
-            <div class="section">
-                <div class="h2-row">
-                    <h2>News</h2>
-                    <a href="{% url 'event' %}">All updates →</a>
-                </div>
-
-                <div class="news-list">
-                    <div class="item">
-                        <div class="date">2025 Jun 19</div>
-                        <div class="news-title">
-                            <span class="tag">People</span>
-                            Welcome Mr. Vu Tuan Hai, who will join our group as an Adjunct Researcher.
-                        </div>
-                    </div>
-
-                    <!-- Ví dụ thêm 2 dòng để homepage nhìn “sống” hơn -->
-                    <div class="item">
-                        <div class="date">2025 Sep 02</div>
-                        <div class="news-title">
-                            <span class="tag">Preprint</span>
-                            New results on squeezing-induced quantum-enhanced multiphase estimation are available.
-                        </div>
-                    </div>
-
-                    <div class="item">
-                        <div class="date">2025 Oct 12</div>
-                        <div class="news-title">
-                            <span class="tag">Project</span>
-                            We started a new project on quantum battery charging with magnetic field and squeezed light.
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer">
-                © Quantar Lab • <span style="white-space:nowrap;">Tohoku University, Sendai, Japan</span>
-            </div>
-
         </div>
+
+        <!-- NEWS -->
+        <div class="section">
+            <div class="h2-row">
+                <h2>News</h2>
+                <a href="{% url 'event' %}">All updates →</a>
+            </div>
+
+            <div class="news-item">
+                <div class="date">2025 Jun 19</div>
+                <div><span class="tag">People</span>Welcome Mr. Vu Tuan Hai as an Adjunct Researcher.</div>
+            </div>
+            <div class="news-item">
+                <div class="date">2025 Sep 02</div>
+                <div><span class="tag">Preprint</span>New results on squeezing-induced multiphase estimation.</div>
+            </div>
+            <div class="news-item">
+                <div class="date">2025 Oct 12</div>
+                <div><span class="tag">Project</span>New project on quantum battery charging with squeezed light.</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            © Quantar Lab • Tohoku University, Sendai, Japan
+        </div>
+
     </div>
+</div>
+
 </body>
 </html>
