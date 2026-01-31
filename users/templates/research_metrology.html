@@ -2,38 +2,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Quantum Metrology and Sensing | Quantar Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <title>Quantum Metrology & Sensing | Quantar Lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root{
       --bg:#f4f6f8;
       --card:#ffffff;
       --text:#0f172a;
-      --muted:#475569;
+      --muted:#334155;
       --line:#e2e8f0;
       --accent:#2563eb;
-      --shadow:0 10px 28px rgba(15,23,42,.08);
-      --radius:16px;
-      --max:1100px;
+      --accent2:#1d4ed8;
+      --shadow:0 12px 32px rgba(15,23,42,.08);
+      --radius:18px;
+      --max:1200px;
+
+      --base:17px;
+      --lh:1.85;
     }
     *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
 
     body{
       margin:0;
       font-family: Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
+      font-size:var(--base);
+      line-height:var(--lh);
     }
 
-    /* ===== TOPBAR (WHITE, STICKY, BLUR) ===== */
+    /* ===== TOPBAR ===== */
     .topbar{
       position:sticky;
       top:0;
       z-index:50;
-      background:rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(8px);
       border-bottom:1px solid var(--line);
     }
     .topbar-inner{
@@ -51,133 +58,174 @@
       gap:10px;
       text-decoration:none;
       color:var(--text);
-      min-width:220px;
     }
     .brand-dot{
       width:12px;height:12px;border-radius:50%;
       background:var(--accent);
       box-shadow:0 0 0 6px rgba(37,99,235,.12);
     }
-    .brand-title{
-      font-weight:900;
-      letter-spacing:-0.01em;
-      line-height:1.1;
-    }
-    .brand-sub{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.2;
-      margin-top:2px;
-    }
+    .brand-title{font-weight:900}
+    .brand-sub{font-size:13px;color:var(--muted)}
 
-    .nav-right{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .nav-right{display:flex;gap:10px;flex-wrap:wrap}
     .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 14px;
-      min-height:40px;
-      font-size:13px;
-      font-weight:900;
-      line-height:1;
+      padding:11px 16px;
       border-radius:999px;
-      text-decoration:none;
+      font-size:14px;
+      font-weight:900;
       border:1px solid var(--line);
       background:#fff;
+      text-decoration:none;
       color:var(--text);
-      white-space:nowrap;
-      transition:transform .1s ease, background .1s ease;
     }
-    .pill:hover{
-      transform:translateY(-1px);
-      background:rgba(37,99,235,.06);
-    }
-    .pill.primary{
-      background:var(--accent);
-      color:#fff;
-      border-color:transparent;
-    }
+    .pill.primary{background:var(--accent);color:#fff;border-color:transparent}
 
     /* ===== PAGE ===== */
     .container{
       max-width:var(--max);
       margin:0 auto;
-      padding:28px 16px 60px;
+      padding:26px 16px 70px;
     }
 
-    h1{
-      margin:0 0 18px 0;
-      font-size:28px;
-      font-weight:900;
-      letter-spacing:-0.01em;
-    }
-
-    .intro{
-      max-width:800px;
-      color:var(--muted);
+    /* breadcrumb */
+    .meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px 14px;
       font-size:14px;
-      line-height:1.7;
-      margin-bottom:24px;
+      color:var(--muted);
+    }
+    .meta a{color:var(--muted);text-decoration:none;font-weight:800}
+
+    /* hero */
+    .hero{
+      margin-top:12px;
+      background:linear-gradient(180deg,#fff,#f8fafc);
+      border:1px solid var(--line);
+      border-radius:22px;
+      box-shadow:var(--shadow);
+      padding:28px;
+    }
+    h1{
+      margin:0 0 10px 0;
+      font-size:40px;
+      line-height:1.15;
+      font-weight:900;
+      letter-spacing:-0.02em;
+    }
+    .subtitle{
+      font-size:18px;
+      color:var(--muted);
+      max-width:900px;
     }
 
-    .position-grid{
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    .chip{
+      font-size:14px;
+      font-weight:900;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(37,99,235,.06);
+      color:var(--accent2);
+    }
+
+    /* layout */
+    .layout{
       display:grid;
+      grid-template-columns:280px 1fr;
       gap:18px;
+      margin-top:18px;
+      align-items:start;
     }
 
-    .position-card{
+    .card{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:22px;
     }
 
-    .position-card h2{
-      margin:0 0 8px 0;
+    /* toc */
+    .toc{
+      position:sticky;
+      top:90px;
+      padding:16px;
+    }
+    .toc-title{
+      font-size:12px;
+      font-weight:900;
+      letter-spacing:.1em;
+      text-transform:uppercase;
+      color:var(--muted);
+      margin-bottom:10px;
+    }
+    .toc a{
+      display:block;
+      padding:10px;
+      border-radius:12px;
+      font-weight:900;
+      text-decoration:none;
+      color:var(--text);
+    }
+    .toc a:hover{background:rgba(37,99,235,.06)}
+
+    /* content */
+    .content{display:grid;gap:18px}
+    .section{padding:24px}
+    .section h2{
+      font-size:24px;
+      font-weight:900;
+      margin:0 0 10px 0;
+    }
+    .section h3{
       font-size:18px;
       font-weight:900;
+      margin:14px 0 6px 0;
     }
+    .section p{font-size:16px;color:var(--muted)}
+    .section ul{margin-left:18px;color:var(--muted)}
 
-    .position-card p{
-      margin:0 0 10px 0;
-      font-size:14px;
-      line-height:1.7;
-      color:var(--muted);
+    .figure{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      overflow:hidden;
     }
+    .figure img{width:100%;display:block}
+    .caption{font-size:14px;color:var(--muted);margin-top:8px}
 
-    .position-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:10px;
+    .callout{
+      background:rgba(37,99,235,.06);
+      border:1px solid rgba(37,99,235,.2);
+      border-radius:14px;
+      padding:14px;
+      margin:14px 0;
     }
-
-    .link-btn{
-      font-size:13px;
-      font-weight:800;
-      text-decoration:none;
-      color:var(--accent);
-    }
+    .callout b{color:var(--accent2)}
 
     .footer{
       text-align:center;
+      font-size:13px;
       color:var(--muted);
-      font-size:12px;
-      padding:20px 0 30px;
+      padding:30px 0 10px;
+    }
+
+    @media (max-width: 980px){
+      h1{font-size:32px}
+      .layout{grid-template-columns:1fr}
+      .toc{position:relative;top:auto}
     }
   </style>
 </head>
 
 <body>
 
-<!-- ===== TOPBAR ===== -->
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{% url 'home' %}">
@@ -187,7 +235,6 @@
         <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
       </div>
     </a>
-
     <nav class="nav-right">
       <a class="pill" href="{% url 'publication' %}">Publications</a>
       <a class="pill primary" href="{% url 'position' %}">Positions</a>
@@ -198,168 +245,128 @@
 
 <main class="container">
 
-  <h1>Quantum metrology and sensing</h1>
+  <div class="meta">
+    <a href="{% url 'home' %}">Home</a> ›
+    <span>Research</span> ›
+    <b>Quantum Metrology & Sensing</b>
+    <span>• Last updated: 2026</span>
+  </div>
 
-  <p class="intro">
-    We develop time-dependent and networked quantum sensing protocols that enhance precision beyond classical limits.
-    Our work connects quantum estimation theory, optimal control, and realistic noise models to design sensing strategies
-    that are both theoretically grounded and experimentally relevant.
-  </p>
-
-  <!-- ===== FIGURE / ILLUSTRATION ===== -->
-  <section class="position-card">
-    <h2>Overview</h2>
-    <p>
-      The figure below illustrates the typical workflow studied in our group: quantum probe preparation,
-      controlled time evolution, and optimized measurement for parameter estimation.
+  <section class="hero">
+    <h1>Quantum Metrology & Sensing</h1>
+    <p class="subtitle">
+      Time-dependent and networked quantum sensing protocols that push measurement precision
+      beyond classical limits, with explicit attention to noise, control constraints, and experimental feasibility.
     </p>
-
-    <div style="
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      overflow:hidden;
-      background:#fff;
-    ">
-      <img
-        src="{% static 'images/metrology.png' %}"
-        alt="Quantum metrology overview"
-        style="width:100%; display:block;"
-      />
-    </div>
-
-    <p style="margin-top:10px; font-size:13px; color:var(--muted);">
-      Schematic illustration of quantum sensing: control-enhanced probe dynamics maximize information
-      quantified by the quantum Fisher information.
-    </p>
-  </section>
-
-  <!-- ===== KEYWORDS ===== -->
-  <section class="position-card">
-    <h2>Keywords</h2>
     <div class="chips">
-      <span class="chip">Quantum Fisher information</span>
       <span class="chip">QFI / QFIM</span>
-      <span class="chip">Quantum sensing</span>
-      <span class="chip">Multiphase estimation</span>
-      <span class="chip">Optimal control</span>
-      <span class="chip">Noise-robust protocols</span>
-      <span class="chip">Networked sensors</span>
-      <span class="chip">POVM design</span>
-      <span class="chip">Time-dependent metrology</span>
+      <span class="chip">optimal control</span>
+      <span class="chip">noise-robust</span>
+      <span class="chip">networked sensors</span>
     </div>
   </section>
 
-  <!-- ===== CORE METHODS ===== -->
-  <section class="position-card">
-    <h2>Core methods</h2>
-    <p>
-      Our approach combines tools from quantum estimation theory with practical optimization techniques.
-      Typical ingredients include:
-    </p>
-    <p>
-      • Quantum Fisher information (QFI) and quantum Fisher information matrix (QFIM)<br/>
-      • Time-dependent control for probe dynamics<br/>
-      • Noise modeling and robustness analysis<br/>
-      • Variational and learning-based optimization of states and measurements
-    </p>
-  </section>
+  <div class="layout">
 
-  <!-- ===== RESEARCH TOPICS ===== -->
-  <section class="position-card">
-    <h2>Research topics</h2>
+    <aside class="card toc">
+      <div class="toc-title">On this page</div>
+      <a href="#what">What is quantum metrology?</a>
+      <a href="#workflow">Typical workflow</a>
+      <a href="#methods">Core methods</a>
+      <a href="#topics">Research topics</a>
+      <a href="#results">Selected results</a>
+      <a href="#impact">Why it matters</a>
+    </aside>
 
-    <p>
-      <b>1) Time-dependent sensing protocols</b><br/>
-      Designing control schedules that maximize information gain within a fixed sensing time.
-    </p>
+    <div class="content">
 
-    <p>
-      <b>2) Networked quantum sensors</b><br/>
-      Distributed sensing using entangled or correlated nodes, optimized for scalability and noise.
-    </p>
-
-    <p>
-      <b>3) Multiphase and multiparameter estimation</b><br/>
-      Understanding trade-offs, compatibility conditions, and fundamental limits in joint estimation.
-    </p>
-
-    <p>
-      <b>4) Robust measurement design</b><br/>
-      Constructing POVMs that remain near-optimal under calibration errors and imperfect readout.
-    </p>
-  </section>
-
-  <!-- ===== SELECTED RESULTS ===== -->
-  <section class="position-card">
-    <h2>Selected results</h2>
-
-    <div class="position-grid">
-
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Squeezing-induced quantum-enhanced multiphase estimation
-        </h3>
+      <section class="card section" id="what">
+        <h2>What is quantum metrology?</h2>
         <p>
-          We clarified the conditions under which spin-squeezed states achieve the quantum Cramér-Rao bound
-          in multiparameter estimation.
+          Quantum metrology studies how quantum effects—such as superposition, entanglement,
+          and squeezing—can be used to measure physical parameters with higher precision
+          than is possible using classical strategies.
         </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
+        <div class="callout">
+          <b>Key idea:</b> the precision of any measurement is fundamentally limited,
+          but quantum resources allow us to approach or surpass classical bounds.
+        </div>
+      </section>
 
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Time-normalized quantum Fisher information
-        </h3>
+      <section class="card section" id="workflow">
+        <h2>Typical sensing workflow</h2>
         <p>
-          We introduced a time-normalized framework to fairly compare sensing protocols with different
-          interrogation times and control resources.
+          In our work, a sensing protocol is treated as a controlled quantum process
+          rather than a fixed experiment.
         </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
+        <div class="figure">
+          <img src="{% static 'images/metrology.png' %}" alt="Quantum metrology workflow">
+        </div>
+        <div class="caption">
+          Probe preparation → controlled evolution → optimized measurement → parameter estimation.
+        </div>
+      </section>
 
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Noise-robust networked quantum sensing
-        </h3>
+      <section class="card section" id="methods">
+        <h2>Core methods</h2>
+        <ul>
+          <li>Quantum Fisher information (QFI) and quantum Fisher information matrix (QFIM)</li>
+          <li>Time-dependent and optimal control of probe dynamics</li>
+          <li>Noise modeling and robustness analysis</li>
+          <li>Variational and learning-based optimization of states and measurements</li>
+        </ul>
+      </section>
+
+      <section class="card section" id="topics">
+        <h2>Research topics</h2>
+
+        <h3>Time-dependent sensing</h3>
         <p>
-          We demonstrated that moderately sized sensor networks can outperform conventional entanglement-based
-          schemes under realistic noise.
+          We design control schedules that maximize information gain within finite sensing times.
         </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
+
+        <h3>Networked quantum sensors</h3>
+        <p>
+          Distributed sensing using multiple nodes, optimized for scalability and realistic noise.
+        </p>
+
+        <h3>Multiphase and multiparameter estimation</h3>
+        <p>
+          Understanding trade-offs, compatibility conditions, and joint estimation limits.
+        </p>
+
+        <h3>Robust measurement design</h3>
+        <p>
+          Constructing POVMs that remain near-optimal under imperfect calibration and readout.
+        </p>
+      </section>
+
+      <section class="card section" id="results">
+        <h2>Selected results</h2>
+        <ul>
+          <li>Squeezing-induced quantum-enhanced multiphase estimation</li>
+          <li>Time-normalized quantum Fisher information</li>
+          <li>Noise-robust performance of networked quantum sensors</li>
+        </ul>
+      </section>
+
+      <section class="card section" id="impact">
+        <h2>Why it matters</h2>
+        <p>
+          Precision measurement underpins modern science and technology.
+          By explicitly accounting for noise, control, and finite resources,
+          our work helps bridge the gap between fundamental limits
+          and deployable quantum sensors.
+        </p>
+      </section>
 
     </div>
-  </section>
-
-  <!-- ===== IMPACT ===== -->
-  <section class="position-card">
-    <h2>Why it matters</h2>
-    <p>
-      Precision measurement underpins modern science and technology. By designing protocols that explicitly
-      account for noise, control constraints, and finite resources, our work aims to bridge the gap between
-      fundamental limits and real-world quantum sensors.
-    </p>
-  </section>
-
-  <!-- ===== COLLABORATION ===== -->
-  <section class="position-card">
-    <h2>For students and collaborators</h2>
-    <p>
-      We welcome students and visiting researchers interested in quantum sensing, estimation theory,
-      optimal control, and numerical optimization. Motivation and curiosity are valued as much as technical background.
-    </p>
-    <div class="position-actions">
-      <a class="link-btn" href="{% url 'position' %}">Open positions →</a>
-      <a class="link-btn" href="{% url 'contact' %}">Contact us →</a>
-    </div>
-  </section>
+  </div>
 
   <div class="footer">
     © Quantar Lab • Tohoku University, Sendai, Japan
   </div>
 
 </main>
-
 </body>
 </html>
