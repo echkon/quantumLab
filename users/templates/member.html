@@ -1,226 +1,707 @@
-<!-- templates/people.html -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>People</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color:rgb(222, 224, 232);
-        }
-        .header {
-            text-align: center;
-            padding: 20px;
-            background-color:rgb(12, 9, 28);
-        }
-        .header img {
-            max-width: 600px;
-            height: auto;
-        }
-        .main {
-            flex: 1;
-            margin-left: 0px;
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 0px;
-        }
-        .profile {
-        display: flex;
-        align-items: flex-start;
-        gap: 20px;
-        margin-bottom: 40px;
-        max-width: 900px;
-        }
-        .profile img {
-            width: 150px;
-            height: auto;
-            border-radius: 8px;
-        }
-        .profile-text {
-            flex: 1;
-        }
-        .profile-text h2 {
-            margin: 0 0 5px;
-        }
-        .profile-text h3 {
-            margin: 0 0 10px;
-            color: #555;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Members • Quantar Lab</title>
+
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --shadow: 0 14px 40px rgba(15,23,42,.10);
+      --accent:#2563eb;
+      --accentDark:#0b1220;
+      --max: 1100px;
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      color:var(--text);
+      background: var(--bg);
+    }
+    a{color:inherit}
+    .sr-only{
+      position:absolute; width:1px; height:1px; padding:0; margin:-1px;
+      overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+
+    /* ===== Topbar ===== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      text-decoration:none;
+    }
+    .brand-dot{
+      width:12px;height:12px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
+    }
+    .brand-title{
+      font-weight: 900;
+      letter-spacing:-0.01em;
+      line-height:1.1;
+    }
+    .brand-sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .nav-right{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      transition: transform .10s ease, background .10s ease;
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .pill.primary{
+      background: var(--accent);
+      color:#fff;
+      border-color: transparent;
+    }
+
+    /* ===== Page ===== */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 40px 16px;
+    }
+    .page-head{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .page-head h1{
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      letter-spacing:-0.01em;
+    }
+    .page-head p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* ===== Controls ===== */
+    .controls{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      align-items:center;
+    }
+    .search{
+      flex: 1;
+      min-width: 260px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:#fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .filters{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .chip{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      user-select:none;
+      transition: transform .10s ease, background .10s ease;
+      white-space: nowrap;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .chip.active{
+      background: rgba(37,99,235,0.14);
+      border-color: rgba(37,99,235,0.35);
+    }
+    .meta-row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .meta-pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
+
+    /* ===== Sections & grid ===== */
+    .section{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .section-title{
+      display:flex;
+      align-items:baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .section-title h2{
+      margin:0;
+      font-size: 18px;
+      letter-spacing:-0.01em;
+    }
+    .section-title .small{
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    /* ===== Member card ===== */
+    .card{
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 8px 22px rgba(15,23,42,.06);
+      display:flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform .10s ease, box-shadow .10s ease;
+      min-height: 260px;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 16px 40px rgba(15,23,42,.10);
+    }
+
+    .top{
+      display:flex;
+      gap: 12px;
+      align-items:flex-start;
+    }
+    .avatar{
+      width: 66px;
+      height: 66px;
+      border-radius: 16px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      background: #fff;
+      flex: 0 0 auto;
+    }
+    .name{
+      margin:0;
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 1.2;
+      letter-spacing:-0.01em;
+    }
+    .role{
+      margin: 6px 0 0 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .badges{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .badge{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge.pi{
+      background: rgba(245,158,11,0.12);
+      border-color: rgba(245,158,11,0.25);
+      color: #92400e;
+    }
+    .badge.researcher{
+      background: rgba(37,99,235,0.10);
+      border-color: rgba(37,99,235,0.25);
+      color: #1d4ed8;
+    }
+    .badge.student{
+      background: rgba(16,185,129,0.10);
+      border-color: rgba(16,185,129,0.25);
+      color: #047857;
+    }
+    .badge.assistant{
+      background: rgba(15,23,42,0.06);
+      border-color: rgba(15,23,42,0.14);
+      color: var(--muted);
+    }
+    .badge.alumni{
+      background: rgba(99,102,241,0.10);
+      border-color: rgba(99,102,241,0.25);
+      color: #4338ca;
+    }
+
+    .theme{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .links{
+      margin-top:auto;
+      display:flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background:#fff;
+      text-decoration:none;
+      font-weight: 900;
+      font-size: 12px;
+      color: var(--text);
+      transition: background .10s ease, transform .10s ease;
+      cursor:pointer;
+    }
+    .link:hover{background: rgba(37,99,235,0.06); transform: translateY(-1px);}
+    .link.primary{
+      background: var(--accent);
+      border-color: transparent;
+      color:#fff;
+    }
+
+    .empty{
+      background:#fff;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    @media (max-width: 980px){
+      .grid{grid-template-columns: repeat(2, 1fr);}
+    }
+    @media (max-width: 640px){
+      .grid{grid-template-columns: 1fr;}
+      .card{min-height: auto;}
+    }
+  </style>
 </head>
+
 <body>
-    <div class="header">
-        <p style="text-align: left;">
-            <a href="{% url 'home' %}" style="font-size: 28px; color: white; text-decoration: none; line-height: 1.2;">
-            Quantar Lab <br>
-            <span style="font-size: 18px; color: #ddd;">
-                (Quantum algorithms and technologies for advanced research)
-            </span>
-            </a>
-        </p>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
+        </div>
+      </a>
+
+      <div class="nav-right">
+        <a class="pill" href="{% url 'publication' %}">Publications</a>
+        <a class="pill" href="{% url 'position' %}">Positions</a>
+        <a class="pill primary" href="{% url 'contact' %}">Contact</a>
+      </div>
     </div>
-    <div class="main">
+  </header>
 
-    <h1>Lab Members</h1>    
-    <section>
-            <div class="profile">
-                <img src="{% static 'images/binho.png' %}" alt="Binho Le">
-                <div class="profile-text">
-                <h2>Le, Binho</h2>
-                <h3><a href="https://www.fris.tohoku.ac.jp/en/researcher/creative/lebinho.html" target="_blank" style="text-decoration: none; color: blue;">
-                Assistant Professor (PI)</a></h3>
-                <h3><a href="https://www.ti-fris.tohoku.ac.jp/en/fellow/detail---id-372.html" target="_blank" style="text-decoration: none; color: blue;">
-                TI-FRIS Fellow (Title)</a></h3>
-                <h3><a href="https://web.tohoku.ac.jp/dr/index.html" target="_blank" style="text-decoration: none; color: blue;">
-                Prominent Research Fellow of Tohoku University (Title)</a></h3>
-                <p><strong>Email:</strong> <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a></p>
-                <p>
-                    Our group explores quantum algorithms and their applications in foundational quantum mechanics, measurement, and quantum-enhanced metrology and sensing. We focus on developing precise and efficient quantum protocols using tools like estimation theory, optimal control, and machine learning. Our goal is to advance quantum technologies through both theoretical insights and interdisciplinary collaboration.                </p>
-                </div>
-            </div>
+  <main class="wrap">
+    <div class="page-head">
+      <h1>Lab Members</h1>
+      <p>
+        People in Quantar Lab. Use search and filters to quickly find members by role or research theme.
+      </p>
 
-            <div class="profile">
-                <img src="{% static 'images/hai.png' %}" alt="Hai">
-                <div class="profile-text">
-                <h2>Vu, Tuan Hai</h2>
-                <h3> Adjunct Researcher (FRIS)</h3>
-                <h3> Lecture (University of Information Technology - UIT)</h3>
-                <p>
-                    Research Theme: 
-                    Quantum computing for AI and AI for Quantum computing:
-                    developing a quantum version of attention mechanism and evaluating the ability of quantum computing for large-language model.
-                </div>
-            </div>
+      <div class="controls">
+        <div class="search">
+          <span style="font-weight:900;color:var(--muted)">⌕</span>
+          <input id="searchBox" type="text" placeholder="Search name, role, affiliation, research theme..." />
+        </div>
 
-            <div class="profile">
-                <img src="{% static 'images/jesus.jpeg' %}" alt="Urbaneja">
-                <div class="profile-text">
-                <h2>Urbaneja, Jesus</h2>
-                <h3> Junior Researcher (FRIS)</h3>
-                <h3> Master student (Tohoku University)</h3>
-                <p>
-                    Research Theme: Development of quantum algorithms with a focus on the parameter-shift rule and understanding the barren plateau phenomenon in variational quantum circuits. 
-                </div>
-            </div>
+        <div class="filters">
+          <div class="chip active" data-filter="all">All</div>
+          <div class="chip" data-filter="pi">PI</div>
+          <div class="chip" data-filter="researcher">Researcher</div>
+          <div class="chip" data-filter="student">Student</div>
+          <div class="chip" data-filter="assistant">Assistant</div>
+          <div class="chip" data-filter="alumni">Alumni</div>
+        </div>
+      </div>
 
-            <div class="profile">
-                <img src="{% static 'images/haruki.png' %}" alt="Matsunaga">
-                <div class="profile-text">
-                <h2>Matsunaga, Haruki</h2>
-                <h3> Student (Imperial College London)</h3>
-                <p>
-                    Research Theme: Detecting and protecting entanglement through nonlocality, variational entanglement
-                    witness, and nonlocal measurements.
-                </div>
-            </div>
+      <div class="meta-row">
+        <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
+      </div>
+    </div>
 
-            <div class="profile">
-                <img src="{% static 'images/adril.png' %}" alt="Santoso">
-                <div class="profile-text">
-                <h2>Santoso, Adriel</h2>
-                <h3> Administrative Assistant (AA, FRIS URO)</h3>
-                <p>
-                    Research theme: Quantum sensor network for dark matter detection.
-                </div>
-            </div>
+    <div id="app"></div>
 
-            <div class="profile">
-                <img src="{% static 'images/takahashi.png' %}" alt="Takahashi">
-                <div class="profile-text">
-                <h2>Takahashi, Nozomu</h2>
-                <h3> Administrative Assistant (AA, FRIS URO)</h3>
-                <h3> B4 student (Matsueda Lab)</h3>
-                <p>
-                    Research theme: Squeezing effect for quantum-enhanced metrology, Quantum control for metrology.                </div>
-            </div>
+    <!-- ===== Data (easy to edit in one place) ===== -->
+    <script id="peopleData" type="application/json">
+{
+  "members": [
+    {
+      "group": "current",
+      "category": "pi",
+      "name": "Le, Binho",
+      "role": "Assistant Professor (PI)",
+      "affiliation": "Tohoku University (FRIS)",
+      "image": "{% static 'images/binho.png' %}",
+      "email": "binho@fris.tohoku.ac.jp",
+      "theme": "Quantum algorithms and their applications in foundational quantum mechanics, measurement, and quantum-enhanced metrology and sensing. Developing precise and efficient protocols using estimation theory, optimal control, and machine learning.",
+      "links": [
+        {"label":"FRIS Profile","url":"https://www.fris.tohoku.ac.jp/en/researcher/creative/lebinho.html"},
+        {"label":"TI-FRIS Fellow","url":"https://www.ti-fris.tohoku.ac.jp/en/fellow/detail---id-372.html"},
+        {"label":"Prominent Fellow","url":"https://web.tohoku.ac.jp/dr/index.html"}
+      ]
+    },
 
-            <div class="profile">
-                <img src="{% static 'images/leon.png' %}" alt="Adachi">
-                <div class="profile-text">
-                <h2>Adachi, Leon</h2>
-                <h3> Administrative Assistant (AA, FRIS URO)</h3>
-                <p>
-                    Research Theme: 
-                    Quantum foundation physics, Nonlocal measurement. 
-                </div>
-            </div>
+    {
+      "group": "current",
+      "category": "researcher",
+      "name": "Vu, Tuan Hai",
+      "role": "Adjunct Researcher (FRIS)",
+      "affiliation": "Lecturer (University of Information Technology - UIT)",
+      "image": "{% static 'images/hai.png' %}",
+      "theme": "Quantum computing for AI and AI for quantum computing: developing a quantum version of the attention mechanism and evaluating the potential of quantum computing for large-language models."
+    },
+    {
+      "group": "current",
+      "category": "researcher",
+      "name": "Urbaneja, Jesus",
+      "role": "Junior Researcher (FRIS)",
+      "affiliation": "Master student (Tohoku University)",
+      "image": "{% static 'images/jesus.jpeg' %}",
+      "theme": "Development of quantum algorithms with a focus on the parameter-shift rule and understanding the barren plateau phenomenon in variational quantum circuits."
+    },
 
-            <div class="profile">
-                <img src="{% static 'images/ryou.png' %}" alt="Tatsumi">
-                <div class="profile-text">
-                <h2>Tatsumi, Ryou</h2>
-                <h3> Master student (Matsueda Lab)</h3>
-                <p>
-                    Research Theme: 
-                    Critical quantum metrology.
-                </div>
-            </div>
-            
-            <div class="profile">
-                <img src="{% static 'images/vu.png' %}" alt="Vu">
-                <div class="profile-text">
-                <h2>Vu, Xuan Tung Duong</h2>
-                <h3> Administrative Assistant (AA, FRIS URO)</h3>
-                <p>
-                    Research Theme: 
-                    Squeezing effect in spin ensemble and applications.
-                </div>
-            </div>
+    {
+      "group": "current",
+      "category": "student",
+      "name": "Matsunaga, Haruki",
+      "role": "Student",
+      "affiliation": "Imperial College London",
+      "image": "{% static 'images/haruki.png' %}",
+      "theme": "Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements."
+    },
+    {
+      "group": "current",
+      "category": "assistant",
+      "name": "Santoso, Adriel",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/adril.png' %}",
+      "theme": "Quantum sensor networks for dark matter detection."
+    },
+    {
+      "group": "current",
+      "category": "assistant",
+      "name": "Takahashi, Nozomu",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "B4 student (Matsueda Lab)",
+      "image": "{% static 'images/takahashi.png' %}",
+      "theme": "Squeezing effects for quantum-enhanced metrology; quantum control for metrology."
+    },
+    {
+      "group": "current",
+      "category": "assistant",
+      "name": "Adachi, Leon",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/leon.png' %}",
+      "theme": "Quantum foundations; nonlocal measurement."
+    },
+    {
+      "group": "current",
+      "category": "student",
+      "name": "Tatsumi, Ryou",
+      "role": "Master student",
+      "affiliation": "Matsueda Lab",
+      "image": "{% static 'images/ryou.png' %}",
+      "theme": "Critical quantum metrology."
+    },
+    {
+      "group": "current",
+      "category": "assistant",
+      "name": "Vu, Xuan Tung Duong",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/vu.png' %}",
+      "theme": "Squeezing effects in spin ensembles and applications."
+    },
+    {
+      "group": "current",
+      "category": "assistant",
+      "name": "Otsuka, Utako",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/otsuka.png' %}",
+      "theme": "Quantum optimization."
+    }
+  ],
+  "alumni": [
+    {
+      "group": "alumni",
+      "category": "alumni",
+      "name": "Manlaibaatar, Narantsetseg",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/nara.png' %}",
+      "theme": ""
+    },
+    {
+      "group": "alumni",
+      "category": "alumni",
+      "name": "Rawat, Ruchir",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/ruchir.png' %}",
+      "theme": ""
+    },
+    {
+      "group": "alumni",
+      "category": "alumni",
+      "name": "Sathyanarayanan, Kamalakkannan Umarani",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/sathy.png' %}",
+      "theme": ""
+    },
+    {
+      "group": "alumni",
+      "category": "alumni",
+      "name": "Sharma, Avin",
+      "role": "Administrative Assistant (AA, FRIS URO)",
+      "affiliation": "",
+      "image": "{% static 'images/avin.png' %}",
+      "theme": ""
+    }
+  ]
+}
+    </script>
 
-            <div class="profile">
-                <img src="{% static 'images/otsuka.png' %}" alt="Ots">
-                <div class="profile-text">
-                <h2>Otsuka, Utako</h2>
-                <h3> Administrative Assistant (AA, FRIS URO)</h3>
-                <p>
-                    Research Theme: 
-                    Quantum Optimization
-                </div>
-            </div>
-    </section>
+    <script>
+      (function(){
+        const app = document.getElementById('app');
+        const searchBox = document.getElementById('searchBox');
+        const chips = Array.from(document.querySelectorAll('.chip'));
+        const visibleCount = document.getElementById('visibleCount');
 
-    <h1>Alumni (Alphabetical order)</h1>
-    <section>
-            <div class="profile">
-                <img src="{% static 'images/nara.png' %}" alt="Manlaibaatar">
-                <div class="profile-text">
-                <h2>Manlaibaatar, Narantsetseg</h2>
-                <h3>Administrative Assistant (AA, FRIS URO)</h3>
-                <p>Research theme:
-                </div>
-            </div>
-            
-            <div class="profile">
-                <img src="{% static 'images/ruchir.png' %}" alt="Rawat">
-                <div class="profile-text">
-                <h2>Rawat, Ruchir</h2>
-                <h3>Administrative Assistant (AA, FRIS URO)</h3>
-                <p>Research theme:
-                </div>
-            </div>
+        let ALL = [];
+        let filter = 'all';
+        let query = '';
 
-            <div class="profile">
-                <img src="{% static 'images/sathy.png' %}" alt="Sathyanarayanan">
-                <div class="profile-text">
-                <h2>Sathyanarayanan, Kamalakkannan Umarani  </h2>
-                <h3>Administrative Assistant (AA, FRIS URO)</h3>
-                <p>Research theme:
+        function safeText(s){ return (s || '').toString(); }
+
+        function matches(p){
+          if(filter !== 'all' && p.category !== filter) return false;
+          if(!query) return true;
+          const hay = (
+            safeText(p.name) + ' ' +
+            safeText(p.role) + ' ' +
+            safeText(p.affiliation) + ' ' +
+            safeText(p.theme)
+          ).toLowerCase();
+          return hay.includes(query);
+        }
+
+        function renderCard(p){
+          const badges = [];
+          if(p.category === 'pi') badges.push(`<span class="badge pi">PI</span>`);
+          if(p.category === 'researcher') badges.push(`<span class="badge researcher">Researcher</span>`);
+          if(p.category === 'student') badges.push(`<span class="badge student">Student</span>`);
+          if(p.category === 'assistant') badges.push(`<span class="badge assistant">Assistant</span>`);
+          if(p.category === 'alumni') badges.push(`<span class="badge alumni">Alumni</span>`);
+
+          const links = (p.links || []).map(x=>{
+            return `<a class="link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.label}</a>`;
+          }).join('');
+
+          const emailBtn = p.email
+            ? `<a class="link primary" href="mailto:${p.email}">Email</a>`
+            : '';
+
+          const affiliationLine = p.affiliation ? `<div class="role">${p.affiliation}</div>` : '';
+
+          const theme = safeText(p.theme).trim();
+          const themeHtml = theme ? `<p class="theme">${theme}</p>` : `<p class="theme" style="opacity:.7">Research theme: (to be updated)</p>`;
+
+          return `
+            <div class="card" data-category="${p.category}">
+              <div class="top">
+                <img class="avatar" src="${p.image}" alt="${p.name}">
+                <div>
+                  <p class="name">${p.name}</p>
+                  <p class="role"><b>${safeText(p.role)}</b></p>
+                  ${affiliationLine}
                 </div>
+              </div>
+
+              <div class="badges">${badges.join('')}</div>
+
+              ${themeHtml}
+
+              <div class="links">
+                ${emailBtn}
+                ${links}
+              </div>
             </div>
-            <div class="profile">
-                <img src="{% static 'images/avin.png' %}" alt="Sharma">
-                <div class="profile-text">
-                <h2>Sharma, Avin  </h2>
-                <h3>Administrative Assistant (AA, FRIS URO)</h3>
-                <p>Research theme:
-                </div>
-            </div>
-            
-    </section>
-</div>
+          `;
+        }
+
+        function renderSection(title, items){
+          if(items.length === 0) return '';
+          return `
+            <section class="section">
+              <div class="section-title">
+                <h2>${title}</h2>
+                <div class="small">${items.length} people</div>
+              </div>
+              <div class="grid">
+                ${items.map(renderCard).join('')}
+              </div>
+            </section>
+          `;
+        }
+
+        function render(){
+          const current = ALL.filter(x=>x.group==='current').filter(matches);
+          const alumni  = ALL.filter(x=>x.group==='alumni').filter(matches);
+
+          const total = current.length + alumni.length;
+          visibleCount.textContent = `${total} people`;
+
+          if(total === 0){
+            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
+            return;
+          }
+
+          // If user filters "Alumni", show alumni first (feels natural)
+          let html = '';
+          if(filter === 'alumni'){
+            html += renderSection('Alumni', alumni);
+            html += renderSection('Current Members', current);
+          }else{
+            html += renderSection('Current Members', current);
+            html += renderSection('Alumni', alumni);
+          }
+
+          app.innerHTML = html;
+        }
+
+        function loadData(){
+          const raw = document.getElementById('peopleData').textContent.trim();
+          const data = JSON.parse(raw);
+
+          const members = (data.members || []).map(x=>({ ...x, group:'current' }));
+          const alumni  = (data.alumni  || []).map(x=>({ ...x, group:'alumni' }));
+
+          ALL = [...members, ...alumni];
+        }
+
+        chips.forEach(ch=>{
+          ch.addEventListener('click', ()=>{
+            chips.forEach(x=>x.classList.remove('active'));
+            ch.classList.add('active');
+            filter = ch.dataset.filter || 'all';
+            render();
+          });
+        });
+
+        searchBox.addEventListener('input', ()=>{
+          query = (searchBox.value || '').trim().toLowerCase();
+          render();
+        });
+
+        loadData();
+        render();
+      })();
+    </script>
+
+  </main>
 </body>
 </html>
