@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Quantum Metrology and Sensing | Quantar Lab</title>
+  <title>Quantum Algorithms & Compilation | Quantar Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -166,6 +166,24 @@
       color:var(--accent);
     }
 
+    /* ===== chips (needed for Keywords) ===== */
+    .chips{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+    .chip{
+      font-size:12px;
+      font-weight:900;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(37,99,235,.06);
+      color:#1d4ed8;
+      white-space:nowrap;
+    }
+
     .footer{
       text-align:center;
       color:var(--muted);
@@ -198,20 +216,20 @@
 
 <main class="container">
 
-  <h1>Quantum metrology and sensing</h1>
+  <h1>Quantum algorithms & compilation</h1>
 
   <p class="intro">
-    We develop time-dependent and networked quantum sensing protocols that enhance precision beyond classical limits.
-    Our work connects quantum estimation theory, optimal control, and realistic noise models to design sensing strategies
-    that are both theoretically grounded and experimentally relevant.
+    We develop practical quantum algorithms and compilation workflows for near-term devices.
+    Our focus is on translating algorithmic ideas into implementable circuits with clear performance goals,
+    while accounting for hardware constraints such as gate sets, connectivity, noise, and measurement cost.
   </p>
 
   <!-- ===== FIGURE / ILLUSTRATION ===== -->
   <section class="position-card">
     <h2>Overview</h2>
     <p>
-      The figure below illustrates the typical workflow studied in our group: quantum probe preparation,
-      controlled time evolution, and optimized measurement for parameter estimation.
+      Our workflow connects three layers: (i) algorithm design (what to compute), (ii) compilation (how to express it as circuits),
+      and (iii) execution-aware optimization (how to run it reliably on real hardware).
     </p>
 
     <div style="
@@ -222,15 +240,14 @@
       background:#fff;
     ">
       <img
-        src="{% static 'images/quantum_metrology_overview.png' %}"
-        alt="Quantum metrology overview"
+        src="{% static 'images/quantum_algorithms_overview.png' %}"
+        alt="Quantum algorithms & compilation overview"
         style="width:100%; display:block;"
       />
     </div>
 
     <p style="margin-top:10px; font-size:13px; color:var(--muted);">
-      Schematic illustration of quantum sensing: control-enhanced probe dynamics maximize information
-      quantified by the quantum Fisher information.
+      Schematic of algorithm → circuit → compiled circuit → execution/feedback loop, aiming for reproducible and device-aware performance.
     </p>
   </section>
 
@@ -238,15 +255,15 @@
   <section class="position-card">
     <h2>Keywords</h2>
     <div class="chips">
-      <span class="chip">Quantum Fisher information</span>
-      <span class="chip">QFI / QFIM</span>
-      <span class="chip">Quantum sensing</span>
-      <span class="chip">Multiphase estimation</span>
-      <span class="chip">Optimal control</span>
-      <span class="chip">Noise-robust protocols</span>
-      <span class="chip">Networked sensors</span>
-      <span class="chip">POVM design</span>
-      <span class="chip">Time-dependent metrology</span>
+      <span class="chip">Quantum compilation</span>
+      <span class="chip">Circuit synthesis</span>
+      <span class="chip">QAOA</span>
+      <span class="chip">VQE</span>
+      <span class="chip">FALQON</span>
+      <span class="chip">Feedback-based control</span>
+      <span class="chip">Gradients & PSR</span>
+      <span class="chip">Noise-aware optimization</span>
+      <span class="chip">Benchmarks</span>
     </div>
   </section>
 
@@ -254,40 +271,52 @@
   <section class="position-card">
     <h2>Core methods</h2>
     <p>
-      Our approach combines tools from quantum estimation theory with practical optimization techniques.
+      We combine algorithm development with circuit-level optimization to make near-term executions more reliable.
       Typical ingredients include:
     </p>
     <p>
-      • Quantum Fisher information (QFI) and quantum Fisher information matrix (QFIM)<br/>
-      • Time-dependent control for probe dynamics<br/>
-      • Noise modeling and robustness analysis<br/>
-      • Variational and learning-based optimization of states and measurements
+      • Device-aware compilation (connectivity, gate sets, depth, error budget)<br/>
+      • Circuit synthesis for target unitaries (e.g., Toffoli and multi-qubit primitives)<br/>
+      • Gradient-based optimization and parameter-shift rules (PSR) with verification tools<br/>
+      • Execution-aware evaluation (cost landscape, noise sensitivity, reproducibility)
     </p>
+    <div class="position-actions">
+      <a class="link-btn" href="{% url 'publication' %}">Related publications →</a>
+    </div>
   </section>
 
-  <!-- ===== RESEARCH TOPICS ===== -->
+  <!-- ===== RESEARCH TOPICS (Explicitly mention compilation, QAOA, VQE, FALQON) ===== -->
   <section class="position-card">
     <h2>Research topics</h2>
 
     <p>
-      <b>1) Time-dependent sensing protocols</b><br/>
-      Designing control schedules that maximize information gain within a fixed sensing time.
+      <b>1) Quantum compilation and circuit synthesis</b><br/>
+      We design workflows to compile abstract circuits into hardware-executable forms. This includes routing under limited connectivity,
+      reducing depth and two-qubit gate counts, and synthesizing target unitaries with constrained gate sets.
+      A key goal is to preserve algorithmic performance while respecting realistic device limitations.
     </p>
 
     <p>
-      <b>2) Networked quantum sensors</b><br/>
-      Distributed sensing using entangled or correlated nodes, optimized for scalability and noise.
+      <b>2) QAOA for combinatorial optimization</b><br/>
+      We study QAOA for structured problems (e.g., scheduling, layout, selection, and graph-based objectives).
+      Our emphasis is on practical performance: selecting mixers/cost constructions, improving trainability, and
+      understanding when and why QAOA reaches good solutions under finite depth and noise.
     </p>
 
     <p>
-      <b>3) Multiphase and multiparameter estimation</b><br/>
-      Understanding trade-offs, compatibility conditions, and fundamental limits in joint estimation.
+      <b>3) VQE and variational ground-state preparation</b><br/>
+      We develop VQE-style strategies for quantum simulation and chemistry-inspired objectives, with attention to
+      ansatz design, gradient reliability, and robust optimization under measurement constraints.
+      We also compare variational approaches with alternative feedback/control-based schemes.
     </p>
 
     <p>
-      <b>4) Robust measurement design</b><br/>
-      Constructing POVMs that remain near-optimal under calibration errors and imperfect readout.
+      <b>4) FALQON and feedback-based quantum control</b><br/>
+      We explore feedback-based algorithms such as FALQON, where parameter updates are driven by measurable quantities
+      rather than classical training loops. We study when feedback helps (e.g., avoiding barren plateaus),
+      how to improve robustness under degeneracies/noise, and how to hybridize feedback with imaginary-time or adaptive schedules.
     </p>
+
   </section>
 
   <!-- ===== SELECTED RESULTS ===== -->
@@ -298,33 +327,33 @@
 
       <div class="position-card" style="box-shadow:none;">
         <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Squeezing-induced quantum-enhanced multiphase estimation
+          Unitary synthesis with verified gradients
         </h3>
         <p>
-          We clarified the conditions under which spin-squeezed states achieve the quantum Cramér-Rao bound
-          in multiparameter estimation.
+          We developed and tested gradient evaluation techniques for circuit synthesis tasks, validating parameter-shift rules
+          against reference gradients to ensure correctness and stability.
         </p>
         <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
       </div>
 
       <div class="position-card" style="box-shadow:none;">
         <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Time-normalized quantum Fisher information
+          Feedback-based algorithms for robust ground-state preparation
         </h3>
         <p>
-          We introduced a time-normalized framework to fairly compare sensing protocols with different
-          interrogation times and control resources.
+          We investigated feedback-driven strategies (including FALQON-style updates) and showed how execution-aware choices
+          can improve reliability in challenging spectral settings.
         </p>
         <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
       </div>
 
       <div class="position-card" style="box-shadow:none;">
         <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Noise-robust networked quantum sensing
+          Device-aware optimization and benchmarking
         </h3>
         <p>
-          We demonstrated that moderately sized sensor networks can outperform conventional entanglement-based
-          schemes under realistic noise.
+          We evaluate algorithm performance using reproducible benchmarks, emphasizing depth, measurement cost,
+          and noise sensitivity—metrics that matter in near-term experiments.
         </p>
         <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
       </div>
@@ -336,9 +365,9 @@
   <section class="position-card">
     <h2>Why it matters</h2>
     <p>
-      Precision measurement underpins modern science and technology. By designing protocols that explicitly
-      account for noise, control constraints, and finite resources, our work aims to bridge the gap between
-      fundamental limits and real-world quantum sensors.
+      Near-term quantum devices are limited by noise and resources. Practical progress requires algorithms that can be executed
+      reliably and compilers that translate abstract circuits into hardware-friendly implementations.
+      Our goal is to build algorithm + compilation pipelines that are transparent, reproducible, and useful for real experiments.
     </p>
   </section>
 
@@ -346,8 +375,8 @@
   <section class="position-card">
     <h2>For students and collaborators</h2>
     <p>
-      We welcome students and visiting researchers interested in quantum sensing, estimation theory,
-      optimal control, and numerical optimization. Motivation and curiosity are valued as much as technical background.
+      We welcome students and visiting researchers interested in quantum algorithms, compilation, optimization, and benchmarking.
+      Experience with Python and quantum software stacks is helpful, but motivation and a careful engineering mindset are equally important.
     </p>
     <div class="position-actions">
       <a class="link-btn" href="{% url 'position' %}">Open positions →</a>
