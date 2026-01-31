@@ -26,7 +26,6 @@
       background: var(--bg);
     }
     a{color:inherit}
-    code{background:rgba(15,23,42,0.05); padding:2px 6px; border-radius:8px;}
 
     /* ===== Topbar ===== */
     .topbar{
@@ -251,7 +250,7 @@
       font-weight: 900;
     }
 
-    /* ===== Publication card row ===== */
+    /* ===== Publication row ===== */
     .pub{
       border-top: 1px dashed var(--line);
       padding: 14px 0;
@@ -291,7 +290,7 @@
       flex-direction: column;
       align-items:flex-end;
       gap: 8px;
-      min-width: 210px;
+      min-width: 160px;
     }
     .badges{
       display:flex;
@@ -325,31 +324,6 @@
       color: var(--muted);
     }
 
-    .mini-actions{
-      display:flex;
-      gap: 8px;
-      justify-content:flex-end;
-      flex-wrap: wrap;
-    }
-    .mini{
-      font-size: 12px;
-      font-weight: 900;
-      text-decoration:none;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      cursor:pointer;
-      transition: background .10s ease, transform .10s ease;
-    }
-    .mini:hover{background: rgba(37,99,235,0.06); transform: translateY(-1px);}
-    .mini.primary{
-      background: var(--accent);
-      border-color: transparent;
-      color:#fff;
-    }
-
     .empty{
       background:#fff;
       border: 1px dashed var(--line);
@@ -360,33 +334,9 @@
       font-weight: 900;
     }
 
-    /* ===== Toast ===== */
-    .toast{
-      position: fixed;
-      left: 50%;
-      bottom: 24px;
-      transform: translateX(-50%);
-      background: rgba(15,23,42,0.92);
-      color: #fff;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 900;
-      font-size: 13px;
-      box-shadow: var(--shadow);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity .18s ease, transform .18s ease;
-      z-index: 2000;
-    }
-    .toast.show{
-      opacity: 1;
-      transform: translateX(-50%) translateY(-2px);
-    }
-
     @media (max-width: 860px){
       .pub{grid-template-columns: 1fr;}
       .right-col{align-items:flex-start; min-width:auto;}
-      .mini-actions{justify-content:flex-start;}
       .badges{justify-content:flex-start;}
     }
   </style>
@@ -418,13 +368,13 @@
     <div class="page-head">
       <h1>Publications</h1>
       <p>
-        Publications and preprints from Quantar Lab. Use search, filter, sort, and one-click citation export (BibTeX / APA).
+        Publications and preprints from Quantar Lab. Use search, filter, and sorting to quickly find papers.
       </p>
 
       <div class="controls">
         <div class="search">
           <span style="font-weight:900;color:var(--muted)">⌕</span>
-          <input id="searchBox" type="text" placeholder="Search by title, author, venue, DOI, arXiv..." />
+          <input id="searchBox" type="text" placeholder="Search by title, author, venue, arXiv..." />
         </div>
 
         <div class="filters">
@@ -439,78 +389,46 @@
           <option value="title">Sort: Title A → Z</option>
           <option value="author">Sort: First author A → Z</option>
         </select>
-
-        <select id="citeFormat" class="select" aria-label="Citation format">
-          <option value="bibtex">Cite: BibTeX</option>
-          <option value="apa">Cite: APA</option>
-        </select>
       </div>
 
       <div class="meta-row">
-        <span class="meta-pill">Auto source: <span id="sourceLabel">loading…</span></span>
+        <span class="meta-pill">Source: <span id="sourceLabel">loading…</span></span>
         <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
       </div>
     </div>
 
     <div id="app"></div>
 
-    <div class="toast" id="toast">Copied</div>
-
-    <!-- ===== Embedded fallback data (used if JSON fetch not found) ===== -->
+    <!-- ===== Data: use static JSON if you create it; else fallback to embedded JSON ===== -->
     <script id="pubData" type="application/json">
 {
   "publications": [
-    {"fy":2025,"type":"peer","title":"Optimized quantum sensor networks for ultralight dark matter detection","authors":"Adriel I Santoso, Le Bin Ho","venue":"Physical Review D 112, L081301 (2025)","year":2025,"link":"https://journals.aps.org/prd/abstract/10.1103/rv43-54zq","doi":""},
-    {"fy":2025,"type":"peer","title":"Two‐Time Approach to Past–Future Quantum Dynamics: Formalism and Applications","authors":"Le Bin Ho","venue":"Advanced Physics Research, e00099 (2025)","year":2025,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/apxr.202500099","doi":"10.1002/apxr.202500099"},
-    {"fy":2025,"type":"peer","title":"Entangled State Preparation via Cluster States on Quantum Computers with COOP Software","authors":"Vu Tuan Hai, Jesus Urbaneja, Le Bin Ho","venue":"2025 IEEE International Conference on Quantum Software (QSW) (2025)","year":2025,"link":"https://ieeexplore.ieee.org/abstract/document/11134319","doi":""},
-    {"fy":2025,"type":"peer","title":"Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements","authors":"Haruki Matsunaga, Le Bin Ho","venue":"Physical Review Research 7, 013239 (2025)","year":2025,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239","doi":"10.1103/PhysRevResearch.7.013239"},
+    {"fy":2025,"type":"peer","title":"Optimized quantum sensor networks for ultralight dark matter detection","authors":"Adriel I Santoso, Le Bin Ho","venue":"Physical Review D 112, L081301 (2025)","year":2025,"link":"https://journals.aps.org/prd/abstract/10.1103/rv43-54zq"},
+    {"fy":2025,"type":"peer","title":"Two‐Time Approach to Past–Future Quantum Dynamics: Formalism and Applications","authors":"Le Bin Ho","venue":"Advanced Physics Research, e00099 (2025)","year":2025,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/apxr.202500099"},
+    {"fy":2025,"type":"peer","title":"Entangled State Preparation via Cluster States on Quantum Computers with COOP Software","authors":"Vu Tuan Hai, Jesus Urbaneja, Le Bin Ho","venue":"2025 IEEE International Conference on Quantum Software (QSW) (2025)","year":2025,"link":"https://ieeexplore.ieee.org/abstract/document/11134319"},
+    {"fy":2025,"type":"peer","title":"Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements","authors":"Haruki Matsunaga, Le Bin Ho","venue":"Physical Review Research 7, 013239 (2025)","year":2025,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239"},
 
-    {"fy":2025,"type":"preprint","title":"Exact gradient for universal cost functions in variational quantum algorithms","authors":"Jesus Urbaneja, Le Bin Ho","venue":"arXiv:2509.17822","year":2025,"link":"https://arxiv.org/abs/2509.17822","arxiv":"2509.17822"},
-    {"fy":2025,"type":"preprint","title":"Statistical analysis of barren plateaus in variational quantum algorithms","authors":"Le Bin Ho, Jesus Urbaneja, Sahel Ashhab","venue":"arXiv:2508.08915","year":2025,"link":"https://arxiv.org/abs/2508.08915","arxiv":"2508.08915"},
-    {"fy":2025,"type":"preprint","title":"Advancing quantum process tomography through universal compilation","authors":"Huynh Le Dan Linh, Vu Tuan Hai, Le Bin Ho","venue":"arXiv:2504.14958","year":2025,"link":"https://arxiv.org/abs/2504.14958","arxiv":"2504.14958"},
+    {"fy":2025,"type":"preprint","title":"Exact gradient for universal cost functions in variational quantum algorithms","authors":"Jesus Urbaneja, Le Bin Ho","venue":"arXiv:2509.17822","year":2025,"link":"https://arxiv.org/abs/2509.17822"},
+    {"fy":2025,"type":"preprint","title":"Statistical analysis of barren plateaus in variational quantum algorithms","authors":"Le Bin Ho, Jesus Urbaneja, Sahel Ashhab","venue":"arXiv:2508.08915","year":2025,"link":"https://arxiv.org/abs/2508.08915"},
+    {"fy":2025,"type":"preprint","title":"Advancing quantum process tomography through universal compilation","authors":"Huynh Le Dan Linh, Vu Tuan Hai, Le Bin Ho","venue":"arXiv:2504.14958","year":2025,"link":"https://arxiv.org/abs/2504.14958"},
 
-    {"fy":2024,"type":"peer","title":"Multi-target quantum compilation algorithm","authors":"Vu Tuan Hai, Nguyen Tan Viet, Jesus Urbaneja, Nguyen Vu Linh, Lan Nguyen Tran, Le Bin Ho","venue":"Machine Learning: Science and Technology 5, 045057 (2024)","year":2024,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ad9705","doi":"10.1088/2632-2153/ad9705"},
-    {"fy":2024,"type":"peer","title":"Quantum Battery Optimization through Quantum Machine Learning Techniques","authors":"VT Hai, VM Kiet, LVT Duong, PH Luan, LB Ho, Y Nakashima","venue":"2024 21st International SoC Design Conference (ISOCC)","year":2024,"link":"https://ieeexplore.ieee.org/document/10762673","doi":""},
-    {"fy":2024,"type":"peer","title":"Squeezing-induced quantum-enhanced multiphase estimation","authors":"Le Bin Ho","venue":"Physical Review Research 6 (3), 033292 (2024)","year":2024,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033292","doi":"10.1103/PhysRevResearch.6.033292"},
-    {"fy":2024,"type":"peer","title":"Harnessing graph state resources for robust quantum magnetometry under noise","authors":"Phu Trong Nguyen, Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports 14, 20528 (2024)","year":2024,"link":"https://www.nature.com/articles/s41598-024-71365-8","doi":"10.1038/s41598-024-71365-8"},
-    {"fy":2024,"type":"peer","title":"<qo|op>: A quantum object optimizer","authors":"VT Hai, NT Viet, LB Ho","venue":"SoftwareX 26, 101726 (2024)","year":2024,"link":"https://doi.org/10.1016/j.softx.2024.101726","doi":"10.1016/j.softx.2024.101726"},
+    {"fy":2024,"type":"peer","title":"Multi-target quantum compilation algorithm","authors":"Vu Tuan Hai, Nguyen Tan Viet, Jesus Urbaneja, Nguyen Vu Linh, Lan Nguyen Tran, Le Bin Ho","venue":"Machine Learning: Science and Technology 5, 045057 (2024)","year":2024,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ad9705"},
+    {"fy":2024,"type":"peer","title":"Quantum Battery Optimization through Quantum Machine Learning Techniques","authors":"VT Hai, VM Kiet, LVT Duong, PH Luan, LB Ho, Y Nakashima","venue":"2024 21st International SoC Design Conference (ISOCC)","year":2024,"link":"https://ieeexplore.ieee.org/document/10762673"},
+    {"fy":2024,"type":"peer","title":"Squeezing-induced quantum-enhanced multiphase estimation","authors":"Le Bin Ho","venue":"Physical Review Research 6 (3), 033292 (2024)","year":2024,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033292"},
+    {"fy":2024,"type":"peer","title":"Harnessing graph state resources for robust quantum magnetometry under noise","authors":"Phu Trong Nguyen, Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports 14, 20528 (2024)","year":2024,"link":"https://www.nature.com/articles/s41598-024-71365-8"},
+    {"fy":2024,"type":"peer","title":"<qo|op>: A quantum object optimizer","authors":"VT Hai, NT Viet, LB Ho","venue":"SoftwareX 26, 101726 (2024)","year":2024,"link":"https://doi.org/10.1016/j.softx.2024.101726"},
 
-    {"fy":2023,"type":"peer","title":"Variational quantum metrology for multiparameter estimation under dephasing noise","authors":"Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports, 13(1), Oct 18, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-44786-0","doi":"10.1038/s41598-023-44786-0"},
-    {"fy":2023,"type":"peer","title":"A stochastic evaluation of quantum Fisher information matrix with generic Hamiltonians","authors":"Le Bin Ho","venue":"EPJ Quantum Technology, 10(37), Sep, 2023","year":2023,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-023-00195-w","doi":"10.1140/epjqt/s40507-023-00195-w"},
-    {"fy":2023,"type":"peer","title":"Quantum backaction effects in sequential measurements","authors":"Le Bin Ho","venue":"Annals of Physics, 453, 169310, Jun, 2023","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0003491623000969","doi":""},
-    {"fy":2023,"type":"peer","title":"Increased success probability in Hardy's nonlocality: Theory and demonstration","authors":"Duc Minh Tran, Van-Duy Nguyen, Le Bin Ho, Hung Q. Nguyen","venue":"Physical Review A, 107(4), Apr 14, 2023","year":2023,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042210","doi":"10.1103/PhysRevA.107.042210"},
-    {"fy":2023,"type":"peer","title":"No-go result for quantum postselection measurements of a rank-m degenerate subspace","authors":"Le Bin Ho","venue":"Physical Review A, 107(4), Apr 7, 2023","year":2023,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042204","doi":"10.1103/PhysRevA.107.042204"},
-    {"fy":2023,"type":"peer","title":"Universal compilation for quantum state tomography","authors":"Vu Tuan Hai, Le Bin Ho","venue":"Scientific Reports, 13(1), Mar 6, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-30983-4","doi":"10.1038/s41598-023-30983-4"},
-    {"fy":2023,"type":"peer","title":"tqix.pis: A toolbox for quantum dynamics simulation of spin ensembles in Dicke basis","authors":"Nguyen Tan Viet, Nguyen Thi Chuong, Vu Thi Ngoc Huyen, Le Bin Ho","venue":"Computer Physics Communications 286, 108686 (2023)","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0010465523000310","doi":""},
+    {"fy":2023,"type":"peer","title":"Variational quantum metrology for multiparameter estimation under dephasing noise","authors":"Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports, 13(1), Oct 18, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-44786-0"},
+    {"fy":2023,"type":"peer","title":"A stochastic evaluation of quantum Fisher information matrix with generic Hamiltonians","authors":"Le Bin Ho","venue":"EPJ Quantum Technology, 10(37), Sep, 2023","year":2023,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-023-00195-w"},
+    {"fy":2023,"type":"peer","title":"Quantum backaction effects in sequential measurements","authors":"Le Bin Ho","venue":"Annals of Physics, 453, 169310, Jun, 2023","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0003491623000969?via%3Dihub"},
+    {"fy":2023,"type":"peer","title":"Increased success probability in Hardy's nonlocality: Theory and demonstration","authors":"Duc Minh Tran, Van-Duy Nguyen, Le Bin Ho, Hung Q. Nguyen","venue":"Physical Review A, 107(4), Apr 14, 2023","year":2023,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042210"},
+    {"fy":2023,"type":"peer","title":"No-go result for quantum postselection measurements of a rank-m degenerate subspace","authors":"Le Bin Ho","venue":"Physical Review A, 107(4), Apr 7, 2023","year":2023,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042204"},
+    {"fy":2023,"type":"peer","title":"Universal compilation for quantum state tomography","authors":"Vu Tuan Hai, Le Bin Ho","venue":"Scientific Reports, 13(1), Mar 6, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-30983-4"},
+    {"fy":2023,"type":"peer","title":"tqix.pis: A toolbox for quantum dynamics simulation of spin ensembles in Dicke basis","authors":"Nguyen Tan Viet, Nguyen Thi Chuong, Vu Thi Ngoc Huyen, Le Bin Ho","venue":"Computer Physics Communications 286, 108686 (2023)","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0010465523000310"},
 
-    {"fy":2022,"type":"peer","title":"Error-disturbance uncertainty relations in Faraday measurements","authors":"Le Bin Ho, Keiichi Edamatsu","venue":"Physical Review A, 105(5) (2022)","year":2022,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.105.052228","doi":"10.1103/PhysRevA.105.052228"},
-    {"fy":2022,"type":"peer","title":"Qsun: an open-source platform towards practical quantum machine learning applications","authors":"Quoc Chuong Nguyen, Le Bin Ho, Lan Nguyen Tran, Hung Q Nguyen","venue":"Machine Learning: Science and Technology, 3(1) 015034 (2022)","year":2022,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ac5997","doi":"10.1088/2632-2153/ac5997"},
-    {"fy":2022,"type":"peer","title":"Experimenting quantum phenomena on NISQ computers using high level quantum programming","authors":"Duc M. Tran, Duy V. Nguyen, Bin Ho Le, Hung Q. Nguyen","venue":"EPJ Quantum Technology, 9(1), Feb, 2022","year":2022,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-022-00126-1","doi":"10.1140/epjqt/s40507-022-00126-1"},
-
-    {"fy":2021,"type":"peer","title":"tqix: A toolbox for Quantum in X: X: Quantum measurement, quantum tomography, quantum metrology, and others","authors":"Ho, L.B., Tuan, K.Q., Nguyen, H.Q.","venue":"Computer Physics Communications, 263, Jun, 2021","year":2021,"link":"","doi":""},
-    {"fy":2021,"type":"peer","title":"Direct state measurements under state-preparation-and-measurement errors","authors":"Tuan, K.Q., Nguyen, H.Q., Ho, L.B.","venue":"Quantum Information Processing, 20(6), Jun, 2021","year":2021,"link":"","doi":""},
-    {"fy":2021,"type":"peer","title":"Multiparameter quantum metrology with postselection measurements","authors":"Ho, L.B., Kondo, Y.","venue":"Journal of Mathematical Physics, 62(1), Jan 1, 2021","year":2021,"link":"","doi":""},
-
-    {"fy":2020,"type":"peer","title":"Multiparameter quantum estimation under dephasing noise","authors":"Ho, L.B., Hakoshima, H., Matsuzaki, Y., Matsuzaki, M., Kondo, Y.","venue":"Physical Review A, 102(2), Aug 4, 2020","year":2020,"link":"","doi":""},
-    {"fy":2020,"type":"peer","title":"Systematic errors in direct state measurements with quantum controlled measurements","authors":"Ho, L.B.","venue":"Journal of Physics B: Atomic, Molecular and Optical Physics, 53(11), Jun 14, 2020","year":2020,"link":"","doi":""},
-    {"fy":2020,"type":"peer","title":"Nuclear Magnetic Resonance Model of an Entangled Sensor under Noise","authors":"Le Bin Ho, Yuichiro Matsuzaki, Masayuki Matsuzaki, Yasushi Kondo","venue":"Journal of the Physical Society of Japan, 89(5), May 15, 2020","year":2020,"link":"","doi":""},
-
-    {"fy":2019,"type":"peer","title":"Realization of controllable open system with NMR","authors":"Ho, L.B., Matsuzaki, Y., Matsuzaki, M., Kondo, Y.","venue":"New Journal of Physics, 21(9) 093008, Sep 1, 2019","year":2019,"link":"","doi":""},
-    {"fy":2019,"type":"peer","title":"Continuous-monitoring measured signals bounded by past and future conditions in enlarged quantum systems","authors":"Ho, L.B.","venue":"Quantum Information Processing, 18(7), Jul, 2019","year":2019,"link":"","doi":""},
-    {"fy":2019,"type":"peer","title":"Modular-value-based metrology with spin coherent pointers","authors":"Le Bin Ho, Yasushi Kondo","venue":"Physics Letters A, 383(2-3) 153-157, Jan, 2019","year":2019,"link":"","doi":""},
-    {"fy":2019,"type":"peer","title":"Improving direct state measurements by using rebits in real enlarged Hilbert spaces","authors":"Le Bin Ho","venue":"Physics Letters A, 383(4) 289-294, Jan, 2019","year":2019,"link":"","doi":""},
-
-    {"fy":2018,"type":"peer","title":"Various pointer states approaches to polar modular values","authors":"Le Bin Ho, Nobuyuki Imoto","venue":"Journal of Mathematical Physics, 59(4) 042107, Apr, 2018","year":2018,"link":"","doi":""},
-    {"fy":2018,"type":"peer","title":"Quantum weak and modular values in enlarged Hilbert spaces","authors":"Ho, L.B., Imoto, N.","venue":"Physical Review A, 97(1), Jan, 2018","year":2018,"link":"","doi":""},
-
-    {"fy":2017,"type":"peer","title":"Generalized modular-value-based scheme and its generalized modular value","authors":"Le Bin Ho, Nobuyuki Imoto","venue":"Physical Review A, 95(3), Mar, 2017","year":2017,"link":"","doi":""},
-
-    {"fy":2016,"type":"peer","title":"Photoenhanced spin/valley polarization and tunneling magnetoresistance in a ferromagnetic-normal-ferromagnetic silicene junction","authors":"Le Bin Ho, Tran Nguyen Lan","venue":"J. Phys. D: Appl. Phys., 49(37) 375106, Aug, 2016","year":2016,"link":"","doi":""},
-    {"fy":2016,"type":"peer","title":"Full characterization of modular values for finite-dimensional systems","authors":"Le Bin Ho, Nobuyuki Imoto","venue":"Physics Letters A, 380(25-26) 2129-2135, Jun, 2016","year":2016,"link":"","doi":""},
-
-    {"fy":2014,"type":"peer","title":"Electronic, magnetic, and spin-polarized transport properties of hybrid graphene/boron-nitride nanoribbons having 5-8-5 line defects at the heterojunction","authors":"Tran Nguyen Lan, Le Bin Ho, Tran Hoang Hai","venue":"Phys. Status Solidi B, 252(3), Nov, 2014","year":2014,"link":"","doi":""},
-
-    {"fy":2013,"type":"peer","title":"Monte Carlo simulations of core/shell nanoparticles containing interfacial defects: Role of disordered ferromagnetic spins","authors":"Le Bin Ho, Tran Nguyen Lan, Tran Hoang Hai","venue":"Physica B: Condensed Matter, 430, 2013","year":2013,"link":"","doi":""}
+    {"fy":2022,"type":"peer","title":"Error-disturbance uncertainty relations in Faraday measurements","authors":"Le Bin Ho, Keiichi Edamatsu","venue":"Physical Review A, 105(5) (2022)","year":2022,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.105.052228"},
+    {"fy":2022,"type":"peer","title":"Qsun: an open-source platform towards practical quantum machine learning applications","authors":"Quoc Chuong Nguyen, Le Bin Ho, Lan Nguyen Tran, Hung Q Nguyen","venue":"Machine Learning: Science and Technology, 3(1) 015034 (2022)","year":2022,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ac5997"},
+    {"fy":2022,"type":"peer","title":"Experimenting quantum phenomena on NISQ computers using high level quantum programming","authors":"Duc M. Tran, Duy V. Nguyen, Bin Ho Le, Hung Q. Nguyen","venue":"EPJ Quantum Technology, 9(1), Feb, 2022","year":2022,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-022-00126-1"}
   ]
 }
     </script>
@@ -521,115 +439,26 @@
         const searchBox = document.getElementById('searchBox');
         const chips = Array.from(document.querySelectorAll('.chip'));
         const sortSelect = document.getElementById('sortSelect');
-        const citeFormat = document.getElementById('citeFormat');
         const visibleCount = document.getElementById('visibleCount');
         const sourceLabel = document.getElementById('sourceLabel');
-        const toast = document.getElementById('toast');
 
         let ALL = [];
         let filter = 'all';
         let query = '';
         let sortMode = 'newest';
 
-        function showToast(msg){
-          toast.textContent = msg;
-          toast.classList.add('show');
-          setTimeout(()=>toast.classList.remove('show'), 1200);
-        }
-
         function safeText(s){ return (s || '').toString(); }
-
-        function normalizeAuthors(authors){
-          return safeText(authors).replace(/\s+/g,' ').trim();
-        }
+        function normalizeAuthors(authors){ return safeText(authors).replace(/\s+/g,' ').trim(); }
 
         function firstAuthorSurname(authors){
           const a = normalizeAuthors(authors);
           if(!a) return '';
-          const first = a.split(',')[0].trim(); // "Surname Initials" or "Surname"
-          // If "Ho, L.B." style, first is "Ho"
-          // If "Le Bin Ho" style, take last token:
+          const first = a.split(',')[0].trim();
           if(first.includes(' ')){
             const parts = first.split(' ').filter(Boolean);
             return parts[parts.length-1].toLowerCase();
           }
           return first.toLowerCase();
-        }
-
-        function slugify(s){
-          return safeText(s).toLowerCase()
-            .replace(/<[^>]*>/g,'')
-            .replace(/[^a-z0-9]+/g,' ')
-            .trim().split(' ').slice(0,4).join('');
-        }
-
-        function makeKey(p){
-          const s = firstAuthorSurname(p.authors) || 'paper';
-          const y = p.year || p.fy || '';
-          const t = slugify(p.title);
-          return (s + y + t) || ('paper' + y);
-        }
-
-        function guessEntryType(p){
-          const v = safeText(p.venue).toLowerCase();
-          if(p.arxiv || v.includes('arxiv')) return 'misc';
-          if(v.includes('conference') || v.includes('proceedings') || v.includes('ieee')) return 'inproceedings';
-          return 'article';
-        }
-
-        function bibtex(p){
-          const key = makeKey(p);
-          const et = guessEntryType(p);
-          const title = safeText(p.title).replace(/[{}/]/g,'');
-          const authors = normalizeAuthors(p.authors).replace(/\s*,\s*/g,' and ');
-          const year = p.year || p.fy || '';
-          const howpub = p.arxiv ? `howpublished = {arXiv:${p.arxiv}}` : '';
-          const journal = (!p.arxiv && p.venue) ? `journal = {${safeText(p.venue).replace(/[{}/]/g,'')}}` : '';
-          const doi = p.doi ? `doi = {${p.doi}}` : '';
-          const url = p.link ? `url = {${p.link}}` : '';
-
-          const fields = [journal, howpub, doi, url].filter(Boolean).join(',\n  ');
-
-          return `@${et}{${key},
-  title = {${title}},
-  author = {${authors}},
-  year = {${year}}${fields ? ',\n  ' + fields : ''}
-}`;
-        }
-
-        function apa(p){
-          // Simple APA-like (good enough for website copy)
-          // Authors. (Year). Title. Venue. URL
-          const A = normalizeAuthors(p.authors);
-          const Y = p.year || p.fy || '';
-          const T = safeText(p.title).replace(/\s+/g,' ').trim();
-          const V = safeText(p.venue).replace(/\s+/g,' ').trim();
-          const U = p.link ? p.link : '';
-          return `${A} (${Y}). ${T}. ${V}${U ? '. ' + U : ''}`;
-        }
-
-        async function copyToClipboard(text){
-          try{
-            await navigator.clipboard.writeText(text);
-            return true;
-          }catch(e){
-            // fallback
-            const ta = document.createElement('textarea');
-            ta.value = text;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.focus();
-            ta.select();
-            try{
-              document.execCommand('copy');
-              document.body.removeChild(ta);
-              return true;
-            }catch(err){
-              document.body.removeChild(ta);
-              return false;
-            }
-          }
         }
 
         function match(p){
@@ -638,9 +467,7 @@
           const hay = (
             safeText(p.title) + ' ' +
             safeText(p.authors) + ' ' +
-            safeText(p.venue) + ' ' +
-            safeText(p.doi) + ' ' +
-            safeText(p.arxiv)
+            safeText(p.venue)
           ).toLowerCase();
           return hay.includes(query);
         }
@@ -666,68 +493,7 @@
             if(!map.has(fy)) map.set(fy, []);
             map.get(fy).push(p);
           });
-          // FY descending
           return Array.from(map.entries()).sort((a,b)=> Number(b[0]) - Number(a[0]));
-        }
-
-        function render(){
-          const visible = sortPubs(ALL.filter(match));
-          visibleCount.textContent = `${visible.length} items`;
-
-          if(visible.length === 0){
-            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
-            return;
-          }
-
-          const groups = groupByFY(visible);
-
-          let html = '';
-          groups.forEach(([fy, items])=>{
-            const peers = items.filter(x=>x.type==='peer');
-            const pres = items.filter(x=>x.type==='preprint');
-
-            html += `
-              <section class="section">
-                <div class="section-title">
-                  <h2>FY${fy}</h2>
-                  <div class="small">${items.length} total</div>
-                </div>
-            `;
-
-            function block(title, arr, type){
-              if(arr.length === 0) return '';
-              return `
-                <div class="subhead">
-                  <h3>${title}</h3>
-                  <div class="small">${arr.length} items</div>
-                </div>
-                <div>
-                  ${arr.map(p=>pubRow(p)).join('')}
-                </div>
-              `;
-            }
-
-            html += block('Peer Reviewed', peers, 'peer');
-            html += block('Preprints', pres, 'preprint');
-
-            html += `</section>`;
-          });
-
-          app.innerHTML = html;
-
-          // Bind cite buttons
-          document.querySelectorAll('[data-action="cite"]').forEach(btn=>{
-            btn.addEventListener('click', async ()=>{
-              const idx = Number(btn.getAttribute('data-idx'));
-              const p = visible[idx];
-              if(!p) return;
-
-              const fmt = citeFormat.value;
-              const text = (fmt === 'apa') ? apa(p) : bibtex(p);
-              const ok = await copyToClipboard(text);
-              showToast(ok ? `Copied ${fmt.toUpperCase()}` : 'Copy failed');
-            });
-          });
         }
 
         function pubRow(p){
@@ -742,52 +508,75 @@
             ? `<span class="badge peer">Peer-reviewed</span>`
             : `<span class="badge preprint">Preprint</span>`;
 
-          const linkHtml = link
+          const venueHtml = link
             ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${venue || link}</a>`
             : `${venue || ''}`;
 
-          const extraBtns = [];
-          if(p.doi) extraBtns.push(`<a class="mini" href="${link || ('https://doi.org/' + p.doi)}" target="_blank" rel="noopener noreferrer">DOI</a>`);
-          if(p.arxiv) extraBtns.push(`<a class="mini" href="${link}" target="_blank" rel="noopener noreferrer">arXiv</a>`);
-          if(link && !p.doi && !p.arxiv) extraBtns.push(`<a class="mini" href="${link}" target="_blank" rel="noopener noreferrer">Link</a>`);
-
-          // We will index cite buttons by the current visible list index later.
-          // Here, store a placeholder; we’ll swap indices in render by rebuilding rows in order.
           return `
             <div class="pub" data-type="${type}">
               <div>
                 <p class="pub-title">${title}</p>
                 <p class="pub-authors">${authors}</p>
-                <p class="pub-venue">${linkHtml}</p>
+                <p class="pub-venue">${venueHtml}</p>
               </div>
-
               <div class="right-col">
                 <div class="badges">
                   ${badgeType}
                   <span class="badge year">${year}</span>
                 </div>
-                <div class="mini-actions">
-                  ${extraBtns.join('')}
-                  <button class="mini primary" data-action="cite" data-idx="__IDX__" type="button">Cite</button>
-                </div>
               </div>
             </div>
-          `.replace('__IDX__', '0'); // temporary; fixed in render()
+          `;
         }
 
-        function fixCiteIndices(){
-          // After rendering, we patch data-idx sequentially based on DOM order
-          const citeButtons = Array.from(document.querySelectorAll('[data-action="cite"]'));
-          citeButtons.forEach((btn, i)=>btn.setAttribute('data-idx', String(i)));
-        }
+        function render(){
+          const visible = sortPubs(ALL.filter(match));
+          visibleCount.textContent = `${visible.length} items`;
 
-        function renderWithIndexFix(){
-          render();
-          fixCiteIndices();
+          if(visible.length === 0){
+            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
+            return;
+          }
+
+          const groups = groupByFY(visible);
+          let html = '';
+
+          groups.forEach(([fy, items])=>{
+            const peers = items.filter(x=>x.type==='peer');
+            const pres  = items.filter(x=>x.type==='preprint');
+
+            html += `
+              <section class="section">
+                <div class="section-title">
+                  <h2>FY${fy}</h2>
+                  <div class="small">${items.length} total</div>
+                </div>
+            `;
+
+            function block(title, arr){
+              if(arr.length === 0) return '';
+              return `
+                <div class="subhead">
+                  <h3>${title}</h3>
+                  <div class="small">${arr.length} items</div>
+                </div>
+                <div>
+                  ${arr.map(p=>pubRow(p)).join('')}
+                </div>
+              `;
+            }
+
+            html += block('Peer Reviewed', peers);
+            html += block('Preprints', pres);
+
+            html += `</section>`;
+          });
+
+          app.innerHTML = html;
         }
 
         async function loadData(){
-          // 3) AUTO: try loading from static JSON first
+          // optional auto from static JSON (if you later create it)
           const jsonUrl = "{% static 'data/publications.json' %}";
           try{
             const res = await fetch(jsonUrl, {cache:'no-store'});
@@ -800,13 +589,10 @@
               title: x.title || '',
               authors: x.authors || '',
               venue: x.venue || '',
-              link: x.link || '',
-              doi: x.doi || '',
-              arxiv: x.arxiv || ''
+              link: x.link || ''
             }));
-            sourceLabel.textContent = 'static/data/publications.json';
+            sourceLabel.textContent = "static/data/publications.json";
           }catch(e){
-            // fallback to embedded data
             const raw = document.getElementById('pubData').textContent.trim();
             const data = JSON.parse(raw);
             ALL = (data.publications || []).map(x=>({
@@ -816,42 +602,36 @@
               title: x.title || '',
               authors: x.authors || '',
               venue: x.venue || '',
-              link: x.link || '',
-              doi: x.doi || '',
-              arxiv: x.arxiv || ''
+              link: x.link || ''
             }));
-            sourceLabel.textContent = 'embedded JSON (fallback)';
+            sourceLabel.textContent = "embedded JSON (fallback)";
           }
         }
 
-        // ===== event wiring =====
+        // ===== Events =====
         chips.forEach(ch=>{
           ch.addEventListener('click', ()=>{
             chips.forEach(x=>x.classList.remove('active'));
             ch.classList.add('active');
             filter = ch.dataset.filter || 'all';
-            renderWithIndexFix();
+            render();
           });
         });
 
         searchBox.addEventListener('input', ()=>{
           query = (searchBox.value || '').trim().toLowerCase();
-          renderWithIndexFix();
+          render();
         });
 
         sortSelect.addEventListener('change', ()=>{
           sortMode = sortSelect.value;
-          renderWithIndexFix();
+          render();
         });
 
-        citeFormat.addEventListener('change', ()=>{
-          showToast(`Cite format: ${citeFormat.value.toUpperCase()}`);
-        });
-
-        // ===== init =====
+        // ===== Init =====
         (async ()=>{
           await loadData();
-          renderWithIndexFix();
+          render();
         })();
 
       })();
