@@ -50,6 +50,7 @@
       align-items:center;
       gap:10px;
       min-width: 220px;
+      text-decoration:none;
     }
     .brand-dot{
       width:12px;height:12px;border-radius:50%;
@@ -74,9 +75,9 @@
       flex:1;
       justify-content:flex-end;
     }
-    .nav > .item{
-      position: relative;
-    }
+
+    .item{ position: relative; }
+
     .nav-btn{
       display:flex;
       align-items:center;
@@ -95,7 +96,18 @@
       transform: translateY(-1px);
     }
 
-    /* Dropdown */
+    /* Dropdown button reset */
+    .dd-toggle{
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
+    .dd-toggle:focus{
+      outline: none;
+      border-color: rgba(37,99,235,0.25);
+    }
+
+    /* Dropdown (CLICK to open) */
     .dropdown{
       position:absolute;
       right:0;
@@ -107,8 +119,10 @@
       box-shadow: var(--shadow);
       padding: 10px;
       display:none;
+      z-index: 1000;
     }
-    .item:hover .dropdown{display:block;}
+    .item.open .dropdown{ display:block; }
+
     .dd-title{
       font-size:11px;
       font-weight: 900;
@@ -310,7 +324,7 @@
       font-size: 14px;
     }
 
-    /* News list (giống kiểu "News + More") */
+    /* News list */
     .news-item{
       display:grid;
       grid-template-columns: 120px 1fr;
@@ -333,7 +347,7 @@
       color: var(--accent);
     }
 
-    /* Research teaser blocks (ảnh + text) */
+    /* Research teasers */
     .teaser{
       display:grid;
       grid-template-columns: 0.9fr 1.1fr;
@@ -390,7 +404,7 @@
     @media (max-width: 980px){
       .topbar-inner{justify-content: space-between;}
       .brand{min-width:auto;}
-      .nav{display:none;} /* đơn giản: mobile ẩn dropdown; cần thì mình làm hamburger sau */
+      .nav{display:none;} /* simple: hide top nav on mobile */
       .slider{min-height: 340px;}
       .slide-title{font-size: 28px;}
       .grid-2{grid-template-columns:1fr;}
@@ -405,22 +419,25 @@
   <!-- Top Nav -->
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
+      <a class="brand" href="{% url 'home' %}">
         <div class="brand-dot"></div>
         <div>
           <div class="brand-title">Quantar Lab</div>
           <div class="brand-sub">Quantum Science & Technology</div>
         </div>
-      </div>
+      </a>
 
       <nav class="nav">
         <div class="item">
           <a class="nav-btn" href="{% url 'home' %}">Home</a>
         </div>
 
-        <div class="item">
-          <a class="nav-btn" href="#">Research ▾</a>
-          <div class="dropdown">
+        <!-- Research dropdown (click) -->
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Research ▾
+          </button>
+          <div class="dropdown" role="menu">
             <div class="dd-title">Research</div>
             <a class="dd-link" href="{% url 'publication' %}">Publications</a>
             <a class="dd-link" href="{% url 'resource' %}">Resources</a>
@@ -428,9 +445,12 @@
           </div>
         </div>
 
-        <div class="item">
-          <a class="nav-btn" href="#">Members ▾</a>
-          <div class="dropdown">
+        <!-- Members dropdown (click) -->
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Members ▾
+          </button>
+          <div class="dropdown" role="menu">
             <div class="dd-title">Members</div>
             <a class="dd-link" href="{% url 'me' %}">Profile</a>
             <a class="dd-link" href="{% url 'member' %}">People</a>
@@ -519,7 +539,6 @@
 
   <main class="container">
 
-    <!-- News + Research (2 cột như trang mẫu) -->
     <div class="grid-2">
       <section class="section" id="news">
         <h2>News</h2>
@@ -557,7 +576,6 @@
       </section>
     </div>
 
-    <!-- Research teasers (giống kiểu “Helical Spintronics / Quantum Spintronics” trên trang mẫu) -->
     <div style="height:16px"></div>
 
     <section class="section">
@@ -592,12 +610,11 @@
       </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer">
       <div class="footer-row">
         <div>
           <b>Quantar Lab</b><br/>
-          :contentReference[oaicite:2]{index=2}, Sendai, Japan
+          Tohoku University, Sendai, Japan
         </div>
         <div>
           <a href="{% url 'contact' %}" class="more">Contact →</a><br/>
@@ -610,11 +627,11 @@
 
   <script>
     (function(){
+      // ===== Slider =====
       const slides = Array.from(document.querySelectorAll('.slide'));
       const dots = Array.from(document.querySelectorAll('.dot'));
       const prev = document.getElementById('prev');
       const next = document.getElementById('next');
-
       let i = 0;
       let timer = null;
 
@@ -623,7 +640,6 @@
         slides.forEach((s,k)=>s.classList.toggle('active', k===i));
         dots.forEach((d,k)=>d.classList.toggle('active', k===i));
       }
-
       function start(){
         stop();
         timer = setInterval(()=>show(i+1), 6000);
@@ -635,7 +651,6 @@
 
       prev.addEventListener('click', ()=>{ show(i-1); start(); });
       next.addEventListener('click', ()=>{ show(i+1); start(); });
-
       dots.forEach(d=>{
         d.addEventListener('click', ()=>{
           show(parseInt(d.dataset.i || "0", 10));
@@ -644,6 +659,36 @@
       });
 
       start();
+
+      // ===== Dropdowns (CLICK to open; click outside to close) =====
+      const items = Array.from(document.querySelectorAll('.item.has-dd'));
+      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
+
+      function closeAll(except=null){
+        items.forEach(it=>{
+          if(it !== except){
+            it.classList.remove('open');
+            const btn = it.querySelector('.dd-toggle');
+            if(btn) btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      toggles.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const item = btn.closest('.item.has-dd');
+          const willOpen = !item.classList.contains('open');
+          closeAll(item);
+          item.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+      });
+
+      document.addEventListener('click', ()=> closeAll());
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeAll();
+      });
     })();
   </script>
 
