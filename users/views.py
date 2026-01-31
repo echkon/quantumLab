@@ -42,6 +42,12 @@ def resource_view(request):
 def contact_view(request):
     return render(request, 'contact.html')
 
+def research_metrology(request):
+    return render(request, "research_metrology.html")
+
+def research_algorithms(request):
+    return render(request, "research_algorithms.html")
+
 def upload_file(request):
     if request.method == 'POST' and request.FILES.get('uploaded_file'):
         uploaded_file = request.FILES['uploaded_file']
