@@ -2,32 +2,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Quantum Algorithms & Compilation | Quantar Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <style>
     :root{
       --bg:#f4f6f8;
       --card:#ffffff;
       --text:#0f172a;
-      --muted:#475569;
+      --muted:#334155;
       --line:#e2e8f0;
       --accent:#2563eb;
-      --shadow:0 10px 28px rgba(15,23,42,.08);
+      --accent2:#1d4ed8;
+      --shadow:0 12px 32px rgba(15,23,42,.08);
       --radius:16px;
-      --max:1100px;
+      --max:1200px;
+
+      /* Typography scale (bigger = easier to read) */
+      --base: 17px;
+      --lh: 1.85;
     }
     *{box-sizing:border-box}
-
+    html{scroll-behavior:smooth}
     body{
       margin:0;
       font-family: Arial, sans-serif;
       background:var(--bg);
       color:var(--text);
+      font-size: var(--base);
+      line-height: var(--lh);
     }
+    a{color:inherit}
+    .muted{color:var(--muted)}
+    .sr{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
 
-    /* ===== TOPBAR (WHITE, STICKY, BLUR) ===== */
+    /* ===== TOPBAR ===== */
     .topbar{
       position:sticky;
       top:0;
@@ -58,144 +68,267 @@
       background:var(--accent);
       box-shadow:0 0 0 6px rgba(37,99,235,.12);
     }
-    .brand-title{
-      font-weight:900;
-      letter-spacing:-0.01em;
-      line-height:1.1;
-    }
-    .brand-sub{
-      font-size:12px;
-      color:var(--muted);
-      line-height:1.2;
-      margin-top:2px;
-    }
+    .brand-title{font-weight:900; letter-spacing:-0.01em; line-height:1.1;}
+    .brand-sub{font-size:13px; color:var(--muted); line-height:1.35; margin-top:2px;}
 
-    .nav-right{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .nav-right{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
     .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:10px 14px;
-      min-height:40px;
-      font-size:13px;
-      font-weight:900;
-      line-height:1;
-      border-radius:999px;
-      text-decoration:none;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:11px 16px; min-height:42px;
+      font-size:14px; font-weight:900; line-height:1;
+      border-radius:999px; text-decoration:none;
       border:1px solid var(--line);
-      background:#fff;
-      color:var(--text);
-      white-space:nowrap;
+      background:#fff; color:var(--text);
       transition:transform .1s ease, background .1s ease;
+      white-space:nowrap;
     }
-    .pill:hover{
-      transform:translateY(-1px);
-      background:rgba(37,99,235,.06);
-    }
-    .pill.primary{
-      background:var(--accent);
-      color:#fff;
-      border-color:transparent;
-    }
+    .pill:hover{transform:translateY(-1px); background:rgba(37,99,235,.06);}
+    .pill.primary{background:var(--accent); color:#fff; border-color:transparent;}
 
-    /* ===== PAGE ===== */
+    /* ===== PAGE WRAP ===== */
     .container{
       max-width:var(--max);
       margin:0 auto;
-      padding:28px 16px 60px;
+      padding:24px 16px 70px;
     }
 
-    h1{
-      margin:0 0 18px 0;
-      font-size:28px;
-      font-weight:900;
-      letter-spacing:-0.01em;
-    }
-
-    .intro{
-      max-width:800px;
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.7;
-      margin-bottom:24px;
-    }
-
-    .position-grid{
-      display:grid;
-      gap:18px;
-    }
-
-    .position-card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-      padding:22px;
-    }
-
-    .position-card h2{
-      margin:0 0 8px 0;
-      font-size:18px;
-      font-weight:900;
-    }
-
-    .position-card p{
-      margin:0 0 10px 0;
-      font-size:14px;
-      line-height:1.7;
-      color:var(--muted);
-    }
-
-    .position-actions{
+    /* breadcrumb + meta like knowledge bank */
+    .meta{
       display:flex;
-      gap:10px;
       flex-wrap:wrap;
-      margin-top:10px;
+      gap:10px 14px;
+      align-items:center;
+      font-size:14px;
+      color:var(--muted);
+      margin-top: 10px;
+      margin-bottom: 10px;
     }
-
-    .link-btn{
-      font-size:13px;
-      font-weight:800;
-      text-decoration:none;
-      color:var(--accent);
-    }
-
-    /* ===== chips (needed for Keywords) ===== */
-    .chips{
+    .crumbs{
       display:flex;
       gap:8px;
       flex-wrap:wrap;
-      margin-top:10px;
+      align-items:center;
+    }
+    .crumbs a{
+      text-decoration:none;
+      color:var(--muted);
+      font-weight:800;
+    }
+    .crumbs span{opacity:.8}
+
+    .hero{
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75));
+      border:1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 26px;
+      margin-top: 10px;
+    }
+    h1{
+      margin:0 0 10px 0;
+      font-size: 40px;
+      line-height: 1.15;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .subtitle{
+      margin:0;
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 900px;
+    }
+
+    /* ===== LAYOUT: sidebar TOC + main ===== */
+    .layout{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      margin-top: 18px;
+      align-items:start;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    /* TOC */
+    .toc{
+      position: sticky;
+      top: 84px;
+      padding: 16px;
+    }
+    .toc-title{
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0 0 10px 0;
+    }
+    .toc a{
+      display:block;
+      padding: 10px 10px;
+      border-radius: 12px;
+      text-decoration:none;
+      font-weight: 900;
+      color: var(--text);
+      border: 1px solid transparent;
+    }
+    .toc a:hover{
+      background: rgba(37,99,235,.06);
+      border-color: rgba(37,99,235,.18);
+    }
+
+    /* MAIN content cards */
+    .content{
+      display:grid;
+      gap: 18px;
+    }
+    .section{
+      padding: 22px;
+    }
+    .section h2{
+      margin: 0 0 10px 0;
+      font-size: 24px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    .section h3{
+      margin: 16px 0 6px 0;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.01em;
+    }
+    .section p{margin: 0 0 12px 0; color: var(--muted); font-size: 16px;}
+    .section ul{margin: 0 0 12px 18px; color: var(--muted);}
+    .section li{margin: 6px 0;}
+
+    /* callout */
+    .callout{
+      border: 1px solid rgba(37,99,235,.18);
+      background: rgba(37,99,235,.06);
+      border-radius: 14px;
+      padding: 14px 14px;
+      color: var(--text);
+      margin: 12px 0 16px 0;
+    }
+    .callout b{color: var(--accent2);}
+
+    /* chips */
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 10px;
     }
     .chip{
-      font-size:12px;
+      font-size:14px;
       font-weight:900;
-      padding:6px 10px;
+      padding:8px 12px;
       border-radius:999px;
       border:1px solid var(--line);
       background:rgba(37,99,235,.06);
-      color:#1d4ed8;
+      color: var(--accent2);
       white-space:nowrap;
     }
+
+    /* figure */
+    .figure{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      overflow:hidden;
+      background:#fff;
+    }
+    .figure img{width:100%; display:block;}
+    .caption{
+      font-size: 14px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* cards grid */
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 12px;
+    }
+    .mini{
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+    .mini h4{
+      margin:0 0 6px 0;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .mini p{margin:0; font-size: 15px; color: var(--muted);}
+
+    .btnrow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    .linkbtn{
+      font-size: 15px;
+      font-weight: 900;
+      color: var(--accent);
+      text-decoration:none;
+    }
+    .linkbtn:hover{text-decoration:underline}
+
+    /* related resources */
+    .related{
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .rel{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      text-decoration:none;
+      display:block;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .rel:hover{
+      transform: translateY(-1px);
+      background: rgba(37,99,235,.04);
+    }
+    .rel b{display:block; margin-bottom: 6px;}
+    .rel span{color: var(--muted); font-size: 14px;}
 
     .footer{
       text-align:center;
       color:var(--muted);
-      font-size:12px;
-      padding:20px 0 30px;
+      font-size:13px;
+      padding:26px 0 10px;
+    }
+
+    /* ===== MOBILE ===== */
+    @media (max-width: 980px){
+      h1{font-size: 32px;}
+      .subtitle{font-size: 17px;}
+      .layout{grid-template-columns: 1fr;}
+      .toc{position:relative; top:auto;}
+      .grid{grid-template-columns:1fr;}
+      .related{grid-template-columns:1fr;}
+      .pill{font-size:14px;}
     }
   </style>
 </head>
 
 <body>
 
-<!-- ===== TOPBAR ===== -->
 <header class="topbar">
   <div class="topbar-inner">
     <a class="brand" href="{% url 'home' %}">
@@ -206,7 +339,7 @@
       </div>
     </a>
 
-    <nav class="nav-right">
+    <nav class="nav-right" aria-label="Top navigation">
       <a class="pill" href="{% url 'publication' %}">Publications</a>
       <a class="pill primary" href="{% url 'position' %}">Positions</a>
       <a class="pill" href="{% url 'contact' %}">Contact</a>
@@ -216,173 +349,233 @@
 
 <main class="container">
 
-  <h1>Quantum algorithms & compilation</h1>
-
-  <p class="intro">
-    We develop practical quantum algorithms and compilation workflows for near-term devices.
-    Our focus is on translating algorithmic ideas into implementable circuits with clear performance goals,
-    while accounting for hardware constraints such as gate sets, connectivity, noise, and measurement cost.
-  </p>
-
-  <!-- ===== FIGURE / ILLUSTRATION ===== -->
-  <section class="position-card">
-    <h2>Overview</h2>
-    <p>
-      Our workflow connects three layers: (i) algorithm design (what to compute), (ii) compilation (how to express it as circuits),
-      and (iii) execution-aware optimization (how to run it reliably on real hardware).
-    </p>
-
-    <div style="
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius:14px;
-      overflow:hidden;
-      background:#fff;
-    ">
-      <img
-        src="{% static 'images/quantum_algorithms_overview.png' %}"
-        alt="Quantum algorithms & compilation overview"
-        style="width:100%; display:block;"
-      />
+  <!-- breadcrumb + date (knowledge-bank feel) -->
+  <div class="meta">
+    <div class="crumbs" aria-label="Breadcrumb">
+      <a href="{% url 'home' %}">Home</a>
+      <span>›</span>
+      <a href="{% url 'resource' %}">Resources</a>
+      <span>›</span>
+      <span><b>Quantum algorithms & compilation</b></span>
     </div>
+    <div>Last updated: 2026 Jan</div>
+  </div>
 
-    <p style="margin-top:10px; font-size:13px; color:var(--muted);">
-      Schematic of algorithm → circuit → compiled circuit → execution/feedback loop, aiming for reproducible and device-aware performance.
+  <section class="hero card">
+    <h1>Quantum Algorithms & Compilation</h1>
+    <p class="subtitle">
+      Efficient, device-aware methods for near-term quantum optimization and simulation — from algorithm ideas
+      to hardware-executable circuits.
     </p>
-  </section>
 
-  <!-- ===== KEYWORDS ===== -->
-  <section class="position-card">
-    <h2>Keywords</h2>
-    <div class="chips">
-      <span class="chip">Quantum compilation</span>
-      <span class="chip">Circuit synthesis</span>
+    <div class="chips" aria-label="Key tags">
+      <span class="chip">quantum compilation</span>
       <span class="chip">QAOA</span>
       <span class="chip">VQE</span>
       <span class="chip">FALQON</span>
-      <span class="chip">Feedback-based control</span>
-      <span class="chip">Gradients & PSR</span>
-      <span class="chip">Noise-aware optimization</span>
-      <span class="chip">Benchmarks</span>
+      <span class="chip">gradients</span>
+      <span class="chip">benchmarks</span>
     </div>
   </section>
 
-  <!-- ===== CORE METHODS ===== -->
-  <section class="position-card">
-    <h2>Core methods</h2>
-    <p>
-      We combine algorithm development with circuit-level optimization to make near-term executions more reliable.
-      Typical ingredients include:
-    </p>
-    <p>
-      • Device-aware compilation (connectivity, gate sets, depth, error budget)<br/>
-      • Circuit synthesis for target unitaries (e.g., Toffoli and multi-qubit primitives)<br/>
-      • Gradient-based optimization and parameter-shift rules (PSR) with verification tools<br/>
-      • Execution-aware evaluation (cost landscape, noise sensitivity, reproducibility)
-    </p>
-    <div class="position-actions">
-      <a class="link-btn" href="{% url 'publication' %}">Related publications →</a>
-    </div>
-  </section>
+  <div class="layout">
 
-  <!-- ===== RESEARCH TOPICS (Explicitly mention compilation, QAOA, VQE, FALQON) ===== -->
-  <section class="position-card">
-    <h2>Research topics</h2>
+    <!-- TOC -->
+    <aside class="card toc" aria-label="Table of contents">
+      <div class="toc-title">On this page</div>
+      <a href="#what">What we mean by “practical” quantum algorithms</a>
+      <a href="#compilation">Compilation & circuit synthesis</a>
+      <a href="#qaoa">QAOA for combinatorial optimization</a>
+      <a href="#vqe">VQE & ground-state preparation</a>
+      <a href="#falqon">FALQON & feedback-based control</a>
+      <a href="#evaluation">How we evaluate performance</a>
+      <a href="#applications">Where it can be used</a>
+      <a href="#faq">FAQ</a>
+      <a href="#refs">Selected reading</a>
+    </aside>
 
-    <p>
-      <b>1) Quantum compilation and circuit synthesis</b><br/>
-      We design workflows to compile abstract circuits into hardware-executable forms. This includes routing under limited connectivity,
-      reducing depth and two-qubit gate counts, and synthesizing target unitaries with constrained gate sets.
-      A key goal is to preserve algorithmic performance while respecting realistic device limitations.
-    </p>
+    <!-- MAIN -->
+    <div class="content">
 
-    <p>
-      <b>2) QAOA for combinatorial optimization</b><br/>
-      We study QAOA for structured problems (e.g., scheduling, layout, selection, and graph-based objectives).
-      Our emphasis is on practical performance: selecting mixers/cost constructions, improving trainability, and
-      understanding when and why QAOA reaches good solutions under finite depth and noise.
-    </p>
-
-    <p>
-      <b>3) VQE and variational ground-state preparation</b><br/>
-      We develop VQE-style strategies for quantum simulation and chemistry-inspired objectives, with attention to
-      ansatz design, gradient reliability, and robust optimization under measurement constraints.
-      We also compare variational approaches with alternative feedback/control-based schemes.
-    </p>
-
-    <p>
-      <b>4) FALQON and feedback-based quantum control</b><br/>
-      We explore feedback-based algorithms such as FALQON, where parameter updates are driven by measurable quantities
-      rather than classical training loops. We study when feedback helps (e.g., avoiding barren plateaus),
-      how to improve robustness under degeneracies/noise, and how to hybridize feedback with imaginary-time or adaptive schedules.
-    </p>
-
-  </section>
-
-  <!-- ===== SELECTED RESULTS ===== -->
-  <section class="position-card">
-    <h2>Selected results</h2>
-
-    <div class="position-grid">
-
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Unitary synthesis with verified gradients
-        </h3>
+      <section class="card section" id="what">
+        <h2>What we mean by “practical” quantum algorithms</h2>
         <p>
-          We developed and tested gradient evaluation techniques for circuit synthesis tasks, validating parameter-shift rules
-          against reference gradients to ensure correctness and stability.
+          Near-term quantum devices have limited qubit counts and are affected by noise. For that reason,
+          our goal is not only to propose algorithms, but also to make them <b>implementable</b> and <b>measurable</b>
+          under realistic constraints: gate sets, connectivity, depth budgets, and measurement cost.
         </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
 
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Feedback-based algorithms for robust ground-state preparation
-        </h3>
-        <p>
-          We investigated feedback-driven strategies (including FALQON-style updates) and showed how execution-aware choices
-          can improve reliability in challenging spectral settings.
-        </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
+        <div class="callout">
+          <b>Key idea:</b> “Algorithm” and “compiler” must be designed together. A good theoretical circuit is not enough
+          if it becomes too deep after routing or too expensive to measure.
+        </div>
 
-      <div class="position-card" style="box-shadow:none;">
-        <h3 style="margin:0 0 6px 0; font-size:16px;">
-          Device-aware optimization and benchmarking
-        </h3>
+        <div class="figure">
+          <img src="{% static 'images/quantum_algorithms_overview.png' %}"
+               alt="Algorithm → circuit → compiled circuit → execution/feedback loop" />
+        </div>
+        <div class="caption">
+          Workflow: algorithm design → circuit representation → device-aware compilation → execution and feedback.
+        </div>
+      </section>
+
+      <section class="card section" id="compilation">
+        <h2>Compilation & circuit synthesis</h2>
         <p>
-          We evaluate algorithm performance using reproducible benchmarks, emphasizing depth, measurement cost,
-          and noise sensitivity—metrics that matter in near-term experiments.
+          Quantum compilation translates an abstract circuit into a form that can actually run on a specific device.
+          This includes gate decomposition, qubit routing under limited connectivity, and circuit simplification.
         </p>
-        <a class="link-btn" href="{% url 'publication' %}">Read paper →</a>
-      </div>
+
+        <div class="grid">
+          <div class="mini">
+            <h4>Device-aware routing</h4>
+            <p>Map logical qubits onto physical qubits, insert SWAPs efficiently, and keep two-qubit gates minimal.</p>
+          </div>
+          <div class="mini">
+            <h4>Depth & error budgeting</h4>
+            <p>Reduce depth and entangling gates, because they dominate error on many platforms.</p>
+          </div>
+        </div>
+
+        <h3>Unitary / gate synthesis</h3>
+        <p>
+          For targets like Toffoli or multi-qubit primitives, we study synthesis strategies that minimize resources
+          while keeping gradients reliable for optimization-based compilation.
+        </p>
+        <div class="btnrow">
+          <a class="linkbtn" href="{% url 'publication' %}">See related publications →</a>
+        </div>
+      </section>
+
+      <section class="card section" id="qaoa">
+        <h2>QAOA for combinatorial optimization</h2>
+        <p>
+          QAOA (Quantum Approximate Optimization Algorithm) is a leading approach for near-term optimization.
+          We study how to make QAOA work reliably in practice: choosing cost/mixer design, improving trainability,
+          and understanding performance under finite depth and noise.
+        </p>
+        <div class="grid">
+          <div class="mini">
+            <h4>Problem-aware design</h4>
+            <p>Encode structure (constraints, symmetry, hardware limits) into mixers and cost Hamiltonians.</p>
+          </div>
+          <div class="mini">
+            <h4>Trainability</h4>
+            <p>Diagnose optimization difficulty (cost function landscape), use schedules/initializations that converge faster.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card section" id="vqe">
+        <h2>VQE & ground-state preparation</h2>
+        <p>
+          VQE (Variational Quantum Eigensolver) targets ground states of Hamiltonians important in simulation and chemistry.
+          Our focus is on ansatz design, gradient stability, and measurement efficiency — so that performance is reproducible.
+        </p>
+
+        <h3>What we optimize</h3>
+        <ul>
+          <li>Ansatz expressibility vs depth (avoid over-parameterized circuits that become noisy)</li>
+          <li>Gradient reliability (cross-check PSR/estimators when needed)</li>
+          <li>Measurement cost (grouping, shot allocation, and variance control)</li>
+        </ul>
+      </section>
+
+      <section class="card section" id="falqon">
+        <h2>FALQON & feedback-based control</h2>
+        <p>
+          FALQON is a feedback-based quantum algorithm where parameter updates are guided by measurable quantities,
+          reducing reliance on heavy classical outer-loop training. We explore how feedback can improve robustness,
+          and how to hybridize feedback with adaptive schedules.
+        </p>
+
+        <div class="callout">
+          <b>Why feedback matters:</b> it can provide a more “physics-guided” update rule, which may help in settings
+          where naive variational training becomes unstable or slow.
+        </div>
+      </section>
+
+      <section class="card section" id="evaluation">
+        <h2>How we evaluate performance</h2>
+        <p>
+          We emphasize metrics that matter on real devices, not only ideal simulations.
+        </p>
+        <div class="grid">
+          <div class="mini">
+            <h4>Resource metrics</h4>
+            <p>Depth, two-qubit gate count, routing overhead, and measurement cost.</p>
+          </div>
+          <div class="mini">
+            <h4>Robustness metrics</h4>
+            <p>Sensitivity to noise, calibration errors, and reproducibility across runs.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card section" id="applications">
+        <h2>Where it can be used</h2>
+        <p>
+          Our algorithm + compilation pipelines support research and prototyping across multiple directions:
+          optimization, simulation, and hardware benchmarking.
+        </p>
+
+        <div class="related" aria-label="More resources">
+          <a class="rel" href="{% url 'publication' %}">
+            <b>Publications</b>
+            <span>Peer-reviewed papers and preprints from our group.</span>
+          </a>
+          <a class="rel" href="{% url 'resource' %}">
+            <b>Resources</b>
+            <span>Code, notes, and reproducible benchmarks.</span>
+          </a>
+          <a class="rel" href="{% url 'contact' %}">
+            <b>Collaborate</b>
+            <span>Talk to us about joint projects and visits.</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="card section" id="faq">
+        <h2>FAQ</h2>
+
+        <h3>Do you focus more on theory or implementation?</h3>
+        <p>
+          Both. We start from clear algorithmic goals, then design compilation and evaluation so the ideas can be tested on
+          realistic devices and simulator baselines.
+        </p>
+
+        <h3>What problems are a good fit for QAOA / VQE?</h3>
+        <p>
+          QAOA is often used for combinatorial objectives (graph and constraint-based problems). VQE targets Hamiltonian
+          ground states and simulation tasks. In practice, problem structure and measurement cost strongly influence feasibility.
+        </p>
+
+        <h3>Can I join as a student or visiting researcher?</h3>
+        <p>
+          Yes. If you have interest in quantum software, optimization, or experimental constraints, we welcome collaborations.
+        </p>
+
+        <div class="btnrow">
+          <a class="linkbtn" href="{% url 'position' %}">Open positions →</a>
+          <a class="linkbtn" href="{% url 'contact' %}">Contact us →</a>
+        </div>
+      </section>
+
+      <section class="card section" id="refs">
+        <h2>Selected reading</h2>
+        <p>
+          If you want, we can list your lab’s key papers here (with DOI/arXiv) in a clean bullet format.
+          For now, these are placeholders.
+        </p>
+        <ul>
+          <li>Algorithm–compiler co-design for near-term devices (placeholder)</li>
+          <li>Verified gradient methods for circuit synthesis (placeholder)</li>
+          <li>Feedback-based quantum control and FALQON-style updates (placeholder)</li>
+        </ul>
+      </section>
 
     </div>
-  </section>
-
-  <!-- ===== IMPACT ===== -->
-  <section class="position-card">
-    <h2>Why it matters</h2>
-    <p>
-      Near-term quantum devices are limited by noise and resources. Practical progress requires algorithms that can be executed
-      reliably and compilers that translate abstract circuits into hardware-friendly implementations.
-      Our goal is to build algorithm + compilation pipelines that are transparent, reproducible, and useful for real experiments.
-    </p>
-  </section>
-
-  <!-- ===== COLLABORATION ===== -->
-  <section class="position-card">
-    <h2>For students and collaborators</h2>
-    <p>
-      We welcome students and visiting researchers interested in quantum algorithms, compilation, optimization, and benchmarking.
-      Experience with Python and quantum software stacks is helpful, but motivation and a careful engineering mindset are equally important.
-    </p>
-    <div class="position-actions">
-      <a class="link-btn" href="{% url 'position' %}">Open positions →</a>
-      <a class="link-btn" href="{% url 'contact' %}">Contact us →</a>
-    </div>
-  </section>
+  </div>
 
   <div class="footer">
     © Quantar Lab • Tohoku University, Sendai, Japan
