@@ -224,7 +224,7 @@
       margin:0 0 14px 0;
       color: rgba(255,255,255,0.88);
       line-height: 1.6;
-      font-size: 15px;
+      font-size: 20px;
     }
     .slide-actions{
       display:flex;
@@ -355,28 +355,35 @@
 
     /* Research teasers */
     .teaser{
-    display:grid;
-    grid-template-columns: 180px 1fr;  
-    gap: 12px;                       
-    align-items:center;
+      display:grid;
+      grid-template-columns: 440px 1fr;
+      gap: 16px;
+      align-items:center;
     }
+
     .teaser-img{
-    border-radius: 8px;
+    border-radius: 12px;
     overflow:hidden;
     border: 1px solid var(--line);
-    background:#000;
 
-    aspect-ratio: 1 / 1;   
+    aspect-ratio: 1 / 1;
     width: 100%;
-    max-width: 180px;     
+    max-width: 580px;
 
     background-size: cover;
     background-position: center;
+    background-color: #000;
     }
     .teaser h3{
       margin: 0 0 8px 0;
-      font-size: 18px;
+      font-size: 20px;
       letter-spacing:-0.01em;
+    }
+    .teaser p{
+    margin: 0;
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--muted);
     }
     .chips{
       display:flex;
@@ -424,7 +431,7 @@
     /* Slider */
     .slider{min-height: 320px;}
     .slide-title{font-size: 26px;}
-    .slide-desc{font-size: 14px;}
+    .slide-desc{font-size: 18px;}
 
     /* Layout sections */
     .grid-2{grid-template-columns:1fr;}
@@ -632,7 +639,10 @@
         <div class="teaser-img" style="background-image:url('{% static 'images/research1.jpg' %}')"></div>
         <div>
           <h3>Quantum Metrology & Sensing</h3>
-          <p>Time-dependent and networked sensing protocols for precision beyond classical limits.</p>
+          <p>We develop quantum-enhanced metrology and sensing protocols that exploit entanglement, squeezing, and optimal control to achieve precision beyond classical limits. 
+            Our research focuses on time-dependent sensing strategies and networked quantum sensors, aiming to improve robustness against realistic noise and experimental imperfections. 
+            These methods provide a foundation for next-generation technologies in weak-signal detection, spectroscopy, and precision measurements in fundamental physics.
+          </p>
           <div class="chips">
             <span class="chip">QFI / QFIM</span>
             <span class="chip">optimal control</span>
@@ -648,7 +658,11 @@
         <div class="teaser-img" style="background-image:url('{% static 'images/research2.jpg' %}')"></div>
         <div>
           <h3>Quantum Algorithms & Compilation</h3>
-          <p>Efficient, device-aware methods for near-term quantum optimization and simulation.</p>
+            <p>
+            We develop efficient, device-aware quantum algorithms for near-term quantum computers, with a strong focus on variational methods such as VQE, variational quantum compilation, variational quantum metrology, and feedback-based optimization frameworks including FALQON. 
+            Our goal is to design practical quantum workflows that can be implemented on realistic hardware while remaining robust against noise and limited circuit depth. 
+            These algorithmic tools are applied to a wide range of problems, including many-body physics simulation, quantum sensing and metrology, combinatorial optimization, and emerging applications such as molecular modeling and drug discovery.
+            </p>
           <div class="chips">
             <span class="chip">feedback control</span>
             <span class="chip">gradients</span>
