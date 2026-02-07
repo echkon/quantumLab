@@ -1,279 +1,370 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Publications • Quantar Lab{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Publications • Quantar Lab</title>
 
-{% block extra_head %}
-<style>
-  /* ===== Publications page styles (scoped) ===== */
-  :root{
-    --bg:#f4f6f8;
-    --card:#ffffff;
-    --text:#0f172a;
-    --muted:#475569;
-    --line:#e2e8f0;
-    --shadow: 0 14px 40px rgba(15,23,42,.10);
-    --accent:#2563eb;
-    --max: 1100px;
-    --radius: 16px;
-  }
+  <style>
+    :root{
+      --bg:#f4f6f8;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --shadow: 0 14px 40px rgba(15,23,42,.10);
+      --accent:#2563eb;
+      --max: 1100px;
+      --radius: 16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      color:var(--text);
+      background: var(--bg);
+    }
+    a{color:inherit}
 
-  /* IMPORTANT:
-     Base của bạn đang dùng body background trắng.
-     Trang publications muốn nền xám -> đặt ngay trên container của page. */
-  .pub-page{
-    background: var(--bg);
-    min-height: calc(100vh - 64px); /* trừ topbar; không cần chuẩn tuyệt đối */
-  }
+    /* ===== Topbar ===== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .brand{
+      display:flex;
+      gap:10px;
+      align-items:center;
+      text-decoration:none;
+    }
+    .brand-dot{
+      width:12px;height:12px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
+    }
+    .brand-title{
+      font-weight: 900;
+      letter-spacing:-0.01em;
+      line-height:1.1;
+    }
+    .brand-sub{
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .nav-right{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 10px 12px;
+      border-radius: 999px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--text);
+      transition: transform .10s ease, background .10s ease;
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .pill.primary{
+      background: var(--accent);
+      color:#fff;
+      border-color: transparent;
+    }
 
-  .wrap{
-    max-width: var(--max);
-    margin: 0 auto;
-    padding: 22px 16px 40px 16px;
-  }
+    /* ===== Page shell ===== */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 22px 16px 40px 16px;
+    }
 
-  .page-head{
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: 22px;
-    margin-bottom: 16px;
-  }
-  .page-head h1{
-    margin: 0 0 8px 0;
-    font-size: 28px;
-    letter-spacing:-0.01em;
-  }
-  .page-head p{
-    margin: 0;
-    color: var(--muted);
-    line-height: 1.6;
-    font-size: 14px;
-  }
+    .page-head{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px;
+      margin-bottom: 16px;
+    }
+    .page-head h1{
+      margin: 0 0 8px 0;
+      font-size: 28px;
+      letter-spacing:-0.01em;
+    }
+    .page-head p{
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
 
-  .controls{
-    display:flex;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-    align-items:center;
-  }
-  .search{
-    flex: 1;
-    min-width: 240px;
-    display:flex;
-    align-items:center;
-    gap:10px;
-    background:#fff;
-    border: 1px solid var(--line);
-    border-radius: 14px;
-    padding: 10px 12px;
-  }
-  .search input{
-    width:100%;
-    border:none;
-    outline:none;
-    font-size: 14px;
-    color: var(--text);
-    background: transparent;
-  }
-  .filters{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    align-items:center;
-  }
-  .chip{
-    padding: 9px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: #fff;
-    font-weight: 900;
-    font-size: 13px;
-    cursor: pointer;
-    user-select:none;
-    transition: transform .10s ease, background .10s ease;
-  }
-  .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
-  .chip.active{
-    background: rgba(37,99,235,0.14);
-    border-color: rgba(37,99,235,0.35);
-  }
+    /* ===== Controls ===== */
+    .controls{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+      align-items:center;
+    }
+    .search{
+      flex: 1;
+      min-width: 240px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:#fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .filters{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .chip{
+      padding: 9px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-weight: 900;
+      font-size: 13px;
+      cursor: pointer;
+      user-select:none;
+      transition: transform .10s ease, background .10s ease;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .chip.active{
+      background: rgba(37,99,235,0.14);
+      border-color: rgba(37,99,235,0.35);
+    }
 
-  .select{
-    border: 1px solid var(--line);
-    background:#fff;
-    border-radius: 14px;
-    padding: 9px 12px;
-    font-weight: 900;
-    font-size: 13px;
-    outline:none;
-    cursor:pointer;
-  }
+    .select{
+      border: 1px solid var(--line);
+      background:#fff;
+      border-radius: 14px;
+      padding: 9px 12px;
+      font-weight: 900;
+      font-size: 13px;
+      outline:none;
+      cursor:pointer;
+    }
 
-  .meta-row{
-    display:flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items:center;
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 900;
-  }
-  .meta-pill{
-    padding: 7px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background:#fff;
-    color: var(--muted);
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-  }
+    .meta-row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+    .meta-pill{
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+    }
 
-  .section{
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
-    box-shadow: 0 10px 28px rgba(15,23,42,.06);
-    padding: 18px;
-    margin-bottom: 14px;
-  }
-  .section-title{
-    display:flex;
-    align-items:baseline;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 10px;
-  }
-  .section-title h2{
-    margin: 0;
-    font-size: 18px;
-    letter-spacing:-0.01em;
-  }
-  .section-title .small{
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 900;
-  }
+    /* ===== Sections ===== */
+    .section{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .section-title{
+      display:flex;
+      align-items:baseline;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .section-title h2{
+      margin: 0;
+      font-size: 18px;
+      letter-spacing:-0.01em;
+    }
+    .section-title .small{
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
 
-  .subhead{
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px dashed var(--line);
-    display:flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-  }
-  .subhead h3{
-    margin: 0;
-    font-size: 13px;
-    color: var(--muted);
-    letter-spacing: .10em;
-    text-transform: uppercase;
-  }
-  .subhead .small{
-    color: var(--muted);
-    font-size: 12px;
-    font-weight: 900;
-  }
+    .subhead{
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--line);
+      display:flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .subhead h3{
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: .10em;
+      text-transform: uppercase;
+    }
+    .subhead .small{
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
 
-  .pub{
-    border-top: 1px dashed var(--line);
-    padding: 14px 0;
-    display:grid;
-    grid-template-columns: 1fr auto;
-    gap: 12px;
-  }
-  .pub:first-child{border-top:none; padding-top: 6px;}
-  .pub-title{
-    margin:0 0 6px 0;
-    font-size: 16px;
-    font-weight: 900;
-    line-height: 1.35;
-    letter-spacing:-0.01em;
-  }
-  .pub-authors{
-    margin:0 0 6px 0;
-    font-size: 13px;
-    color: var(--muted);
-    line-height: 1.5;
-  }
-  .pub-venue{
-    margin:0;
-    font-size: 13px;
-    color: var(--text);
-    line-height: 1.5;
-  }
-  .pub-venue a{
-    color: var(--accent);
-    font-weight: 900;
-    text-decoration:none;
-  }
-  .pub-venue a:hover{text-decoration: underline;}
+    /* ===== Publication row ===== */
+    .pub{
+      border-top: 1px dashed var(--line);
+      padding: 14px 0;
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+    }
+    .pub:first-child{border-top:none; padding-top: 6px;}
+    .pub-title{
+      margin:0 0 6px 0;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1.35;
+      letter-spacing:-0.01em;
+    }
+    .pub-authors{
+      margin:0 0 6px 0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .pub-venue{
+      margin:0;
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .pub-venue a{
+      color: var(--accent);
+      font-weight: 900;
+      text-decoration:none;
+    }
+    .pub-venue a:hover{text-decoration: underline;}
 
-  .right-col{
-    display:flex;
-    flex-direction: column;
-    align-items:flex-end;
-    gap: 8px;
-    min-width: 160px;
-  }
-  .badges{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    justify-content:flex-end;
-  }
-  .badge{
-    font-size: 11px;
-    font-weight: 900;
-    padding: 6px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--line);
-    background: #fff;
-    color: var(--muted);
-    white-space: nowrap;
-  }
-  .badge.peer{
-    background: rgba(16,185,129,0.10);
-    border-color: rgba(16,185,129,0.25);
-    color: #047857;
-  }
-  .badge.preprint{
-    background: rgba(37,99,235,0.10);
-    border-color: rgba(37,99,235,0.25);
-    color: #1d4ed8;
-  }
-  .badge.year{
-    background: rgba(15,23,42,0.05);
-    border-color: rgba(15,23,42,0.12);
-    color: var(--muted);
-  }
+    .right-col{
+      display:flex;
+      flex-direction: column;
+      align-items:flex-end;
+      gap: 8px;
+      min-width: 160px;
+    }
+    .badges{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .badge{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    .badge.peer{
+      background: rgba(16,185,129,0.10);
+      border-color: rgba(16,185,129,0.25);
+      color: #047857;
+    }
+    .badge.preprint{
+      background: rgba(37,99,235,0.10);
+      border-color: rgba(37,99,235,0.25);
+      color: #1d4ed8;
+    }
+    .badge.year{
+      background: rgba(15,23,42,0.05);
+      border-color: rgba(15,23,42,0.12);
+      color: var(--muted);
+    }
 
-  .empty{
-    background:#fff;
-    border: 1px dashed var(--line);
-    border-radius: 14px;
-    padding: 14px;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 900;
-  }
+    .empty{
+      background:#fff;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      padding: 14px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 900;
+    }
 
-  @media (max-width: 860px){
-    .pub{grid-template-columns: 1fr;}
-    .right-col{align-items:flex-start; min-width:auto;}
-    .badges{justify-content:flex-start;}
-  }
-</style>
-{% endblock %}
+    @media (max-width: 860px){
+      .pub{grid-template-columns: 1fr;}
+      .right-col{align-items:flex-start; min-width:auto;}
+      .badges{justify-content:flex-start;}
+    }
+  </style>
+</head>
 
-{% block content %}
-<div class="pub-page">
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
+        </div>
+      </a>
+
+      <div class="nav-right">
+        <a class="pill" href="{% url 'member' %}">Members</a>
+        <a class="pill" href="{% url 'position' %}">Positions</a>
+        <a class="pill primary" href="{% url 'contact' %}">Contact</a>
+      </div>
+    </div>
+  </header>
+
   <main class="wrap">
 
     <div class="page-head">
@@ -310,7 +401,7 @@
 
     <div id="app"></div>
 
-    <!-- Data fallback -->
+    <!-- ===== Data: use static JSON if you create it; else fallback to embedded JSON ===== -->
     <script id="pubData" type="application/json">
 {
   "publications": [
@@ -344,207 +435,210 @@
 }
     </script>
 
-  </main>
-</div>
-{% endblock %}
+    <script>
+      (function(){
+        const app = document.getElementById('app');
+        const searchBox = document.getElementById('searchBox');
+        const chips = Array.from(document.querySelectorAll('.chip'));
+        const sortSelect = document.getElementById('sortSelect');
+        const visibleCount = document.getElementById('visibleCount');
+        const sourceLabel = document.getElementById('sourceLabel');
 
-{% block extra_js %}
-<script>
-  (function(){
-    const app = document.getElementById('app');
-    const searchBox = document.getElementById('searchBox');
-    const chips = Array.from(document.querySelectorAll('.chip'));
-    const sortSelect = document.getElementById('sortSelect');
-    const visibleCount = document.getElementById('visibleCount');
-    const sourceLabel = document.getElementById('sourceLabel');
+        let ALL = [];
+        let filter = 'all';
+        let query = '';
+        let sortMode = 'newest';
 
-    let ALL = [];
-    let filter = 'all';
-    let query = '';
-    let sortMode = 'newest';
+        function safeText(s){ return (s || '').toString(); }
+        function normalizeAuthors(authors){ return safeText(authors).replace(/\s+/g,' ').trim(); }
 
-    function safeText(s){ return (s || '').toString(); }
-    function normalizeAuthors(authors){ return safeText(authors).replace(/\s+/g,' ').trim(); }
+        function firstAuthorSurname(authors){
+          const a = normalizeAuthors(authors);
+          if(!a) return '';
+          const first = a.split(',')[0].trim();
+          if(first.includes(' ')){
+            const parts = first.split(' ').filter(Boolean);
+            return parts[parts.length-1].toLowerCase();
+          }
+          return first.toLowerCase();
+        }
 
-    function firstAuthorSurname(authors){
-      const a = normalizeAuthors(authors);
-      if(!a) return '';
-      const first = a.split(',')[0].trim();
-      if(first.includes(' ')){
-        const parts = first.split(' ').filter(Boolean);
-        return parts[parts.length-1].toLowerCase();
-      }
-      return first.toLowerCase();
-    }
+        function match(p){
+          if(filter !== 'all' && p.type !== filter) return false;
+          if(!query) return true;
+          const hay = (
+            safeText(p.title) + ' ' +
+            safeText(p.authors) + ' ' +
+            safeText(p.venue)
+          ).toLowerCase();
+          return hay.includes(query);
+        }
 
-    function match(p){
-      if(filter !== 'all' && p.type !== filter) return false;
-      if(!query) return true;
-      const hay = (
-        safeText(p.title) + ' ' +
-        safeText(p.authors) + ' ' +
-        safeText(p.venue)
-      ).toLowerCase();
-      return hay.includes(query);
-    }
+        function sortPubs(list){
+          const arr = [...list];
+          if(sortMode === 'newest'){
+            arr.sort((a,b)=> (b.year||b.fy||0) - (a.year||a.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
+          }else if(sortMode === 'oldest'){
+            arr.sort((a,b)=> (a.year||a.fy||0) - (b.year||b.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
+          }else if(sortMode === 'title'){
+            arr.sort((a,b)=> safeText(a.title).localeCompare(safeText(b.title)));
+          }else if(sortMode === 'author'){
+            arr.sort((a,b)=> firstAuthorSurname(a.authors).localeCompare(firstAuthorSurname(b.authors)) || safeText(a.title).localeCompare(safeText(b.title)));
+          }
+          return arr;
+        }
 
-    function sortPubs(list){
-      const arr = [...list];
-      if(sortMode === 'newest'){
-        arr.sort((a,b)=> (b.year||b.fy||0) - (a.year||a.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
-      }else if(sortMode === 'oldest'){
-        arr.sort((a,b)=> (a.year||a.fy||0) - (b.year||b.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
-      }else if(sortMode === 'title'){
-        arr.sort((a,b)=> safeText(a.title).localeCompare(safeText(b.title)));
-      }else if(sortMode === 'author'){
-        arr.sort((a,b)=> firstAuthorSurname(a.authors).localeCompare(firstAuthorSurname(b.authors)) || safeText(a.title).localeCompare(safeText(b.title)));
-      }
-      return arr;
-    }
+        function groupByFY(list){
+          const map = new Map();
+          list.forEach(p=>{
+            const fy = p.fy || p.year || 'Unknown';
+            if(!map.has(fy)) map.set(fy, []);
+            map.get(fy).push(p);
+          });
+          return Array.from(map.entries()).sort((a,b)=> Number(b[0]) - Number(a[0]));
+        }
 
-    function groupByFY(list){
-      const map = new Map();
-      list.forEach(p=>{
-        const fy = p.fy || p.year || 'Unknown';
-        if(!map.has(fy)) map.set(fy, []);
-        map.get(fy).push(p);
-      });
-      return Array.from(map.entries()).sort((a,b)=> Number(b[0]) - Number(a[0]));
-    }
+        function pubRow(p){
+          const type = p.type;
+          const year = p.year || p.fy || '';
+          const title = safeText(p.title);
+          const authors = normalizeAuthors(p.authors);
+          const venue = safeText(p.venue);
+          const link = safeText(p.link);
 
-    function pubRow(p){
-      const type = p.type;
-      const year = p.year || p.fy || '';
-      const title = safeText(p.title);
-      const authors = normalizeAuthors(p.authors);
-      const venue = safeText(p.venue);
-      const link = safeText(p.link);
+          const badgeType = (type === 'peer')
+            ? `<span class="badge peer">Peer-reviewed</span>`
+            : `<span class="badge preprint">Preprint</span>`;
 
-      const badgeType = (type === 'peer')
-        ? `<span class="badge peer">Peer-reviewed</span>`
-        : `<span class="badge preprint">Preprint</span>`;
+          const venueHtml = link
+            ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${venue || link}</a>`
+            : `${venue || ''}`;
 
-      const venueHtml = link
-        ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${venue || link}</a>`
-        : `${venue || ''}`;
-
-      return `
-        <div class="pub" data-type="${type}">
-          <div>
-            <p class="pub-title">${title}</p>
-            <p class="pub-authors">${authors}</p>
-            <p class="pub-venue">${venueHtml}</p>
-          </div>
-          <div class="right-col">
-            <div class="badges">
-              ${badgeType}
-              <span class="badge year">${year}</span>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    function render(){
-      const visible = sortPubs(ALL.filter(match));
-      visibleCount.textContent = `${visible.length} items`;
-
-      if(visible.length === 0){
-        app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
-        return;
-      }
-
-      const groups = groupByFY(visible);
-      let html = '';
-
-      groups.forEach(([fy, items])=>{
-        const peers = items.filter(x=>x.type==='peer');
-        const pres  = items.filter(x=>x.type==='preprint');
-
-        html += `
-          <section class="section">
-            <div class="section-title">
-              <h2>FY${fy}</h2>
-              <div class="small">${items.length} total</div>
-            </div>
-        `;
-
-        function block(title, arr){
-          if(arr.length === 0) return '';
           return `
-            <div class="subhead">
-              <h3>${title}</h3>
-              <div class="small">${arr.length} items</div>
-            </div>
-            <div>
-              ${arr.map(p=>pubRow(p)).join('')}
+            <div class="pub" data-type="${type}">
+              <div>
+                <p class="pub-title">${title}</p>
+                <p class="pub-authors">${authors}</p>
+                <p class="pub-venue">${venueHtml}</p>
+              </div>
+              <div class="right-col">
+                <div class="badges">
+                  ${badgeType}
+                  <span class="badge year">${year}</span>
+                </div>
+              </div>
             </div>
           `;
         }
 
-        html += block('Peer Reviewed', peers);
-        html += block('Preprints', pres);
-        html += `</section>`;
-      });
+        function render(){
+          const visible = sortPubs(ALL.filter(match));
+          visibleCount.textContent = `${visible.length} items`;
 
-      app.innerHTML = html;
-    }
+          if(visible.length === 0){
+            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
+            return;
+          }
 
-    async function loadData(){
-      const jsonUrl = "{% static 'data/publications.json' %}";
-      try{
-        const res = await fetch(jsonUrl, {cache:'no-store'});
-        if(!res.ok) throw new Error('not found');
-        const data = await res.json();
-        ALL = (data.publications || []).map(x=>({
-          fy: x.fy ?? x.year ?? '',
-          year: x.year ?? x.fy ?? '',
-          type: x.type || 'peer',
-          title: x.title || '',
-          authors: x.authors || '',
-          venue: x.venue || '',
-          link: x.link || ''
-        }));
-        sourceLabel.textContent = "static/data/publications.json";
-      }catch(e){
-        const raw = document.getElementById('pubData').textContent.trim();
-        const data = JSON.parse(raw);
-        ALL = (data.publications || []).map(x=>({
-          fy: x.fy ?? x.year ?? '',
-          year: x.year ?? x.fy ?? '',
-          type: x.type || 'peer',
-          title: x.title || '',
-          authors: x.authors || '',
-          venue: x.venue || '',
-          link: x.link || ''
-        }));
-        sourceLabel.textContent = "embedded JSON (fallback)";
-      }
-    }
+          const groups = groupByFY(visible);
+          let html = '';
 
-    chips.forEach(ch=>{
-      ch.addEventListener('click', ()=>{
-        chips.forEach(x=>x.classList.remove('active'));
-        ch.classList.add('active');
-        filter = ch.dataset.filter || 'all';
-        render();
-      });
-    });
+          groups.forEach(([fy, items])=>{
+            const peers = items.filter(x=>x.type==='peer');
+            const pres  = items.filter(x=>x.type==='preprint');
 
-    searchBox.addEventListener('input', ()=>{
-      query = (searchBox.value || '').trim().toLowerCase();
-      render();
-    });
+            html += `
+              <section class="section">
+                <div class="section-title">
+                  <h2>FY${fy}</h2>
+                  <div class="small">${items.length} total</div>
+                </div>
+            `;
 
-    sortSelect.addEventListener('change', ()=>{
-      sortMode = sortSelect.value;
-      render();
-    });
+            function block(title, arr){
+              if(arr.length === 0) return '';
+              return `
+                <div class="subhead">
+                  <h3>${title}</h3>
+                  <div class="small">${arr.length} items</div>
+                </div>
+                <div>
+                  ${arr.map(p=>pubRow(p)).join('')}
+                </div>
+              `;
+            }
 
-    (async ()=>{
-      await loadData();
-      render();
-    })();
-  })();
-</script>
-{% endblock %}
+            html += block('Peer Reviewed', peers);
+            html += block('Preprints', pres);
+
+            html += `</section>`;
+          });
+
+          app.innerHTML = html;
+        }
+
+        async function loadData(){
+          // optional auto from static JSON (if you later create it)
+          const jsonUrl = "{% static 'data/publications.json' %}";
+          try{
+            const res = await fetch(jsonUrl, {cache:'no-store'});
+            if(!res.ok) throw new Error('not found');
+            const data = await res.json();
+            ALL = (data.publications || []).map(x=>({
+              fy: x.fy ?? x.year ?? '',
+              year: x.year ?? x.fy ?? '',
+              type: x.type || 'peer',
+              title: x.title || '',
+              authors: x.authors || '',
+              venue: x.venue || '',
+              link: x.link || ''
+            }));
+            sourceLabel.textContent = "static/data/publications.json";
+          }catch(e){
+            const raw = document.getElementById('pubData').textContent.trim();
+            const data = JSON.parse(raw);
+            ALL = (data.publications || []).map(x=>({
+              fy: x.fy ?? x.year ?? '',
+              year: x.year ?? x.fy ?? '',
+              type: x.type || 'peer',
+              title: x.title || '',
+              authors: x.authors || '',
+              venue: x.venue || '',
+              link: x.link || ''
+            }));
+            sourceLabel.textContent = "embedded JSON (fallback)";
+          }
+        }
+
+        // ===== Events =====
+        chips.forEach(ch=>{
+          ch.addEventListener('click', ()=>{
+            chips.forEach(x=>x.classList.remove('active'));
+            ch.classList.add('active');
+            filter = ch.dataset.filter || 'all';
+            render();
+          });
+        });
+
+        searchBox.addEventListener('input', ()=>{
+          query = (searchBox.value || '').trim().toLowerCase();
+          render();
+        });
+
+        sortSelect.addEventListener('change', ()=>{
+          sortMode = sortSelect.value;
+          render();
+        });
+
+        // ===== Init =====
+        (async ()=>{
+          await loadData();
+          render();
+        })();
+
+      })();
+    </script>
+
+  </main>
+</body>
+</html>
