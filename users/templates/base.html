@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}Quantar Lab{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <style>
+    /* ===== TẤT CẢ CSS CHUNG Ở ĐÂY ===== */
+    :root{
+      --bg:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --card:#ffffff;
+      --shadow: 0 14px 40px rgba(15,23,42,.10);
+      --accent:#2563eb;
+      --accentDark:#0b1220;
+      --radius:16px;
+      --max: 1200px;
+    }
+    /* ... giữ nguyên CSS của bạn ... */
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- ===== HEADER DÙNG CHUNG ===== -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">Quantum Science & Technology</div>
+        </div>
+      </a>
+
+      <nav class="nav">
+        <div class="item">
+          <a class="nav-btn" href="{% url 'home' %}">Home</a>
+        </div>
+
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Research ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Research</div>
+            <a class="dd-link" href="{% url 'publication' %}">Publications</a>
+            <a class="dd-link" href="{% url 'resource' %}">Resources</a>
+            <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
+          </div>
+        </div>
+
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+            Members ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Members</div>
+            <a class="dd-link" href="{% url 'me' %}">Profile</a>
+            <a class="dd-link" href="{% url 'member' %}">People</a>
+            <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn" href="{% url 'position' %}">Positions</a>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
+        </div>
+
+        <div class="nav-cta">
+          <a class="pill primary" href="{% url 'publication' %}">Publications</a>
+          <a class="pill ghost" href="{% url 'login' %}">Staff</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== NỘI DUNG MỖI TRANG ===== -->
+  {% block content %}{% endblock %}
+
+  <!-- ===== JS CHUNG (dropdown) ===== -->
+  <script>
+    (function(){
+      // Dropdowns
+      const items = Array.from(document.querySelectorAll('.item.has-dd'));
+      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
+      function closeAll(except=null){
+        items.forEach(it=>{
+          if(it !== except){
+            it.classList.remove('open');
+            const btn = it.querySelector('.dd-toggle');
+            if(btn) btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+      toggles.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const item = btn.closest('.item.has-dd');
+          const willOpen = !item.classList.contains('open');
+          closeAll(item);
+          item.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+      });
+      document.addEventListener('click', ()=> closeAll());
+      document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeAll(); });
+    })();
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
