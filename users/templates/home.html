@@ -664,6 +664,26 @@
 
     <section class="section">
       <div class="teaser">
+        <div class="teaser-img" style="background-image:url('{% static 'images/research2.jpg' %}')"></div>
+        <div>
+          <h3>Quantum Algorithms & Compilation</h3>
+            <p>
+            We develop efficient, device-aware quantum algorithms for near-term quantum computers, with a strong focus on variational methods such as VQE, variational quantum compilation, variational quantum metrology, and feedback-based optimization frameworks including FALQON. 
+            Our goal is to design practical quantum workflows that can be implemented on realistic hardware while remaining robust against noise and limited circuit depth. 
+            These algorithmic tools are applied to a wide range of problems, including many-body physics simulation, quantum sensing and metrology, combinatorial optimization, and emerging applications such as molecular modeling and drug discovery.
+            </p>
+          <div class="chips">
+            <span class="chip">feedback control</span>
+            <span class="chip">gradients</span>
+            <span class="chip">benchmarks</span>
+          </div>
+          <a class="more" href="{% url 'research_algorithms' %}">More →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="teaser">
         <div class="teaser-img" style="background-image:url('{% static 'images/research1.jpg' %}')"></div>
         <div>
           <h3>Quantum Metrology & Sensing</h3>
@@ -683,23 +703,56 @@
 
     <section class="section">
       <div class="teaser">
-        <div class="teaser-img" style="background-image:url('{% static 'images/research2.jpg' %}')"></div>
         <div>
-          <h3>Quantum Algorithms & Compilation</h3>
-            <p>
-            We develop efficient, device-aware quantum algorithms for near-term quantum computers, with a strong focus on variational methods such as VQE, variational quantum compilation, variational quantum metrology, and feedback-based optimization frameworks including FALQON. 
-            Our goal is to design practical quantum workflows that can be implemented on realistic hardware while remaining robust against noise and limited circuit depth. 
-            These algorithmic tools are applied to a wide range of problems, including many-body physics simulation, quantum sensing and metrology, combinatorial optimization, and emerging applications such as molecular modeling and drug discovery.
-            </p>
+          <h3>Quantum Entanglement & Measurement</h3>
+          <p>
+            We investigate quantum entanglement and measurement as fundamental resources for quantum technologies. 
+            Our research focuses on practical methods to detect, certify, and protect entanglement in realistic noisy devices, 
+            including nonlocality tests, variational entanglement witnessing, and optimized measurement strategies. 
+            We also study measurement-induced phenomena and their applications in quantum communication, quantum sensing, 
+            and scalable verification protocols for multipartite quantum systems.
+          </p>
+
           <div class="chips">
-            <span class="chip">feedback control</span>
-            <span class="chip">gradients</span>
-            <span class="chip">benchmarks</span>
+            <span class="chip">nonlocality</span>
+            <span class="chip">entanglement witness</span>
+            <span class="chip">measurement design</span>
           </div>
-          <a class="more" href="{% url 'research_algorithms' %}">More →</a>
+
+          <a class="more" href="{% url 'research_entanglement' %}">More →</a>
         </div>
+
+        <div class="teaser-img" style="background-image:url('{% static 'images/research3.jpg' %}')"></div>
+
       </div>
     </section>
+
+    <section class="section">
+      <div class="teaser">
+        <div>
+          <h3>Quantum Foundations & Nonlocality</h3>
+          <p>
+            We explore the fundamental principles of quantum mechanics through nonlocality, entanglement, and measurement theory. 
+            Our research focuses on identifying quantum correlations that cannot be explained by classical hidden-variable models, 
+            including multipartite systems and quantum networks. 
+            By developing practical, device-friendly protocols for testing nonlocality and certifying quantum resources, 
+            we aim to connect foundational physics with emerging applications in quantum communication, sensing, and verification.
+          </p>
+
+          <div class="chips">
+            <span class="chip">Bell inequality</span>
+            <span class="chip">network nonlocality</span>
+            <span class="chip">foundations</span>
+          </div>
+
+          <a class="more" href="{% url 'research_foundations' %}">More →</a>
+        </div>
+
+        <div class="teaser-img" style="background-image:url('{% static 'images/research4.jpg' %}')"></div>
+
+      </div>
+    </section>
+
 
     <footer class="footer">
       <div class="footer-row">
