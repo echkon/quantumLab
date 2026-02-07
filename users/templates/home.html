@@ -356,9 +356,14 @@
     /* Research teasers */
     .teaser{
       display:grid;
-      grid-template-columns: 440px 1fr;
+      grid-template-columns: 440px 1fr;   /* image left, text right */
       gap: 16px;
       align-items:center;
+    }
+
+    /* for right_fig */
+    .teaser.teaser-right{
+      grid-template-columns: 1fr 440px;   /* text left, image right */
     }
 
     .teaser-img{
@@ -368,7 +373,7 @@
 
     aspect-ratio: 1 / 1;
     width: 100%;
-    max-width: 580px;
+    max-width: 440px;
 
     background-size: cover;
     background-position: center;
@@ -453,7 +458,7 @@
 
     .teaser-img{
         width: 260px;                 
-        max-width: 200%;
+        max-width: 100%;
         margin: 0;                
         aspect-ratio: 1 / 1;
     }
@@ -683,6 +688,28 @@
     </section>
 
     <section class="section">
+      <div class="teaser teaser-right">
+        <div>
+          <h3>Quantum Entanglement & Measurement</h3>
+          <p>
+            We investigate quantum entanglement and measurement as fundamental resources for quantum technologies. 
+            Our research focuses on practical methods to detect, certify, and protect entanglement in realistic noisy devices, 
+            including nonlocality tests, variational entanglement witnessing, and optimized measurement strategies. 
+            We also study measurement-induced phenomena and their applications in quantum communication, quantum sensing, 
+            and scalable verification protocols for multipartite quantum systems.
+          </p>
+          <div class="chips">
+            <span class="chip">nonlocality</span>
+            <span class="chip">entanglement witness</span>
+            <span class="chip">measurement design</span>
+          </div>
+          <a class="more" href="{% url 'research_entanglement' %}">More →</a>
+        </div>
+        <div class="teaser-img" style="background-image:url('{% static 'images/research3.jpg' %}')"></div>
+      </div>
+    </section>
+
+    <section class="section">
       <div class="teaser">
         <div class="teaser-img" style="background-image:url('{% static 'images/research1.jpg' %}')"></div>
         <div>
@@ -702,33 +729,7 @@
     </section>
 
     <section class="section">
-      <div class="teaser">
-        <div>
-          <h3>Quantum Entanglement & Measurement</h3>
-          <p>
-            We investigate quantum entanglement and measurement as fundamental resources for quantum technologies. 
-            Our research focuses on practical methods to detect, certify, and protect entanglement in realistic noisy devices, 
-            including nonlocality tests, variational entanglement witnessing, and optimized measurement strategies. 
-            We also study measurement-induced phenomena and their applications in quantum communication, quantum sensing, 
-            and scalable verification protocols for multipartite quantum systems.
-          </p>
-
-          <div class="chips">
-            <span class="chip">nonlocality</span>
-            <span class="chip">entanglement witness</span>
-            <span class="chip">measurement design</span>
-          </div>
-
-          <a class="more" href="{% url 'research_entanglement' %}">More →</a>
-        </div>
-
-        <div class="teaser-img" style="background-image:url('{% static 'images/research3.jpg' %}')"></div>
-
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="teaser">
+      <div class="teaser teaser-right">
         <div>
           <h3>Quantum Foundations & Nonlocality</h3>
           <p>
@@ -738,18 +739,14 @@
             By developing practical, device-friendly protocols for testing nonlocality and certifying quantum resources, 
             we aim to connect foundational physics with emerging applications in quantum communication, sensing, and verification.
           </p>
-
           <div class="chips">
             <span class="chip">Bell inequality</span>
             <span class="chip">network nonlocality</span>
             <span class="chip">foundations</span>
           </div>
-
           <a class="more" href="{% url 'research_foundations' %}">More →</a>
         </div>
-
         <div class="teaser-img" style="background-image:url('{% static 'images/research4.jpg' %}')"></div>
-
       </div>
     </section>
 
