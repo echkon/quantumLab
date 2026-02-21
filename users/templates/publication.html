@@ -603,9 +603,9 @@
               <div class="nav-cta">
                 <a class="pill ghost" href="{% url 'login' %}">Staff</a>
               </div>
-            </nav>
-          </div>
-        </header>
+      </nav>
+    </div>
+  </header>
 
   <main class="wrap">
 
@@ -648,7 +648,7 @@
 {
   "publications": [
     {"fy":2025,"type":"peer","title":"Optimized quantum sensor networks for ultralight dark matter detection","authors":"Adriel I Santoso, Le Bin Ho","venue":"Physical Review D 112, L081301 (2025)","year":2025,"link":"https://journals.aps.org/prd/abstract/10.1103/rv43-54zq"},
-    {"fy":2025,"type":"peer","title":"Two‐Time Approach to Past–Future Quantum Dynamics: Formalism and Applications","authors":"Le Bin Ho","venue":"Advanced Physics Research, e00099 (2025)","year":2025,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/apxr.202500099"},
+    {"fy":2025,"type":"peer","title":"Two-Time Approach to Past-Future Quantum Dynamics: Formalism and Applications","authors":"Le Bin Ho","venue":"Advanced Physics Research, e00099 (2025)","year":2025,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/apxr.202500099"},
     {"fy":2025,"type":"peer","title":"Entangled State Preparation via Cluster States on Quantum Computers with COOP Software","authors":"Vu Tuan Hai, Jesus Urbaneja, Le Bin Ho","venue":"2025 IEEE International Conference on Quantum Software (QSW) (2025)","year":2025,"link":"https://ieeexplore.ieee.org/abstract/document/11134319"},
     {"fy":2025,"type":"peer","title":"Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements","authors":"Haruki Matsunaga, Le Bin Ho","venue":"Physical Review Research 7, 013239 (2025)","year":2025,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239"},
 
@@ -851,6 +851,36 @@
             sourceLabel.textContent = "embedded JSON (fallback)";
           }
         }
+
+        // ===== Dropdowns (CLICK to open; click outside to close) =====
+        const items = Array.from(document.querySelectorAll('.item.has-dd'));
+        const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
+
+        function closeAll(except=null){
+          items.forEach(it=>{
+            if(it !== except){
+              it.classList.remove('open');
+              const btn = it.querySelector('.dd-toggle');
+              if(btn) btn.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+        
+        toggles.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const item = btn.closest('.item.has-dd');
+          const willOpen = !item.classList.contains('open');
+          closeAll(item);
+          item.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+      });
+
+      document.addEventListener('click', ()=> closeAll());
+      document.addEventListener('keydown', (e)=>{
+        if(e.key === 'Escape') closeAll();
+      });
 
         // ===== Events =====
         chips.forEach(ch=>{
