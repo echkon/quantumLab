@@ -76,8 +76,9 @@
       flex:1;
       justify-content:flex-end;
     }
+
     .item{ position: relative; }
-    
+
     .nav-btn{
       display:flex;
       align-items:center;
@@ -194,7 +195,7 @@
       display:grid;
       gap:12px;
     }
-    .item{
+    .item_main{
       background:var(--card);
       border:1px solid var(--line);
       border-radius:var(--radius);
@@ -210,18 +211,18 @@
     }
     .date{
       font-weight:900;
-      font-size:13px;
+      font-size:16px;
       color:#111827;
       white-space:nowrap;
     }
     .desc{
-      font-size:14px;
+      font-size:16px;
       color:var(--text);
       line-height:1.6;
     }
     .tag{
       display:inline-block;
-      font-size:11px;
+      font-size:14px;
       font-weight:900;
       padding:5px 10px;
       border-radius:999px;
@@ -249,9 +250,10 @@
         <div class="brand-dot"></div>
         <div>
           <div class="brand-title">Quantar Lab</div>
-          <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
+          <div class="brand-sub">Quantum algorithms and technologies for advanced research</div>
         </div>
       </a>
+
       <nav class="nav">
         <div class="item">
           <a class="nav-btn" href="{% url 'home' %}">Home</a>
@@ -270,8 +272,8 @@
           </div>
         </div>
 
-      <!-- Members dropdown (click) -->
-      <div class="item has-dd">
+        <!-- Members dropdown (click) -->
+        <div class="item has-dd">
           <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
             Members ▾
           </button>
@@ -281,7 +283,7 @@
             <a class="dd-link" href="{% url 'member' %}">People</a>
             <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
           </div>
-      </div>
+        </div>
 
         <div class="item">
           <a class="nav-btn" href="{% url 'position' %}">Positions</a>
@@ -304,7 +306,41 @@
     <!-- Upcoming -->
     <h2>Upcoming events</h2>
     <div class="list">
-      <div class="item">
+
+      <div class="item_main">
+        <div class="date">April 22-25, 2026</div>
+        <div class="desc">
+          <span class="tag">Lecture</span><br>
+          <em>The School on Quantum Optimization Algorithms (SQOA) 2026</em>,
+          University of Phan Thiet (UPT), Vietnam.
+        </div>
+      </div>
+
+      <div class="item_main">
+        <div class="date">April 21, 2026</div>
+        <div class="desc">
+          <span class="tag">Invited talk</span><br>
+          <em>Quantum Algorithms in the NISQ Era: From Principles to Practical Applications</em>,
+          University of Economics Ho Chi Minh City (UEH), Vietnam.
+        </div>
+      </div>
+
+      <div class="item_main">
+        <div class="date">Feb 27, 2026</div>
+        <div class="desc">
+          <span class="tag">Invited talk</span><br>
+          <em>New-Generation Quantum Sensor Networks for Weak-Signal Detection</em>,
+          University of Science, National University HCM, online.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Past -->
+    <h2>Past events</h2>
+    <div class="list">
+
+      <div class="item_main">
         <div class="date">Oct 13-15, 2025</div>
         <div class="desc">
           <span class="tag">Conference</span><br>
@@ -313,12 +349,8 @@
           Phenikaa University, Hanoi, Vietnam.
         </div>
       </div>
-    </div>
 
-    <!-- Past -->
-    <h2>Past events</h2>
-    <div class="list">
-      <div class="item">
+      <div class="item_main">
         <div class="date">Sep 16-19, 2025</div>
         <div class="desc">
           <span class="tag">Conference</span><br>
@@ -326,7 +358,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item_main">
         <div class="date">Aug 17-23, 2025</div>
         <div class="desc">
           <span class="tag">School</span><br>
@@ -335,7 +367,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item_main">
         <div class="date">Jul 17-18, 2025</div>
         <div class="desc">
           <span class="tag">Retreat</span><br>
@@ -343,7 +375,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item_main">
         <div class="date">Jul 7-12, 2025</div>
         <div class="desc">
           <span class="tag">Workshop</span><br>
@@ -351,7 +383,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item_main">
         <div class="date">Jun 30, 2025</div>
         <div class="desc">
           <span class="tag">Seminar</span><br>
