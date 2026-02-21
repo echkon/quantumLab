@@ -9,15 +9,16 @@
 
   <style>
     :root{
-      --bg:#f4f6f8;
-      --card:#ffffff;
+      --bg:#ffffff;
       --text:#0f172a;
       --muted:#475569;
       --line:#e2e8f0;
+      --card:#ffffff;
       --shadow: 0 14px 40px rgba(15,23,42,.10);
       --accent:#2563eb;
-      --max: 1100px;
-      --radius: 16px;
+      --accentDark:#0b1220;
+      --radius:16px;
+      --max: 1200px;
     }
     *{box-sizing:border-box}
     body{
@@ -40,16 +41,16 @@
     .topbar-inner{
       max-width: var(--max);
       margin: 0 auto;
-      padding: 12px 16px;
+      padding: 10px 18px;
       display:flex;
       align-items:center;
-      justify-content: space-between;
-      gap: 12px;
+      gap: 16px;
     }
     .brand{
       display:flex;
-      gap:10px;
       align-items:center;
+      gap:10px;
+      min-width: 220px;
       text-decoration:none;
     }
     .brand-dot{
@@ -74,6 +75,87 @@
       flex-wrap: wrap;
       justify-content:flex-end;
     }
+    .nav{
+      display:flex;
+      gap: 6px;
+      align-items:center;
+      flex:1;
+      justify-content:flex-end;
+    }
+
+    .item{ position: relative; }
+
+    .nav-btn{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      text-decoration:none;
+      font-weight: 800;
+      color: var(--text);
+      border: 1px solid transparent;
+      transition: background .12s ease, border-color .12s ease, transform .12s ease;
+    }
+    .nav-btn:hover{
+      background: rgba(37,99,235,0.06);
+      border-color: rgba(37,99,235,0.18);
+      transform: translateY(-1px);
+    }
+
+    /* Dropdown button reset */
+    .dd-toggle{
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
+    .dd-toggle:focus{
+      outline: none;
+      border-color: rgba(37,99,235,0.25);
+    }
+
+    /* Dropdown (CLICK to open) */
+    .dropdown{
+      position:absolute;
+      right:0;
+      top: 46px;
+      width: 260px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      padding: 10px;
+      display:none;
+      z-index: 1000;
+    }
+    .item.open .dropdown{ display:block; }
+
+    .dd-title{
+      font-size:11px;
+      font-weight: 900;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 8px 6px 8px;
+    }
+    .dd-link{
+      display:block;
+      padding: 10px 10px;
+      border-radius: 12px;
+      text-decoration:none;
+      font-weight: 800;
+      color: var(--text);
+      transition: background .12s ease;
+    }
+    .dd-link:hover{background: rgba(37,99,235,0.06);}
+
+    .nav-cta{
+      margin-left: 8px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+
     .pill{
       display:inline-flex;
       align-items:center;
@@ -93,6 +175,130 @@
       color:#fff;
       border-color: transparent;
     }
+
+    /* ===== Slider ===== */
+    .slider-wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 18px;
+    }
+    .slider{
+      position:relative;
+      border-radius: 22px;
+      overflow:hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
+      min-height: 380px;
+      background:#000;
+    }
+    .slide{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      transition: opacity 300ms ease;
+      background-size: cover;
+      background-position: center;
+    }
+    .slide.active{opacity:1;}
+    .slide::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.20));
+    }
+    .slide-content{
+      position:absolute;
+      left: 26px;
+      bottom: 26px;
+      max-width: 720px;
+      color:#fff;
+      z-index: 2;
+    }
+    .slide-kicker{
+      font-size:12px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      opacity:.86;
+      margin-bottom: 10px;
+    }
+    .slide-title{
+      font-size: 34px;
+      line-height:1.15;
+      font-weight: 900;
+      margin:0 0 10px 0;
+      letter-spacing:-0.01em;
+    }
+    .slide-desc{
+      margin:0 0 14px 0;
+      color: rgba(255,255,255,0.88);
+      line-height: 1.6;
+      font-size: 20px;
+    }
+    .slide-actions{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-weight: 900;
+      text-decoration:none;
+      border: 1px solid rgba(255,255,255,0.20);
+      color:#fff;
+      background: rgba(255,255,255,0.08);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.12);
+    }
+    .btn.primary{
+      background: var(--accent);
+      border-color: transparent;
+    }
+
+    .arrow{
+      position:absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.20);
+      background: rgba(0,0,0,0.35);
+      color:#fff;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index: 3;
+      transition: background .12s ease, transform .12s ease;
+    }
+    .arrow:hover{background: rgba(0,0,0,0.5); transform: translateY(-50%) scale(1.03);}
+    .arrow.left{left: 14px;}
+    .arrow.right{right: 14px;}
+
+    .dots{
+      position:absolute;
+      right: 16px;
+      bottom: 16px;
+      display:flex;
+      gap: 8px;
+      z-index: 4;
+    }
+    .dot{
+      width: 10px; height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.35);
+      border: 1px solid rgba(255,255,255,0.25);
+      cursor:pointer;
+    }
+    .dot.active{background:#fff;}
 
     /* ===== Page shell ===== */
     .wrap{
@@ -355,14 +561,51 @@
           <div class="brand-sub">Quantum algorithms and technologies for advanced research</div>
         </div>
       </a>
+      <nav class="nav">
+              <div class="item">
+                <a class="nav-btn" href="{% url 'home' %}">Home</a>
+              </div>
 
-      <div class="nav-right">
-        <a class="pill" href="{% url 'member' %}">Members</a>
-        <a class="pill" href="{% url 'position' %}">Positions</a>
-        <a class="pill primary" href="{% url 'contact' %}">Contact</a>
-      </div>
-    </div>
-  </header>
+              <!-- Research dropdown (click) -->
+              <div class="item has-dd">
+                <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+                  Research ▾
+                </button>
+                <div class="dropdown" role="menu">
+                  <div class="dd-title">Research</div>
+                  <a class="dd-link" href="{% url 'publication' %}">Publications</a>
+                  <a class="dd-link" href="{% url 'resource' %}">Resources</a>
+                  <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
+                </div>
+              </div>
+
+              <!-- Members dropdown (click) -->
+              <div class="item has-dd">
+                <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
+                  Members ▾
+                </button>
+                <div class="dropdown" role="menu">
+                  <div class="dd-title">Members</div>
+                  <a class="dd-link" href="{% url 'me' %}">Profile</a>
+                  <a class="dd-link" href="{% url 'member' %}">People</a>
+                  <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
+                </div>
+              </div>
+
+              <div class="item">
+                <a class="nav-btn" href="{% url 'position' %}">Positions</a>
+              </div>
+
+              <div class="item">
+                <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
+              </div>
+
+              <div class="nav-cta">
+                <a class="pill ghost" href="{% url 'login' %}">Staff</a>
+              </div>
+            </nav>
+          </div>
+        </header>
 
   <main class="wrap">
 
