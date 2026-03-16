@@ -1,0 +1,95 @@
+<!-- templates/download.html -->
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Download Video</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:0;
+    background-color:rgb(222,224,232);
+}
+
+.header{
+    text-align:center;
+    padding:20px;
+    background-color:rgb(12,9,28);
+}
+
+.main{
+    flex:1;
+    margin-left:0px;
+    background-color:#ffffff;
+    padding:20px;
+}
+
+.position-entry{
+    border-left:4px solid #007ACC;
+    padding-left:16px;
+    margin-bottom:24px;
+    max-width:900px;
+}
+
+.position-entry h2{
+    margin:0;
+    color:#007ACC;
+}
+
+.download-btn{
+    display:inline-block;
+    padding:12px 22px;
+    background:#007ACC;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    font-weight:bold;
+}
+
+.download-btn:hover{
+    background:#005fa3;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="header">
+<p style="text-align:left;">
+<a href="{% url 'home' %}" style="font-size:28px;color:white;text-decoration:none;">
+Quantar Lab <br>
+<span style="font-size:18px;color:#ddd;">
+Quantum algorithms and technologies for advanced research
+</span>
+</a>
+</p>
+</div>
+
+<div class="main">
+
+<h1>Download Video</h1>
+
+<section>
+<div class="position-entry">
+
+<h2>Quantum Sensor Network Tutorial</h2>
+
+<p>You can download the video below.</p>
+
+<a class="download-btn"
+   href="{% static 'videos/MAR-W18-8-Le-Binho.mp4' %}"
+   download>
+   Download Video
+</a>
+
+</div>
+</section>
+
+</div>
+
+</body>
+</html>

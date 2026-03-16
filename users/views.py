@@ -66,6 +66,9 @@ def upload_file(request):
 
     return render(request, 'upload.html')
 
+def download(request):
+    return render(request, "download.html")
+
 def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
