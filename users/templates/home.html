@@ -4,6 +4,9 @@
   <meta charset="utf-8" />
   <title>Quantar Lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   {% load static %}
   <style>
     :root{
@@ -22,7 +25,7 @@
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: Arial, sans-serif;
+      font-family: 'Inter', Arial, sans-serif;
       color:var(--text);
       background:var(--bg);
     }
@@ -314,13 +317,17 @@
       background: var(--card);
       border: 1px solid var(--line);
       border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: 0 10px 28px rgba(15,23,42,.06);
+      padding: 26px 28px;
+      box-shadow: 0 4px 24px rgba(15,23,42,.05);
     }
     .section h2{
-      margin: 0 0 12px 0;
-      font-size: 20px;
+      margin: 0 0 18px 0;
+      font-size: 18px;
+      font-weight: 800;
       letter-spacing:-0.01em;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
     }
     .section p{
       margin: 0;
@@ -332,25 +339,57 @@
     /* News list */
     .news-item{
       display:grid;
-      grid-template-columns: 120px 1fr;
+      grid-template-columns: 110px 1fr;
       gap: 12px;
-      padding: 10px 0;
-      border-top: 1px dashed var(--line);
+      padding: 11px 10px;
+      border-radius: 10px;
+      transition: background .15s ease;
     }
-    .news-item:first-child{border-top:none; padding-top:0;}
-    .news-date{font-weight: 900; font-size: 16px;}
+    .news-item:hover{ background: rgba(37,99,235,0.04); }
+    .news-date{
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--muted);
+      padding-top: 2px;
+    }
     .news-title{
-      font-weight: 800;
-      font-size: 16px;
-      line-height:1.5;
+      font-weight: 600;
+      font-size: 14px;
+      line-height:1.55;
     }
+    .news-title a{
+      text-decoration: none;
+      color: var(--text);
+      transition: color .12s ease;
+    }
+    .news-title a:hover{ color: var(--accent); }
+
+    /* Source badge for Pick up */
+    .source-badge{
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      margin-bottom: 4px;
+      letter-spacing: 0.02em;
+    }
+    .badge-tiasang{ background: #fef3c7; color: #92400e; }
+    .badge-qz{ background: #ede9fe; color: #5b21b6; }
+    .badge-tohoku{ background: #dbeafe; color: #1e40af; }
+
     .more{
-      margin-top: 12px;
-      display:inline-block;
+      margin-top: 14px;
+      display:inline-flex;
+      align-items: center;
+      gap: 4px;
       text-decoration:none;
-      font-weight: 900;
+      font-weight: 700;
+      font-size: 13px;
       color: var(--accent);
+      transition: gap .12s ease;
     }
+    .more:hover{ gap: 8px; }
 
     /* Research teasers */
     .teaser{
@@ -407,67 +446,151 @@
 
     /* Footer */
     .footer{
-      margin-top: 18px;
-      padding: 18px 0 40px 0;
+      margin-top: 32px;
+      padding: 28px 0 40px 0;
       border-top: 1px solid var(--line);
       color: var(--muted);
       font-size: 12px;
-      line-height: 1.7;
+      line-height: 2;
     }
     .footer-row{
       display:flex;
       justify-content: space-between;
-      gap: 16px;
+      gap: 24px;
       flex-wrap: wrap;
     }
+    .footer-link{
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color .12s ease;
+    }
+    .footer-link:hover{ color: var(--accent); }
 
     /* Responsive */
+    /* ===== Hamburger button (hidden on desktop) ===== */
+    .hamburger{
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+    .hamburger span{
+      display: block;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .hamburger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2){ opacity: 0; }
+    .hamburger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===== Tablet (980px) ===== */
     @media (max-width: 980px){
 
-    /* Header spacing */
-    .topbar-inner{
-        justify-content: space-between;
-        flex-wrap: wrap;              /*  nav/hamburger */
-        gap: 10px;
-    }
-    .brand{min-width:auto;}
+    .topbar-inner{ gap: 10px; }
+    .brand{ min-width: auto; }
 
     /* Slider */
-    .slider{min-height: 320px;}
-    .slide-title{font-size: 26px;}
-    .slide-desc{font-size: 18px;}
+    .slider{ min-height: 300px; }
+    .slide-title{ font-size: 24px; }
+    .slide-desc{ font-size: 16px; }
 
     /* Layout sections */
-    .grid-2{grid-template-columns:1fr;}
+    .grid-2{ grid-template-columns: 1fr; }
 
-    /* News: date + title */
-    .news-item{
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    .news-date{font-size: 14px;}
-    .news-title{font-size: 16px;}
+    /* News */
+    .news-item{ grid-template-columns: 100px 1fr; }
 
-    /* Teaser: */
-    .teaser{
+    /* Teaser */
+    .teaser, .teaser.teaser-right{
         grid-template-columns: 1fr;
         gap: 12px;
         align-items: start;
     }
+    .teaser.teaser-right .teaser-img{ order: -1; }
+    .teaser-img{ width: 100%; max-width: 400px; aspect-ratio: 16/9; }
 
-    .teaser-img{
-        width: 260px;                 
-        max-width: 100%;
-        margin: 0;                
-        aspect-ratio: 1 / 1;
+    .chips{ gap: 6px; }
+    .chip{ font-size: 12px; padding: 5px 9px; }
+    .more{ margin-top: 10px; }
     }
 
-    /* Chips: */
-    .chips{gap: 6px;}
-    .chip{font-size: 12px; padding: 6px 10px;}
+    /* ===== Mobile (640px) ===== */
+    @media (max-width: 640px){
 
-    /* link */
-    .more{margin-top: 10px;}
+    /* Nav → hamburger */
+    .nav{ display: none; position: absolute; top: 100%; left: 0; right: 0;
+          background: #fff; border-bottom: 1px solid var(--line);
+          flex-direction: column; align-items: stretch; gap: 0;
+          padding: 8px 12px 14px; box-shadow: 0 8px 24px rgba(15,23,42,.08);
+          z-index: 100; }
+    .nav.open{ display: flex; }
+    .nav .item{ width: 100%; }
+    .nav-btn{ width: 100%; border-radius: 8px; font-size: 15px; padding: 12px 14px; }
+    .nav-cta{ margin-left: 0; padding: 4px 0 0; }
+    .pill{ width: 100%; justify-content: center; border-radius: 8px; padding: 12px; }
+
+    /* Dropdown inside mobile nav */
+    .item.has-dd .dropdown{
+        position: static; width: 100%; box-shadow: none;
+        border: none; border-radius: 0; padding: 0 0 0 14px;
+        background: transparent;
+    }
+    .item.open .dropdown{ display: block; }
+
+    /* Topbar */
+    .topbar-inner{ position: relative; flex-wrap: nowrap; padding: 10px 14px; }
+    .hamburger{ display: flex; }
+    .brand-sub{ display: none; }
+
+    /* Slider */
+    .slider{ min-height: 240px; border-radius: 14px; }
+    .slide-content{ left: 16px; bottom: 16px; max-width: 90%; }
+    .slide-title{ font-size: 20px; margin-bottom: 6px; }
+    .slide-desc{ font-size: 14px; margin-bottom: 10px; }
+    .slide-kicker{ font-size: 11px; margin-bottom: 6px; }
+    .btn{ font-size: 13px; padding: 9px 12px; }
+    .arrow{ width: 34px; height: 34px; }
+    .slider-wrap{ padding: 12px; }
+
+    /* Container */
+    .container{ padding: 0 12px 24px; }
+
+    /* Sections */
+    .section{ padding: 18px 16px; border-radius: 12px; }
+
+    /* News items: stacked, date as small label above title */
+    .news-item{
+        grid-template-columns: 1fr;
+        gap: 3px;
+        padding: 10px 8px;
+    }
+    .news-date{
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--accent);
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+    }
+    .news-title{ font-size: 13px; }
+
+    /* Teaser */
+    .teaser p{ font-size: 14px; }
+    .teaser h3{ font-size: 17px; }
+    .teaser-img{ aspect-ratio: 16/9; max-width: 100%; }
+
+    /* Footer */
+    .footer-row{ flex-direction: column; gap: 20px; }
     }
 
   </style>
@@ -486,7 +609,11 @@
         </div>
       </a>
 
-      <nav class="nav">
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="mainNav">
         <div class="item">
           <a class="nav-btn" href="{% url 'home' %}">Home</a>
         </div>
@@ -597,7 +724,7 @@
 
   <main class="container">
 
-    <div class="grid-1">
+    <div class="grid-2">
         <section class="section" id="news">
             <h2>News</h2>
 
@@ -651,6 +778,7 @@
           <div class="news-item">
             <div class="news-date">2026 May</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tiasang">Tia Sáng</span></div>
               <a href="https://tiasang.com.vn/nha-khoa-hoc-viet-hoa-giai-diem-nghen-trong-hieu-chuan-may-tinh-luong-tu-5070278.html"
                 target="_blank" rel="noopener noreferrer">
                 Nhà khoa học Việt hóa giải điểm nghẽn trong hiệu chuẩn máy tính lượng tử
@@ -661,6 +789,7 @@
           <div class="news-item">
             <div class="news-date">2026 Mar 29</div>
             <div class="news-title">
+              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
               <a href="https://quantumzeitgeist.com/quantum-entanglement-interference-precision/"
                 target="_blank" rel="noopener noreferrer">
                 Quantum Entanglement Harnessed Via Interference Boosts Measurement Precision
@@ -671,6 +800,7 @@
           <div class="news-item">
             <div class="news-date">2026 Mar 04</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
               <a href="https://www.tohoku.ac.jp/en/press/whats_going_on_inside_quantum_computers_process_tomography.html"
                 target="_blank" rel="noopener noreferrer">
                 What's Going on Inside Quantum Computers?: New Method Simplifies Process Tomography
@@ -681,6 +811,7 @@
           <div class="news-item">
             <div class="news-date">2025 Dec 17</div>
             <div class="news-title">
+              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
               <a href="https://quantumzeitgeist.com/universal-ground-state-preparation-enables-strong-correlation-simulations/"
                 target="_blank" rel="noopener noreferrer">
                 Universal Ground State Preparation Enables Strong Correlation Simulations
@@ -691,6 +822,7 @@
           <div class="news-item">
             <div class="news-date">2025 Oct 17</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
               <a href="https://www.tohoku.ac.jp/en/press/quantum_networks_bring_new_precision_to_dark_matter_searches.html"
                 target="_blank" rel="noopener noreferrer">
                 Quantum networks bring new precision to dark matter searches
@@ -701,6 +833,7 @@
           <div class="news-item">
             <div class="news-date">2025 May 30</div>
             <div class="news-title">
+              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
               <a href="https://quantumzeitgeist.com/quantum-network-improves-dark-matter-detection-sensitivity-with-superconducting-qubits/"
                 target="_blank" rel="noopener noreferrer">
                 Quantum Network Improves Dark Matter Detection Sensitivity
@@ -711,6 +844,7 @@
           <div class="news-item">
             <div class="news-date">2025 Mar 25</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
               <a href="https://www.tohoku.ac.jp/en/press/quantum_computers_analyze_their_own_entanglement.html"
                 target="_blank" rel="noopener noreferrer">
                 Quantum computers analyze their own entanglement
@@ -721,6 +855,7 @@
           <div class="news-item">
             <div class="news-date">2024 Dec 13</div>
             <div class="news-title">
+              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
               <a href="https://quantumzeitgeist.com/quantum-computers-boost-multitasking-with-new-algorithm/"
                 target="_blank" rel="noopener noreferrer">
                 Quantum Computers Boost Multitasking With New Algorithm
@@ -731,6 +866,7 @@
           <div class="news-item">
             <div class="news-date">2024 Dec 10</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
               <a href="https://www.tohoku.ac.jp/en/press/new_algorithm_boosts_multitasking_in_quantum_machine_learning.html"
                 target="_blank" rel="noopener noreferrer">
                 New Algorithm Boosts Multitasking in Quantum Machine Learning
@@ -741,6 +877,7 @@
           <div class="news-item">
             <div class="news-date">2024 Oct 01</div>
             <div class="news-title">
+              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
               <a href="https://quantumzeitgeist.com/quantum-squeezing-boosts-measurement-accuracy-in-multiple-phases-research/"
                 target="_blank" rel="noopener noreferrer">
                 Quantum Squeezing Boosts Measurement Accuracy In Multiple Phases Research
@@ -751,6 +888,7 @@
           <div class="news-item">
             <div class="news-date">2024 Sep 27</div>
             <div class="news-title">
+              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
               <a href="https://www.tohoku.ac.jp/en/press/squeezing_increased_accuracy_out_of_quantum_measurements.html"
                 target="_blank" rel="noopener noreferrer">
                 'Squeezing' Increased Accuracy out of Quantum Measurements
@@ -760,6 +898,7 @@
 
           <a class="more" href="{% url 'publication' %}">More →</a>
         </section>
+    </div>
 
     <div style="height:16px"></div>
 
@@ -848,13 +987,32 @@
     <footer class="footer">
       <div class="footer-row">
         <div>
-          <b>Quantar Lab</b><br/>
-          Tohoku University, Sendai, Japan
+          <b style="font-size:15px;">Quantar Lab</b><br/>
+          Tohoku University, Sendai, Japan<br/>
+          <span style="font-size:11px;opacity:.7;">Quantum algorithms · Metrology · Entanglement · Foundations</span>
         </div>
-        <div>
-          <a href="{% url 'contact' %}" class="more">Contact →</a><br/>
-          <a href="{% url 'position' %}" class="more">Positions →</a>
+        <div style="display:flex;gap:32px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Research</div>
+            <a href="{% url 'publication' %}" class="footer-link">Publications</a><br/>
+            <a href="{% url 'resource' %}" class="footer-link">Resources</a><br/>
+            <a href="{% url 'event' %}" class="footer-link">Talks / Events</a>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">People</div>
+            <a href="{% url 'me' %}" class="footer-link">Profile</a><br/>
+            <a href="{% url 'member' %}" class="footer-link">Members</a><br/>
+            <a href="{% url 'visitor' %}" class="footer-link">Visitors</a>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Lab</div>
+            <a href="{% url 'position' %}" class="footer-link">Open Positions</a><br/>
+            <a href="{% url 'contact' %}" class="footer-link">Contact</a>
+          </div>
         </div>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;opacity:.6;">
+        &copy; 2025 Quantar Lab, Tohoku University. All rights reserved.
       </div>
     </footer>
 
@@ -924,6 +1082,22 @@
       document.addEventListener('keydown', (e)=>{
         if(e.key === 'Escape') closeAll();
       });
+
+      // ===== Hamburger =====
+      const hamburger = document.getElementById('hamburger');
+      const mainNav = document.getElementById('mainNav');
+      hamburger.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const open = mainNav.classList.toggle('open');
+        hamburger.classList.toggle('open', open);
+        hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', ()=>{
+        mainNav.classList.remove('open');
+        hamburger.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      });
+      mainNav.addEventListener('click', (e)=> e.stopPropagation());
     })();
   </script>
 
