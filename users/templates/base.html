@@ -1,0 +1,622 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{% block title %}Quantar Lab{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== Tokens ===== */
+    :root{
+      --bg:#ffffff;
+      --text:#0f172a;
+      --muted:#475569;
+      --line:#e2e8f0;
+      --card:#ffffff;
+      --shadow: 0 4px 24px rgba(15,23,42,.06);
+      --accent:#2563eb;
+      --accentDark:#0b1220;
+      --radius:16px;
+      --max: 1200px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: 'Inter', Arial, sans-serif;
+      color:var(--text);
+      background:var(--bg);
+    }
+    a{color:inherit}
+
+    /* ===== Topbar ===== */
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 10px 18px;
+      display:flex;
+      align-items:center;
+      gap: 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      min-width: 220px;
+      text-decoration:none;
+    }
+    .brand-dot{
+      width:12px; height:12px; border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
+      flex-shrink:0;
+    }
+    .brand-title{
+      font-weight: 900;
+      letter-spacing:-0.01em;
+      line-height:1.1;
+    }
+    .brand-sub{
+      font-size:12px;
+      color:var(--muted);
+      margin-top:2px;
+    }
+
+    /* ===== Nav ===== */
+    .nav{
+      display:flex;
+      gap: 6px;
+      align-items:center;
+      flex:1;
+      justify-content:flex-end;
+    }
+    .item{ position: relative; }
+    .nav-btn{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      text-decoration:none;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+      border: 1px solid transparent;
+      transition: background .12s ease, border-color .12s ease, transform .12s ease;
+    }
+    .nav-btn:hover{
+      background: rgba(37,99,235,0.06);
+      border-color: rgba(37,99,235,0.18);
+      transform: translateY(-1px);
+    }
+    .nav-btn.active{
+      background: rgba(37,99,235,0.08);
+      color: var(--accent);
+      border-color: rgba(37,99,235,0.2);
+    }
+
+    /* Dropdown button */
+    .dd-toggle{
+      background: transparent;
+      cursor: pointer;
+      font: inherit;
+    }
+    .dd-toggle:focus{ outline: none; border-color: rgba(37,99,235,0.25); }
+
+    .dropdown{
+      position:absolute;
+      right:0;
+      top: 46px;
+      width: 240px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: 0 8px 32px rgba(15,23,42,.12);
+      padding: 8px;
+      display:none;
+      z-index: 1000;
+    }
+    .item.open .dropdown{ display:block; }
+    .dd-title{
+      font-size:11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      padding: 8px 8px 4px 8px;
+    }
+    .dd-link{
+      display:block;
+      padding: 9px 10px;
+      border-radius: 10px;
+      text-decoration:none;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text);
+      transition: background .12s ease;
+    }
+    .dd-link:hover{background: rgba(37,99,235,0.06);}
+
+    .nav-cta{
+      margin-left: 6px;
+      display:flex;
+      gap: 8px;
+      align-items:center;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding: 9px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 13px;
+      text-decoration:none;
+      border: 1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      transition: transform .1s ease, background .1s ease;
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .pill.primary{background: var(--accent); color:#fff; border-color: transparent;}
+
+    /* ===== Hamburger (mobile only) ===== */
+    .hamburger{
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+      padding: 8px;
+      flex-shrink: 0;
+    }
+    .hamburger span{
+      display: block;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: transform .2s ease, opacity .2s ease;
+    }
+    .hamburger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2){ opacity: 0; }
+    .hamburger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
+
+    /* ===== Page container ===== */
+    .page-wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 18px 60px;
+    }
+
+    /* ===== Page header ===== */
+    .page-header{
+      margin-bottom: 24px;
+    }
+    .page-header h1{
+      margin: 0 0 6px 0;
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .page-header p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+      max-width: 760px;
+    }
+
+    /* ===== Shared card ===== */
+    .card{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+    }
+    .card h2{
+      margin: 0 0 10px 0;
+      font-size: 17px;
+      font-weight: 700;
+    }
+
+    /* ===== Shared section ===== */
+    .section{
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 22px 24px;
+      margin-bottom: 14px;
+    }
+    .section h2{
+      margin: 0 0 14px 0;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing:-0.01em;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--accent);
+      display: inline-block;
+    }
+    .section p{
+      margin: 0 0 10px 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .section ul, .section ol{
+      margin: 0 0 10px 0;
+      padding-left: 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.7;
+    }
+    .section li{ margin-bottom: 6px; }
+    .section strong{ color: var(--text); }
+
+    /* ===== Shared controls ===== */
+    .controls{
+      display:flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-bottom: 16px;
+    }
+    .search{
+      flex: 1;
+      min-width: 240px;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      background:#fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 12px;
+    }
+    .search input{
+      width:100%;
+      border:none;
+      outline:none;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+    }
+    .filters{
+      display:flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items:center;
+    }
+    .chip{
+      padding: 8px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      user-select:none;
+      transition: transform .10s ease, background .10s ease;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
+    .chip.active{
+      background: rgba(37,99,235,0.12);
+      border-color: rgba(37,99,235,0.35);
+      color: #1d4ed8;
+    }
+    .select{
+      border: 1px solid var(--line);
+      background:#fff;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-weight: 600;
+      font-size: 13px;
+      font-family: inherit;
+      outline:none;
+      cursor:pointer;
+    }
+    .meta-row{
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items:center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .meta-pill{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background:#fff;
+      color: var(--muted);
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    /* ===== Tag/badge utilities ===== */
+    .tag{
+      display:inline-block;
+      font-size:12px;
+      font-weight:700;
+      padding:4px 10px;
+      border-radius:999px;
+      background:rgba(37,99,235,.10);
+      color:#1d4ed8;
+      border:1px solid rgba(37,99,235,.18);
+    }
+
+    /* ===== More link ===== */
+    .more{
+      display:inline-flex;
+      align-items:center;
+      gap: 4px;
+      text-decoration:none;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--accent);
+      transition: gap .12s ease;
+    }
+    .more:hover{ gap: 8px; }
+
+    /* ===== Footer ===== */
+    .footer{
+      margin-top: 32px;
+      padding: 28px 0 40px 0;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 2;
+    }
+    .footer-row{
+      display:flex;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-link{
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 12px;
+      transition: color .12s ease;
+    }
+    .footer-link:hover{ color: var(--accent); }
+    .footer-copy{
+      margin-top:20px;
+      padding-top:16px;
+      border-top:1px solid var(--line);
+      font-size:11px;
+      opacity:.6;
+    }
+
+    /* ===== Tablet (980px) ===== */
+    @media (max-width: 980px){
+      .topbar-inner{ gap: 10px; }
+      .brand{ min-width: auto; }
+    }
+
+    /* ===== Mobile (640px) ===== */
+    @media (max-width: 640px){
+      .hamburger{ display: flex; }
+      .brand-sub{ display: none; }
+
+      .nav{
+        display: none;
+        position: absolute;
+        top: 100%; left: 0; right: 0;
+        background: #fff;
+        border-bottom: 1px solid var(--line);
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        padding: 8px 12px 14px;
+        box-shadow: 0 8px 24px rgba(15,23,42,.08);
+        z-index: 100;
+      }
+      .nav.open{ display: flex; }
+      .nav .item{ width: 100%; }
+      .nav-btn{ width: 100%; border-radius: 8px; font-size: 15px; padding: 12px 14px; }
+      .nav-cta{ margin-left: 0; padding: 4px 0 0; }
+      .pill{ width: 100%; justify-content: center; border-radius: 8px; padding: 12px; }
+
+      .item.has-dd .dropdown{
+        position: static; width: 100%; box-shadow: none;
+        border: none; border-radius: 0; padding: 0 0 0 14px;
+        background: transparent;
+      }
+      .item.open .dropdown{ display: block; }
+
+      .topbar-inner{ position: relative; flex-wrap: nowrap; padding: 10px 14px; }
+
+      .page-wrap{ padding: 18px 12px 40px; }
+      .page-header h1{ font-size: 24px; }
+      .card{ padding: 16px; }
+      .section{ padding: 16px; }
+
+      .controls{ flex-direction: column; align-items: stretch; }
+      .search{ min-width: 0; }
+
+      .footer-row{ flex-direction: column; gap: 20px; }
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="brand-dot"></div>
+        <div>
+          <div class="brand-title">Quantar Lab</div>
+          <div class="brand-sub">Quantum algorithms and technologies for advanced research</div>
+        </div>
+      </a>
+
+      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="nav" id="mainNav">
+        <div class="item">
+          <a class="nav-btn {% block nav_home %}{% endblock %}" href="{% url 'home' %}">Home</a>
+        </div>
+
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle {% block nav_research %}{% endblock %}" type="button" aria-expanded="false">
+            Research ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Research</div>
+            <a class="dd-link" href="{% url 'publication' %}">Publications</a>
+            <a class="dd-link" href="{% url 'resource' %}">Resources</a>
+            <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
+          </div>
+        </div>
+
+        <div class="item has-dd">
+          <button class="nav-btn dd-toggle {% block nav_members %}{% endblock %}" type="button" aria-expanded="false">
+            Members ▾
+          </button>
+          <div class="dropdown" role="menu">
+            <div class="dd-title">Members</div>
+            <a class="dd-link" href="{% url 'me' %}">Profile</a>
+            <a class="dd-link" href="{% url 'member' %}">People</a>
+            <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
+          </div>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn {% block nav_positions %}{% endblock %}" href="{% url 'position' %}">Positions</a>
+        </div>
+
+        <div class="item">
+          <a class="nav-btn {% block nav_contact %}{% endblock %}" href="{% url 'contact' %}">Contact</a>
+        </div>
+
+        <div class="nav-cta">
+          <a class="pill" href="{% url 'login' %}">Staff</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Page content -->
+  {% block content %}{% endblock %}
+
+  <!-- Footer (inside page-wrap if needed, or standalone) -->
+  {% block footer %}
+  <div class="page-wrap" style="padding-top:0;padding-bottom:0;">
+    <footer class="footer">
+      <div class="footer-row">
+        <div>
+          <b style="font-size:15px;">Quantar Lab</b><br/>
+          Tohoku University, Sendai, Japan<br/>
+          <span style="font-size:11px;opacity:.7;">Quantum algorithms · Metrology · Entanglement · Foundations</span>
+        </div>
+        <div style="display:flex;gap:32px;flex-wrap:wrap;">
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Research</div>
+            <a href="{% url 'publication' %}" class="footer-link">Publications</a><br/>
+            <a href="{% url 'resource' %}" class="footer-link">Resources</a><br/>
+            <a href="{% url 'event' %}" class="footer-link">Talks / Events</a>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">People</div>
+            <a href="{% url 'me' %}" class="footer-link">Profile</a><br/>
+            <a href="{% url 'member' %}" class="footer-link">Members</a><br/>
+            <a href="{% url 'visitor' %}" class="footer-link">Visitors</a>
+          </div>
+          <div>
+            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Lab</div>
+            <a href="{% url 'position' %}" class="footer-link">Open Positions</a><br/>
+            <a href="{% url 'contact' %}" class="footer-link">Contact</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-copy">
+        &copy; 2025 Quantar Lab, Tohoku University. All rights reserved.
+      </div>
+    </footer>
+  </div>
+  {% endblock %}
+
+  <script>
+    (function(){
+      // ===== Dropdowns =====
+      const items = Array.from(document.querySelectorAll('.item.has-dd'));
+      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
+
+      function closeAll(except=null){
+        items.forEach(it=>{
+          if(it !== except){
+            it.classList.remove('open');
+            const btn = it.querySelector('.dd-toggle');
+            if(btn) btn.setAttribute('aria-expanded', 'false');
+          }
+        });
+      }
+
+      toggles.forEach(btn=>{
+        btn.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const item = btn.closest('.item.has-dd');
+          const willOpen = !item.classList.contains('open');
+          closeAll(item);
+          item.classList.toggle('open', willOpen);
+          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+        });
+      });
+
+      document.addEventListener('click', ()=> closeAll());
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeAll(); });
+
+      // ===== Hamburger =====
+      const hamburger = document.getElementById('hamburger');
+      const mainNav = document.getElementById('mainNav');
+      if(hamburger && mainNav){
+        hamburger.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          const open = mainNav.classList.toggle('open');
+          hamburger.classList.toggle('open', open);
+          hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+        document.addEventListener('click', ()=>{
+          mainNav.classList.remove('open');
+          hamburger.classList.remove('open');
+          hamburger.setAttribute('aria-expanded', 'false');
+        });
+        mainNav.addEventListener('click', (e)=> e.stopPropagation());
+      }
+    })();
+  </script>
+
+  {% block extra_js %}{% endblock %}
+
+</body>
+</html>

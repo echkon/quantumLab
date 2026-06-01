@@ -1,677 +1,144 @@
+{% extends 'base.html' %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Publications • Quantar Lab</title>
+{% block title %}Publications | Quantar Lab{% endblock %}
+{% block nav_research %}active{% endblock %}
 
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
-      --line:#e2e8f0;
-      --card:#ffffff;
-      --shadow: 0 14px 40px rgba(15,23,42,.10);
-      --accent:#2563eb;
-      --accentDark:#0b1220;
-      --radius:16px;
-      --max: 1200px;
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      color:var(--text);
-      background: var(--bg);
-    }
-    a{color:inherit}
+{% block extra_css %}
+<style>
+  .page-head{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin-bottom:16px;
+  }
+  .page-head h1{ margin:0 0 6px 0; font-size:28px; font-weight:800; letter-spacing:-0.02em; }
+  .page-head p{ margin:0 0 14px 0; color:var(--muted); font-size:14px; line-height:1.6; }
 
-    /* ===== Topbar ===== */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 10px 18px;
-      display:flex;
-      align-items:center;
-      gap: 16px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 220px;
-      text-decoration:none;
-    }
-    .brand-dot{
-      width:12px;height:12px;border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
-    }
-    .brand-title{
-      font-weight: 900;
-      letter-spacing:-0.01em;
-      line-height:1.1;
-    }
-    .brand-sub{
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 2px;
-    }
-    .nav-right{
-      display:flex;
-      gap: 10px;
-      align-items:center;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
-    .nav{
-      display:flex;
-      gap: 6px;
-      align-items:center;
-      flex:1;
-      justify-content:flex-end;
-    }
+  .pub-section{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px 24px;
+    margin-bottom:14px;
+  }
+  .pub-section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:10px;
+    padding-bottom:12px;
+    border-bottom:2px solid var(--accent);
+  }
+  .pub-section-head h2{ margin:0; font-size:17px; font-weight:800; display:inline; }
+  .pub-section-head .count{ color:var(--muted); font-size:12px; font-weight:600; }
 
-    .item{ position: relative; }
+  .subhead{
+    margin:14px 0 8px 0;
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .subhead h3{
+    margin:0;
+    font-size:11px;
+    font-weight:700;
+    color:var(--muted);
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+  .subhead .count{ color:var(--muted); font-size:12px; font-weight:600; }
 
-    .nav-btn{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      border: 1px solid transparent;
-      transition: background .12s ease, border-color .12s ease, transform .12s ease;
-    }
-    .nav-btn:hover{
-      background: rgba(37,99,235,0.06);
-      border-color: rgba(37,99,235,0.18);
-      transform: translateY(-1px);
-    }
+  .pub{
+    border-top:1px dashed var(--line);
+    padding:14px 0;
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:14px;
+    align-items:start;
+  }
+  .pub:first-child{ border-top:none; padding-top:6px; }
+  .pub-title{ margin:0 0 5px 0; font-size:15px; font-weight:700; line-height:1.35; letter-spacing:-0.01em; }
+  .pub-authors{ margin:0 0 4px 0; font-size:13px; color:var(--muted); line-height:1.5; }
+  .pub-venue{ margin:0; font-size:13px; color:var(--text); line-height:1.5; }
+  .pub-venue a{ color:var(--accent); font-weight:600; text-decoration:none; }
+  .pub-venue a:hover{ text-decoration:underline; }
 
-    /* Dropdown button reset */
-    .dd-toggle{
-      background: transparent;
-      cursor: pointer;
-      font: inherit;
-    }
-    .dd-toggle:focus{
-      outline: none;
-      border-color: rgba(37,99,235,0.25);
-    }
+  .right-col{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; min-width:150px; }
+  .badges{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+  .badge{
+    font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px;
+    border:1px solid var(--line); background:#fff; color:var(--muted); white-space:nowrap;
+  }
+  .badge.peer{ background:rgba(16,185,129,.10); border-color:rgba(16,185,129,.25); color:#047857; }
+  .badge.preprint{ background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.25); color:#1d4ed8; }
+  .badge.year{ background:rgba(15,23,42,.05); border-color:rgba(15,23,42,.12); color:var(--muted); }
 
-    /* Dropdown (CLICK to open) */
-    .dropdown{
-      position:absolute;
-      right:0;
-      top: 46px;
-      width: 260px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px;
-      display:none;
-      z-index: 1000;
-    }
-    .item.open .dropdown{ display:block; }
+  .empty{ background:#fff; border:1px dashed var(--line); border-radius:12px; padding:14px; color:var(--muted); font-size:13px; }
 
-    .dd-title{
-      font-size:11px;
-      font-weight: 900;
-      color: var(--muted);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 8px 8px 6px 8px;
-    }
-    .dd-link{
-      display:block;
-      padding: 10px 10px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      transition: background .12s ease;
-    }
-    .dd-link:hover{background: rgba(37,99,235,0.06);}
+  @media(max-width:760px){
+    .pub{ grid-template-columns:1fr; }
+    .right-col{ align-items:flex-start; min-width:auto; }
+    .badges{ justify-content:flex-start; }
+  }
+</style>
+{% endblock %}
 
-    .nav-cta{
-      margin-left: 8px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
+{% block content %}
+<main class="page-wrap">
 
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      transition: transform .10s ease, background .10s ease;
-    }
-    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
-    .pill.primary{
-      background: var(--accent);
-      color:#fff;
-      border-color: transparent;
-    }
+  <div class="page-head">
+    <h1>Publications</h1>
+    <p>Publications and preprints from Quantar Lab. Use search, filter, and sorting to quickly find papers.</p>
 
-    /* ===== Slider ===== */
-    .slider-wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 18px;
-    }
-    .slider{
-      position:relative;
-      border-radius: 22px;
-      overflow:hidden;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--line);
-      min-height: 380px;
-      background:#000;
-    }
-    .slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition: opacity 300ms ease;
-      background-size: cover;
-      background-position: center;
-    }
-    .slide.active{opacity:1;}
-    .slide::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background: linear-gradient(90deg, rgba(0,0,0,0.72), rgba(0,0,0,0.20));
-    }
-    .slide-content{
-      position:absolute;
-      left: 26px;
-      bottom: 26px;
-      max-width: 720px;
-      color:#fff;
-      z-index: 2;
-    }
-    .slide-kicker{
-      font-size:12px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      opacity:.86;
-      margin-bottom: 10px;
-    }
-    .slide-title{
-      font-size: 34px;
-      line-height:1.15;
-      font-weight: 900;
-      margin:0 0 10px 0;
-      letter-spacing:-0.01em;
-    }
-    .slide-desc{
-      margin:0 0 14px 0;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.6;
-      font-size: 20px;
-    }
-    .slide-actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid rgba(255,255,255,0.20);
-      color:#fff;
-      background: rgba(255,255,255,0.08);
-      transition: transform .12s ease, background .12s ease;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.12);
-    }
-    .btn.primary{
-      background: var(--accent);
-      border-color: transparent;
-    }
-
-    .arrow{
-      position:absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.20);
-      background: rgba(0,0,0,0.35);
-      color:#fff;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index: 3;
-      transition: background .12s ease, transform .12s ease;
-    }
-    .arrow:hover{background: rgba(0,0,0,0.5); transform: translateY(-50%) scale(1.03);}
-    .arrow.left{left: 14px;}
-    .arrow.right{right: 14px;}
-
-    .dots{
-      position:absolute;
-      right: 16px;
-      bottom: 16px;
-      display:flex;
-      gap: 8px;
-      z-index: 4;
-    }
-    .dot{
-      width: 10px; height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(255,255,255,0.25);
-      cursor:pointer;
-    }
-    .dot.active{background:#fff;}
-
-    /* ===== Page shell ===== */
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 22px 16px 40px 16px;
-    }
-
-    .page-head{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      margin-bottom: 16px;
-    }
-    .page-head h1{
-      margin: 0 0 8px 0;
-      font-size: 28px;
-      letter-spacing:-0.01em;
-    }
-    .page-head p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
-
-    /* ===== Controls ===== */
-    .controls{
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      align-items:center;
-    }
-    .search{
-      flex: 1;
-      min-width: 240px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:#fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 12px;
-    }
-    .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .filters{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items:center;
-    }
-    .chip{
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      font-weight: 900;
-      font-size: 13px;
-      cursor: pointer;
-      user-select:none;
-      transition: transform .10s ease, background .10s ease;
-    }
-    .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
-    .chip.active{
-      background: rgba(37,99,235,0.14);
-      border-color: rgba(37,99,235,0.35);
-    }
-
-    .select{
-      border: 1px solid var(--line);
-      background:#fff;
-      border-radius: 14px;
-      padding: 9px 12px;
-      font-weight: 900;
-      font-size: 13px;
-      outline:none;
-      cursor:pointer;
-    }
-
-    .meta-row{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-    .meta-pill{
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background:#fff;
-      color: var(--muted);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    /* ===== Sections ===== */
-    .section{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 28px rgba(15,23,42,.06);
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .section-title{
-      display:flex;
-      align-items:baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 10px;
-    }
-    .section-title h2{
-      margin: 0;
-      font-size: 18px;
-      letter-spacing:-0.01em;
-    }
-    .section-title .small{
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .subhead{
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px dashed var(--line);
-      display:flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .subhead h3{
-      margin: 0;
-      font-size: 13px;
-      color: var(--muted);
-      letter-spacing: .10em;
-      text-transform: uppercase;
-    }
-    .subhead .small{
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    /* ===== Publication row ===== */
-    .pub{
-      border-top: 1px dashed var(--line);
-      padding: 14px 0;
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-    }
-    .pub:first-child{border-top:none; padding-top: 6px;}
-    .pub-title{
-      margin:0 0 6px 0;
-      font-size: 16px;
-      font-weight: 900;
-      line-height: 1.35;
-      letter-spacing:-0.01em;
-    }
-    .pub-authors{
-      margin:0 0 6px 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-    .pub-venue{
-      margin:0;
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .pub-venue a{
-      color: var(--accent);
-      font-weight: 900;
-      text-decoration:none;
-    }
-    .pub-venue a:hover{text-decoration: underline;}
-
-    .right-col{
-      display:flex;
-      flex-direction: column;
-      align-items:flex-end;
-      gap: 8px;
-      min-width: 160px;
-    }
-    .badges{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content:flex-end;
-    }
-    .badge{
-      font-size: 11px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .badge.peer{
-      background: rgba(16,185,129,0.10);
-      border-color: rgba(16,185,129,0.25);
-      color: #047857;
-    }
-    .badge.preprint{
-      background: rgba(37,99,235,0.10);
-      border-color: rgba(37,99,235,0.25);
-      color: #1d4ed8;
-    }
-    .badge.year{
-      background: rgba(15,23,42,0.05);
-      border-color: rgba(15,23,42,0.12);
-      color: var(--muted);
-    }
-
-    .empty{
-      background:#fff;
-      border: 1px dashed var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    @media (max-width: 860px){
-      .pub{grid-template-columns: 1fr;}
-      .right-col{align-items:flex-start; min-width:auto;}
-      .badges{justify-content:flex-start;}
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="{% url 'home' %}">
-        <div class="brand-dot"></div>
-        <div>
-          <div class="brand-title">Quantar Lab</div>
-          <div class="brand-sub">Quantum algorithms and technologies for advanced research</div>
-        </div>
-      </a>
-      <nav class="nav">
-              <div class="item">
-                <a class="nav-btn" href="{% url 'home' %}">Home</a>
-              </div>
-
-              <!-- Research dropdown (click) -->
-              <div class="item has-dd">
-                <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-                  Research ▾
-                </button>
-                <div class="dropdown" role="menu">
-                  <div class="dd-title">Research</div>
-                  <a class="dd-link" href="{% url 'publication' %}">Publications</a>
-                  <a class="dd-link" href="{% url 'resource' %}">Resources</a>
-                  <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
-                </div>
-              </div>
-
-              <!-- Members dropdown (click) -->
-              <div class="item has-dd">
-                <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-                  Members ▾
-                </button>
-                <div class="dropdown" role="menu">
-                  <div class="dd-title">Members</div>
-                  <a class="dd-link" href="{% url 'me' %}">Profile</a>
-                  <a class="dd-link" href="{% url 'member' %}">People</a>
-                  <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
-                </div>
-              </div>
-
-              <div class="item">
-                <a class="nav-btn" href="{% url 'position' %}">Positions</a>
-              </div>
-
-              <div class="item">
-                <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
-              </div>
-
-              <div class="nav-cta">
-                <a class="pill ghost" href="{% url 'login' %}">Staff</a>
-              </div>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap">
-
-    <div class="page-head">
-      <h1>Publications</h1>
-      <p>
-        Publications and preprints from Quantar Lab. Use search, filter, and sorting to quickly find papers.
-      </p>
-
-      <div class="controls">
-        <div class="search">
-          <span style="font-weight:900;color:var(--muted)">⌕</span>
-          <input id="searchBox" type="text" placeholder="Search by title, author, venue, arXiv..." />
-        </div>
-
-        <div class="filters">
-          <div class="chip active" data-filter="all">All</div>
-          <div class="chip" data-filter="peer">Peer-reviewed</div>
-          <div class="chip" data-filter="preprint">Preprints</div>
-        </div>
-
-        <select id="sortSelect" class="select" aria-label="Sort publications">
-          <option value="newest">Sort: Newest → Oldest</option>
-          <option value="oldest">Sort: Oldest → Newest</option>
-          <option value="title">Sort: Title A → Z</option>
-          <option value="author">Sort: First author A → Z</option>
-        </select>
+    <div class="controls">
+      <div class="search">
+        <span style="color:var(--muted)">⌕</span>
+        <input id="searchBox" type="text" placeholder="Search by title, author, venue, arXiv…" />
       </div>
-
-      <div class="meta-row">
-        <span class="meta-pill">Source: <span id="sourceLabel">loading…</span></span>
-        <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
+      <div class="filters">
+        <div class="chip active" data-filter="all">All</div>
+        <div class="chip" data-filter="peer">Peer-reviewed</div>
+        <div class="chip" data-filter="preprint">Preprints</div>
       </div>
+      <select id="sortSelect" class="select">
+        <option value="newest">Newest → Oldest</option>
+        <option value="oldest">Oldest → Newest</option>
+        <option value="title">Title A → Z</option>
+        <option value="author">First author A → Z</option>
+      </select>
     </div>
+    <div class="meta-row">
+      <span class="meta-pill">Source: <span id="sourceLabel">loading…</span></span>
+      <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
+    </div>
+  </div>
 
-    <div id="app"></div>
+  <div id="app"></div>
 
-    <!-- ===== Data: use static JSON if you create it; else fallback to embedded JSON ===== -->
-    <script id="pubData" type="application/json">
+  <script id="pubData" type="application/json">
 {
   "publications": [
-    {"fy":2026,
-    "type":"peer",
-    "title":"Exact gradient for general cost functions in variational quantum algorithms",
-    "authors":"Jesus Urbaneja, Le Bin Ho",
-    "venue":"Physical Review A 113, 042435 (2026)",
-    "year":2026,
-    "link":"https://journals.aps.org/pra/abstract/10.1103/6s2c-mxgx"},
+    {"fy":2026,"type":"peer","title":"Exact gradient for general cost functions in variational quantum algorithms","authors":"Jesus Urbaneja, Le Bin Ho","venue":"Physical Review A 113, 042435 (2026)","year":2026,"link":"https://journals.aps.org/pra/abstract/10.1103/6s2c-mxgx"},
     {"fy":2026,"type":"peer","title":"Quantum simulation of strong charge-parity violation and the Peccei-Quinn mechanism","authors":"Le Bin Ho","venue":"Physical Review D 113, 074507 (2026)","year":2026,"link":"https://journals.aps.org/prd/abstract/10.1103/yx1t-mkgp"},
     {"fy":2026,"type":"peer","title":"Advancing Quantum Process Tomography Through Quantum Compilation","authors":"Huynh Le Dan Linh, Vu Tuan Hai, Le Bin Ho","venue":"Advanced Quantum Technologies 9, e00494 (2026)","year":2026,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/qute.202500494"},
-  
     {"fy":2025,"type":"peer","title":"Optimized quantum sensor networks for ultralight dark matter detection","authors":"Adriel I Santoso, Le Bin Ho","venue":"Physical Review D 112, L081301 (2025)","year":2025,"link":"https://journals.aps.org/prd/abstract/10.1103/rv43-54zq"},
     {"fy":2025,"type":"peer","title":"Two-Time Approach to Past-Future Quantum Dynamics: Formalism and Applications","authors":"Le Bin Ho","venue":"Advanced Physics Research, e00099 (2025)","year":2025,"link":"https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/apxr.202500099"},
     {"fy":2025,"type":"peer","title":"Entangled State Preparation via Cluster States on Quantum Computers with COOP Software","authors":"Vu Tuan Hai, Jesus Urbaneja, Le Bin Ho","venue":"2025 IEEE International Conference on Quantum Software (QSW) (2025)","year":2025,"link":"https://ieeexplore.ieee.org/abstract/document/11134319"},
     {"fy":2025,"type":"peer","title":"Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements","authors":"Haruki Matsunaga, Le Bin Ho","venue":"Physical Review Research 7, 013239 (2025)","year":2025,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239"},
-
     {"fy":2025,"type":"preprint","title":"Exact gradient for universal cost functions in variational quantum algorithms","authors":"Jesus Urbaneja, Le Bin Ho","venue":"arXiv:2509.17822","year":2025,"link":"https://arxiv.org/abs/2509.17822"},
     {"fy":2025,"type":"preprint","title":"Statistical analysis of barren plateaus in variational quantum algorithms","authors":"Le Bin Ho, Jesus Urbaneja, Sahel Ashhab","venue":"arXiv:2508.08915","year":2025,"link":"https://arxiv.org/abs/2508.08915"},
     {"fy":2025,"type":"preprint","title":"Advancing quantum process tomography through universal compilation","authors":"Huynh Le Dan Linh, Vu Tuan Hai, Le Bin Ho","venue":"arXiv:2504.14958","year":2025,"link":"https://arxiv.org/abs/2504.14958"},
-
     {"fy":2024,"type":"peer","title":"Multi-target quantum compilation algorithm","authors":"Vu Tuan Hai, Nguyen Tan Viet, Jesus Urbaneja, Nguyen Vu Linh, Lan Nguyen Tran, Le Bin Ho","venue":"Machine Learning: Science and Technology 5, 045057 (2024)","year":2024,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ad9705"},
     {"fy":2024,"type":"peer","title":"Quantum Battery Optimization through Quantum Machine Learning Techniques","authors":"VT Hai, VM Kiet, LVT Duong, PH Luan, LB Ho, Y Nakashima","venue":"2024 21st International SoC Design Conference (ISOCC)","year":2024,"link":"https://ieeexplore.ieee.org/document/10762673"},
     {"fy":2024,"type":"peer","title":"Squeezing-induced quantum-enhanced multiphase estimation","authors":"Le Bin Ho","venue":"Physical Review Research 6 (3), 033292 (2024)","year":2024,"link":"https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.6.033292"},
     {"fy":2024,"type":"peer","title":"Harnessing graph state resources for robust quantum magnetometry under noise","authors":"Phu Trong Nguyen, Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports 14, 20528 (2024)","year":2024,"link":"https://www.nature.com/articles/s41598-024-71365-8"},
     {"fy":2024,"type":"peer","title":"<qo|op>: A quantum object optimizer","authors":"VT Hai, NT Viet, LB Ho","venue":"SoftwareX 26, 101726 (2024)","year":2024,"link":"https://doi.org/10.1016/j.softx.2024.101726"},
-
     {"fy":2023,"type":"peer","title":"Variational quantum metrology for multiparameter estimation under dephasing noise","authors":"Trung Kien Le, Hung Q. Nguyen, Le Bin Ho","venue":"Scientific Reports, 13(1), Oct 18, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-44786-0"},
     {"fy":2023,"type":"peer","title":"A stochastic evaluation of quantum Fisher information matrix with generic Hamiltonians","authors":"Le Bin Ho","venue":"EPJ Quantum Technology, 10(37), Sep, 2023","year":2023,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-023-00195-w"},
     {"fy":2023,"type":"peer","title":"Quantum backaction effects in sequential measurements","authors":"Le Bin Ho","venue":"Annals of Physics, 453, 169310, Jun, 2023","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0003491623000969?via%3Dihub"},
@@ -679,248 +146,118 @@
     {"fy":2023,"type":"peer","title":"No-go result for quantum postselection measurements of a rank-m degenerate subspace","authors":"Le Bin Ho","venue":"Physical Review A, 107(4), Apr 7, 2023","year":2023,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.107.042204"},
     {"fy":2023,"type":"peer","title":"Universal compilation for quantum state tomography","authors":"Vu Tuan Hai, Le Bin Ho","venue":"Scientific Reports, 13(1), Mar 6, 2023","year":2023,"link":"https://www.nature.com/articles/s41598-023-30983-4"},
     {"fy":2023,"type":"peer","title":"tqix.pis: A toolbox for quantum dynamics simulation of spin ensembles in Dicke basis","authors":"Nguyen Tan Viet, Nguyen Thi Chuong, Vu Thi Ngoc Huyen, Le Bin Ho","venue":"Computer Physics Communications 286, 108686 (2023)","year":2023,"link":"https://www.sciencedirect.com/science/article/pii/S0010465523000310"},
-
     {"fy":2022,"type":"peer","title":"Error-disturbance uncertainty relations in Faraday measurements","authors":"Le Bin Ho, Keiichi Edamatsu","venue":"Physical Review A, 105(5) (2022)","year":2022,"link":"https://journals.aps.org/pra/abstract/10.1103/PhysRevA.105.052228"},
     {"fy":2022,"type":"peer","title":"Qsun: an open-source platform towards practical quantum machine learning applications","authors":"Quoc Chuong Nguyen, Le Bin Ho, Lan Nguyen Tran, Hung Q Nguyen","venue":"Machine Learning: Science and Technology, 3(1) 015034 (2022)","year":2022,"link":"https://iopscience.iop.org/article/10.1088/2632-2153/ac5997"},
     {"fy":2022,"type":"peer","title":"Experimenting quantum phenomena on NISQ computers using high level quantum programming","authors":"Duc M. Tran, Duy V. Nguyen, Bin Ho Le, Hung Q. Nguyen","venue":"EPJ Quantum Technology, 9(1), Feb, 2022","year":2022,"link":"https://epjquantumtechnology.springeropen.com/articles/10.1140/epjqt/s40507-022-00126-1"}
   ]
 }
-    </script>
+  </script>
 
-    <script>
-      (function(){
-        const app = document.getElementById('app');
-        const searchBox = document.getElementById('searchBox');
-        const chips = Array.from(document.querySelectorAll('.chip'));
-        const sortSelect = document.getElementById('sortSelect');
-        const visibleCount = document.getElementById('visibleCount');
-        const sourceLabel = document.getElementById('sourceLabel');
+</main>
+{% endblock %}
 
-        let ALL = [];
-        let filter = 'all';
-        let query = '';
-        let sortMode = 'newest';
+{% block extra_js %}
+<script>
+(function(){
+  const app = document.getElementById('app');
+  const searchBox = document.getElementById('searchBox');
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const sortSelect = document.getElementById('sortSelect');
+  const visibleCount = document.getElementById('visibleCount');
+  const sourceLabel = document.getElementById('sourceLabel');
+  let ALL = [], filter = 'all', query = '', sortMode = 'newest';
 
-        function safeText(s){ return (s || '').toString(); }
-        function normalizeAuthors(authors){ return safeText(authors).replace(/\s+/g,' ').trim(); }
+  function safeText(s){ return (s||'').toString(); }
 
-        function firstAuthorSurname(authors){
-          const a = normalizeAuthors(authors);
-          if(!a) return '';
-          const first = a.split(',')[0].trim();
-          if(first.includes(' ')){
-            const parts = first.split(' ').filter(Boolean);
-            return parts[parts.length-1].toLowerCase();
-          }
-          return first.toLowerCase();
-        }
+  function firstAuthorSurname(authors){
+    const a = safeText(authors).replace(/\s+/g,' ').trim();
+    if(!a) return '';
+    const first = a.split(',')[0].trim();
+    const parts = first.split(' ').filter(Boolean);
+    return (parts[parts.length-1]||'').toLowerCase();
+  }
 
-        function match(p){
-          if(filter !== 'all' && p.type !== filter) return false;
-          if(!query) return true;
-          const hay = (
-            safeText(p.title) + ' ' +
-            safeText(p.authors) + ' ' +
-            safeText(p.venue)
-          ).toLowerCase();
-          return hay.includes(query);
-        }
+  function match(p){
+    if(filter !== 'all' && p.type !== filter) return false;
+    if(!query) return true;
+    return (safeText(p.title)+' '+safeText(p.authors)+' '+safeText(p.venue)).toLowerCase().includes(query);
+  }
 
-        function sortPubs(list){
-          const arr = [...list];
-          if(sortMode === 'newest'){
-            arr.sort((a,b)=> (b.year||b.fy||0) - (a.year||a.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
-          }else if(sortMode === 'oldest'){
-            arr.sort((a,b)=> (a.year||a.fy||0) - (b.year||b.fy||0) || safeText(a.title).localeCompare(safeText(b.title)));
-          }else if(sortMode === 'title'){
-            arr.sort((a,b)=> safeText(a.title).localeCompare(safeText(b.title)));
-          }else if(sortMode === 'author'){
-            arr.sort((a,b)=> firstAuthorSurname(a.authors).localeCompare(firstAuthorSurname(b.authors)) || safeText(a.title).localeCompare(safeText(b.title)));
-          }
-          return arr;
-        }
+  function sortPubs(list){
+    const arr = [...list];
+    if(sortMode==='newest') arr.sort((a,b)=>(b.year||0)-(a.year||0)||safeText(a.title).localeCompare(safeText(b.title)));
+    else if(sortMode==='oldest') arr.sort((a,b)=>(a.year||0)-(b.year||0)||safeText(a.title).localeCompare(safeText(b.title)));
+    else if(sortMode==='title') arr.sort((a,b)=>safeText(a.title).localeCompare(safeText(b.title)));
+    else if(sortMode==='author') arr.sort((a,b)=>firstAuthorSurname(a.authors).localeCompare(firstAuthorSurname(b.authors)));
+    return arr;
+  }
 
-        function groupByFY(list){
-          const map = new Map();
-          list.forEach(p=>{
-            const fy = p.fy || p.year || 'Unknown';
-            if(!map.has(fy)) map.set(fy, []);
-            map.get(fy).push(p);
-          });
-          return Array.from(map.entries()).sort((a,b)=> Number(b[0]) - Number(a[0]));
-        }
+  function pubRow(p){
+    const badgeType = p.type==='peer'
+      ? `<span class="badge peer">Peer-reviewed</span>`
+      : `<span class="badge preprint">Preprint</span>`;
+    const venueHtml = p.link
+      ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer">${safeText(p.venue)||p.link}</a>`
+      : safeText(p.venue);
+    return `
+      <div class="pub">
+        <div>
+          <p class="pub-title">${safeText(p.title)}</p>
+          <p class="pub-authors">${safeText(p.authors)}</p>
+          <p class="pub-venue">${venueHtml}</p>
+        </div>
+        <div class="right-col">
+          <div class="badges">${badgeType}<span class="badge year">${p.year||p.fy||''}</span></div>
+        </div>
+      </div>`;
+  }
 
-        function pubRow(p){
-          const type = p.type;
-          const year = p.year || p.fy || '';
-          const title = safeText(p.title);
-          const authors = normalizeAuthors(p.authors);
-          const venue = safeText(p.venue);
-          const link = safeText(p.link);
+  function render(){
+    const visible = sortPubs(ALL.filter(match));
+    visibleCount.textContent = `${visible.length} items`;
+    if(!visible.length){ app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`; return; }
 
-          const badgeType = (type === 'peer')
-            ? `<span class="badge peer">Peer-reviewed</span>`
-            : `<span class="badge preprint">Preprint</span>`;
+    const map = new Map();
+    visible.forEach(p=>{ const fy=p.fy||p.year||'?'; if(!map.has(fy)) map.set(fy,[]); map.get(fy).push(p); });
+    const groups = Array.from(map.entries()).sort((a,b)=>Number(b[0])-Number(a[0]));
 
-          const venueHtml = link
-            ? `<a href="${link}" target="_blank" rel="noopener noreferrer">${venue || link}</a>`
-            : `${venue || ''}`;
+    app.innerHTML = groups.map(([fy, items])=>{
+      const peers = items.filter(x=>x.type==='peer');
+      const pres  = items.filter(x=>x.type==='preprint');
+      const block = (title, arr) => arr.length ? `
+        <div class="subhead"><h3>${title}</h3><span class="count">${arr.length} items</span></div>
+        <div>${arr.map(pubRow).join('')}</div>` : '';
+      return `
+        <div class="pub-section">
+          <div class="pub-section-head">
+            <h2>FY${fy}</h2>
+            <span class="count">${items.length} total</span>
+          </div>
+          ${block('Peer Reviewed', peers)}
+          ${block('Preprints', pres)}
+        </div>`;
+    }).join('');
+  }
 
-          return `
-            <div class="pub" data-type="${type}">
-              <div>
-                <p class="pub-title">${title}</p>
-                <p class="pub-authors">${authors}</p>
-                <p class="pub-venue">${venueHtml}</p>
-              </div>
-              <div class="right-col">
-                <div class="badges">
-                  ${badgeType}
-                  <span class="badge year">${year}</span>
-                </div>
-              </div>
-            </div>
-          `;
-        }
+  async function loadData(){
+    try{
+      const res = await fetch("{% static 'data/publications.json' %}", {cache:'no-store'});
+      if(!res.ok) throw new Error();
+      const data = await res.json();
+      ALL = (data.publications||[]);
+      sourceLabel.textContent = "static/data/publications.json";
+    }catch{
+      const data = JSON.parse(document.getElementById('pubData').textContent.trim());
+      ALL = (data.publications||[]);
+      sourceLabel.textContent = "embedded JSON (fallback)";
+    }
+  }
 
-        function render(){
-          const visible = sortPubs(ALL.filter(match));
-          visibleCount.textContent = `${visible.length} items`;
+  chips.forEach(ch=>{ ch.addEventListener('click', ()=>{ chips.forEach(x=>x.classList.remove('active')); ch.classList.add('active'); filter=ch.dataset.filter||'all'; render(); }); });
+  searchBox.addEventListener('input', ()=>{ query=(searchBox.value||'').trim().toLowerCase(); render(); });
+  sortSelect.addEventListener('change', ()=>{ sortMode=sortSelect.value; render(); });
 
-          if(visible.length === 0){
-            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
-            return;
-          }
-
-          const groups = groupByFY(visible);
-          let html = '';
-
-          groups.forEach(([fy, items])=>{
-            const peers = items.filter(x=>x.type==='peer');
-            const pres  = items.filter(x=>x.type==='preprint');
-
-            html += `
-              <section class="section">
-                <div class="section-title">
-                  <h2>FY${fy}</h2>
-                  <div class="small">${items.length} total</div>
-                </div>
-            `;
-
-            function block(title, arr){
-              if(arr.length === 0) return '';
-              return `
-                <div class="subhead">
-                  <h3>${title}</h3>
-                  <div class="small">${arr.length} items</div>
-                </div>
-                <div>
-                  ${arr.map(p=>pubRow(p)).join('')}
-                </div>
-              `;
-            }
-
-            html += block('Peer Reviewed', peers);
-            html += block('Preprints', pres);
-
-            html += `</section>`;
-          });
-
-          app.innerHTML = html;
-        }
-
-        async function loadData(){
-          // optional auto from static JSON (if you later create it)
-          const jsonUrl = "{% static 'data/publications.json' %}";
-          try{
-            const res = await fetch(jsonUrl, {cache:'no-store'});
-            if(!res.ok) throw new Error('not found');
-            const data = await res.json();
-            ALL = (data.publications || []).map(x=>({
-              fy: x.fy ?? x.year ?? '',
-              year: x.year ?? x.fy ?? '',
-              type: x.type || 'peer',
-              title: x.title || '',
-              authors: x.authors || '',
-              venue: x.venue || '',
-              link: x.link || ''
-            }));
-            sourceLabel.textContent = "static/data/publications.json";
-          }catch(e){
-            const raw = document.getElementById('pubData').textContent.trim();
-            const data = JSON.parse(raw);
-            ALL = (data.publications || []).map(x=>({
-              fy: x.fy ?? x.year ?? '',
-              year: x.year ?? x.fy ?? '',
-              type: x.type || 'peer',
-              title: x.title || '',
-              authors: x.authors || '',
-              venue: x.venue || '',
-              link: x.link || ''
-            }));
-            sourceLabel.textContent = "embedded JSON (fallback)";
-          }
-        }
-
-        // ===== Dropdowns (CLICK to open; click outside to close) =====
-        const items = Array.from(document.querySelectorAll('.item.has-dd'));
-        const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
-
-        function closeAll(except=null){
-          items.forEach(it=>{
-            if(it !== except){
-              it.classList.remove('open');
-              const btn = it.querySelector('.dd-toggle');
-              if(btn) btn.setAttribute('aria-expanded', 'false');
-            }
-          });
-        }
-        
-        toggles.forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          e.stopPropagation();
-          const item = btn.closest('.item.has-dd');
-          const willOpen = !item.classList.contains('open');
-          closeAll(item);
-          item.classList.toggle('open', willOpen);
-          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-        });
-      });
-
-      document.addEventListener('click', ()=> closeAll());
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') closeAll();
-      });
-
-        // ===== Events =====
-        chips.forEach(ch=>{
-          ch.addEventListener('click', ()=>{
-            chips.forEach(x=>x.classList.remove('active'));
-            ch.classList.add('active');
-            filter = ch.dataset.filter || 'all';
-            render();
-          });
-        });
-
-        searchBox.addEventListener('input', ()=>{
-          query = (searchBox.value || '').trim().toLowerCase();
-          render();
-        });
-
-        sortSelect.addEventListener('change', ()=>{
-          sortMode = sortSelect.value;
-          render();
-        });
-
-        // ===== Init =====
-        (async ()=>{
-          await loadData();
-          render();
-        })();
-
-      })();
-    </script>
-
-  </main>
-</body>
-</html>
+  (async()=>{ await loadData(); render(); })();
+})();
+</script>
+{% endblock %}

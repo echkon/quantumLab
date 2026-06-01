@@ -1,562 +1,130 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Members • Quantar Lab</title>
 
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
-      --line:#e2e8f0;
-      --card:#ffffff;
-      --shadow: 0 14px 40px rgba(15,23,42,.10);
-      --accent:#2563eb;
-      --accentDark:#0b1220;
-      --radius:16px;
-      --max: 1200px;
-    }
+{% block title %}Members | Quantar Lab{% endblock %}
+{% block nav_members %}active{% endblock %}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      color:var(--text);
-      background:var(--bg);
-    }
-    a{color:inherit}
+{% block extra_css %}
+<style>
+  .page-head{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:24px;
+    margin-bottom:16px;
+  }
+  .page-head h1{ margin:0 0 6px 0; font-size:28px; font-weight:800; letter-spacing:-0.02em; }
+  .page-head p{ margin:0 0 14px 0; color:var(--muted); font-size:14px; line-height:1.6; }
 
-    /* ===== Header / Top Nav ===== */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 10px 18px;
-      display:flex;
-      align-items:center;
-      gap: 16px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 220px;
-      text-decoration:none;
-    }
-    .brand-dot{
-      width:12px;height:12px;border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
-    }
-    .brand-title{
-      font-weight: 900;
-      letter-spacing:-0.01em;
-      line-height:1.1;
-    }
-    .brand-sub{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-    }
+  .member-section{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:20px 24px;
+    margin-bottom:14px;
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:16px;
+    padding-bottom:12px;
+    border-bottom:2px solid var(--accent);
+  }
+  .section-head h2{ margin:0; font-size:17px; font-weight:800; display:inline; }
+  .section-head .count{ color:var(--muted); font-size:12px; font-weight:600; }
 
-    .nav{
-      display:flex;
-      gap: 6px;
-      align-items:center;
-      flex:1;
-      justify-content:flex-end;
-    }
+  .member-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+  }
+  @media(max-width:980px){ .member-grid{grid-template-columns:repeat(2,1fr);} }
+  @media(max-width:600px){ .member-grid{grid-template-columns:1fr;} }
 
-    .item{ position: relative; }
+  .member-card{
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .member-card:hover{ transform:translateY(-2px); box-shadow:0 12px 32px rgba(15,23,42,.10); }
 
-    .nav-btn{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      border: 1px solid transparent;
-      transition: background .12s ease, border-color .12s ease, transform .12s ease;
-    }
-    .nav-btn:hover{
-      background: rgba(37,99,235,0.06);
-      border-color: rgba(37,99,235,0.18);
-      transform: translateY(-1px);
-    }
+  .card-top{ display:flex; gap:12px; align-items:flex-start; }
+  .avatar{ width:62px; height:62px; border-radius:12px; object-fit:cover; border:1px solid var(--line); flex-shrink:0; }
+  .member-name{ margin:0; font-weight:700; font-size:15px; line-height:1.2; }
+  .member-role{ margin:5px 0 0 0; font-size:13px; color:var(--muted); line-height:1.35; }
 
-    /* Dropdown button reset */
-    .dd-toggle{
-      background: transparent;
-      cursor: pointer;
-      font: inherit;
-    }
-    .dd-toggle:focus{
-      outline: none;
-      border-color: rgba(37,99,235,0.25);
-    }
+  .badges{ display:flex; flex-wrap:wrap; gap:6px; }
+  .badge{
+    font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px;
+    border:1px solid var(--line); background:#fff; color:var(--muted); white-space:nowrap;
+  }
+  .badge.pi{ background:rgba(245,158,11,.12); border-color:rgba(245,158,11,.25); color:#92400e; }
+  .badge.researcher{ background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.25); color:#1d4ed8; }
+  .badge.student{ background:rgba(16,185,129,.10); border-color:rgba(16,185,129,.25); color:#047857; }
+  .badge.assistant{ background:rgba(15,23,42,.06); border-color:rgba(15,23,42,.14); color:var(--muted); }
+  .badge.alumni{ background:rgba(99,102,241,.10); border-color:rgba(99,102,241,.25); color:#4338ca; }
 
-    /* Dropdown (CLICK to open) */
-    .dropdown{
-      position:absolute;
-      right:0;
-      top: 46px;
-      width: 260px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px;
-      display:none;
-      z-index: 1000;
-    }
-    .item.open .dropdown{ display:block; }
+  .member-theme{ margin:0; color:var(--muted); font-size:13px; line-height:1.55; flex:1; }
+  .member-links{ margin-top:auto; display:flex; flex-wrap:wrap; gap:8px; }
+  .member-link{
+    display:inline-flex; align-items:center; padding:7px 11px; border-radius:999px;
+    border:1px solid var(--line); background:#fff; text-decoration:none;
+    font-weight:600; font-size:12px; color:var(--text);
+    transition:background .10s ease, transform .10s ease;
+  }
+  .member-link:hover{ background:rgba(37,99,235,.06); transform:translateY(-1px); }
+  .member-link.primary{ background:var(--accent); border-color:transparent; color:#fff; }
 
-    .dd-title{
-      font-size:11px;
-      font-weight: 900;
-      color: var(--muted);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 8px 8px 6px 8px;
-    }
-    .dd-link{
-      display:block;
-      padding: 10px 10px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      transition: background .12s ease;
-    }
-    .dd-link:hover{background: rgba(37,99,235,0.06);}
+  .empty{
+    background:#fff; border:1px dashed var(--line); border-radius:12px;
+    padding:14px; color:var(--muted); font-size:13px;
+  }
+</style>
+{% endblock %}
 
-    .nav-cta{
-      margin-left: 8px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid var(--line);
-    }
-    .pill.primary{
-      background: var(--accent);
-      color:#fff;
-      border-color: transparent;
-    }
-    .pill.ghost{
-      background:#fff;
-      color:var(--text);
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--text);
-      transition: transform .10s ease, background .10s ease;
-    }
-    .pill:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
-    .pill.primary{
-      background: var(--accent);
-      color:#fff;
-      border-color: transparent;
-    }
+{% block content %}
+<main class="page-wrap">
 
-    /* ===== Page ===== */
-    .wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 22px 16px 40px 16px;
-    }
-    .page-head{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 22px;
-      margin-bottom: 16px;
-    }
-    .page-head h1{
-      margin: 0 0 8px 0;
-      font-size: 28px;
-      letter-spacing:-0.01em;
-    }
-    .page-head p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: 14px;
-    }
+  <div class="page-head">
+    <h1>Lab Members</h1>
+    <p>People in Quantar Lab. Use search and filters to quickly find members by role or research theme.</p>
 
-    /* ===== Controls ===== */
-    .controls{
-      display:flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 14px;
-      align-items:center;
-    }
-    .search{
-      flex: 1;
-      min-width: 260px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-      background:#fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      padding: 10px 12px;
-    }
-    .search input{
-      width:100%;
-      border:none;
-      outline:none;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .filters{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      align-items:center;
-    }
-    .chip{
-      padding: 9px 12px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      font-weight: 900;
-      font-size: 13px;
-      cursor: pointer;
-      user-select:none;
-      transition: transform .10s ease, background .10s ease;
-      white-space: nowrap;
-    }
-    .chip:hover{transform: translateY(-1px); background: rgba(37,99,235,0.06);}
-    .chip.active{
-      background: rgba(37,99,235,0.14);
-      border-color: rgba(37,99,235,0.35);
-    }
-    .meta-row{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-    .meta-pill{
-      padding: 7px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background:#fff;
-      color: var(--muted);
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-    }
-
-    /* ===== Sections & grid ===== */
-    .section{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 28px rgba(15,23,42,.06);
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .section-title{
-      display:flex;
-      align-items:baseline;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-    .section-title h2{
-      margin:0;
-      font-size: 18px;
-      letter-spacing:-0.01em;
-    }
-    .section-title .small{
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-    }
-
-    /* ===== Member card ===== */
-    .card{
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 16px;
-      padding: 14px;
-      box-shadow: 0 8px 22px rgba(15,23,42,.06);
-      display:flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: transform .10s ease, box-shadow .10s ease;
-      min-height: 260px;
-    }
-    .card:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 16px 40px rgba(15,23,42,.10);
-    }
-
-    .top{
-      display:flex;
-      gap: 12px;
-      align-items:flex-start;
-    }
-    .avatar{
-      width: 66px;
-      height: 66px;
-      border-radius: 16px;
-      object-fit: cover;
-      border: 1px solid var(--line);
-      background: #fff;
-      flex: 0 0 auto;
-    }
-    .name{
-      margin:0;
-      font-weight: 900;
-      font-size: 16px;
-      line-height: 1.2;
-      letter-spacing:-0.01em;
-    }
-    .role{
-      margin: 6px 0 0 0;
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.35;
-    }
-
-    .badges{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .badge{
-      font-size: 11px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: #fff;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-    .badge.pi{
-      background: rgba(245,158,11,0.12);
-      border-color: rgba(245,158,11,0.25);
-      color: #92400e;
-    }
-    .badge.researcher{
-      background: rgba(37,99,235,0.10);
-      border-color: rgba(37,99,235,0.25);
-      color: #1d4ed8;
-    }
-    .badge.student{
-      background: rgba(16,185,129,0.10);
-      border-color: rgba(16,185,129,0.25);
-      color: #047857;
-    }
-    .badge.assistant{
-      background: rgba(15,23,42,0.06);
-      border-color: rgba(15,23,42,0.14);
-      color: var(--muted);
-    }
-    .badge.alumni{
-      background: rgba(99,102,241,0.10);
-      border-color: rgba(99,102,241,0.25);
-      color: #4338ca;
-    }
-
-    .theme{
-      margin: 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    .links{
-      margin-top:auto;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .link{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background:#fff;
-      text-decoration:none;
-      font-weight: 900;
-      font-size: 12px;
-      color: var(--text);
-      transition: background .10s ease, transform .10s ease;
-      cursor:pointer;
-    }
-    .link:hover{background: rgba(37,99,235,0.06); transform: translateY(-1px);}
-    .link.primary{
-      background: var(--accent);
-      border-color: transparent;
-      color:#fff;
-    }
-
-    .empty{
-      background:#fff;
-      border: 1px dashed var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 900;
-    }
-
-    @media (max-width: 980px){
-      .grid{grid-template-columns: repeat(2, 1fr);}
-    }
-    @media (max-width: 640px){
-      .grid{grid-template-columns: 1fr;}
-      .card{min-height: auto;}
-    }
-  </style>
-</head>
-
-<body>
-
-  <!-- Topbar -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="{% url 'home' %}">
-        <div class="brand-dot"></div>
-        <div>
-          <div class="brand-title">Quantar Lab</div>
-          <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
-        </div>
-      </a>
-
-      <nav class="nav">
-        <div class="item">
-          <a class="nav-btn" href="{% url 'home' %}">Home</a>
-        </div>
-
-        <!-- Research dropdown (click) -->
-        <div class="item has-dd">
-          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-            Research ▾
-          </button>
-          <div class="dropdown" role="menu">
-            <div class="dd-title">Research</div>
-            <a class="dd-link" href="{% url 'publication' %}">Publications</a>
-            <a class="dd-link" href="{% url 'resource' %}">Resources</a>
-            <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
-          </div>
-        </div>
-
-        <!-- Members dropdown (click) -->
-        <div class="item has-dd">
-          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-            Members ▾
-          </button>
-          <div class="dropdown" role="menu">
-            <div class="dd-title">Members</div>
-            <a class="dd-link" href="{% url 'me' %}">Profile</a>
-            <a class="dd-link" href="{% url 'member' %}">People</a>
-            <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
-          </div>
-        </div>
-
-        <div class="item">
-          <a class="nav-btn" href="{% url 'position' %}">Positions</a>
-        </div>
-
-        <div class="item">
-          <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
-        </div>
-
-        <div class="nav-cta">
-          <a class="pill ghost" href="{% url 'login' %}">Staff</a>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <main class="wrap">
-    <div class="page-head">
-      <h1>Lab Members</h1>
-      <p>
-        People in Quantar Lab. Use search and filters to quickly find members by role or research theme.
-      </p>
-
-      <div class="controls">
-        <div class="search">
-          <span style="font-weight:900;color:var(--muted)">⌕</span>
-          <input id="searchBox" type="text" placeholder="Search name, role, affiliation, research theme..." />
-        </div>
-
-        <div class="filters">
-          <div class="chip active" data-filter="all">All</div>
-          <div class="chip" data-filter="pi">PI</div>
-          <div class="chip" data-filter="researcher">Researcher</div>
-          <div class="chip" data-filter="student">Student</div>
-          <div class="chip" data-filter="assistant">Assistant</div>
-          <div class="chip" data-filter="alumni">Alumni</div>
-        </div>
+    <div class="controls">
+      <div class="search">
+        <span style="color:var(--muted)">⌕</span>
+        <input id="searchBox" type="text" placeholder="Search name, role, affiliation, research theme…" />
       </div>
-
-      <div class="meta-row">
-        <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
+      <div class="filters">
+        <div class="chip active" data-filter="all">All</div>
+        <div class="chip" data-filter="pi">PI</div>
+        <div class="chip" data-filter="researcher">Researcher</div>
+        <div class="chip" data-filter="student">Student</div>
+        <div class="chip" data-filter="assistant">Assistant</div>
+        <div class="chip" data-filter="alumni">Alumni</div>
       </div>
     </div>
+    <div class="meta-row">
+      <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
+    </div>
+  </div>
 
-    <div id="app"></div>
+  <div id="app"></div>
 
-    <!-- ===== Data (easy to edit in one place) ===== -->
-    <script id="peopleData" type="application/json">
+  <script id="peopleData" type="application/json">
 {
   "members": [
     {
-      "group": "current",
-      "category": "pi",
-      "name": "Le, Binho",
-      "role": "Assistant Professor (PI)",
+      "group": "current", "category": "pi",
+      "name": "Le, Binho", "role": "Assistant Professor (PI)",
       "affiliation": "Tohoku University (FRIS)",
       "image": "{% static 'images/binho.png' %}",
       "email": "binho@fris.tohoku.ac.jp",
@@ -567,299 +135,163 @@
         {"label":"Prominent Fellow","url":"https://web.tohoku.ac.jp/dr/index.html"}
       ]
     },
-
     {
-      "group": "current",
-      "category": "researcher",
-      "name": "Vu, Tuan Hai",
-      "role": "Adjunct Researcher (FRIS)",
+      "group": "current", "category": "researcher",
+      "name": "Vu, Tuan Hai", "role": "Adjunct Researcher (FRIS)",
       "affiliation": "Lecturer (University of Information Technology - UIT)",
       "image": "{% static 'images/hai.png' %}",
       "theme": "Quantum computing for AI and AI for quantum computing: developing a quantum version of the attention mechanism and evaluating the potential of quantum computing for large-language models."
     },
     {
-      "group": "current",
-      "category": "researcher",
-      "name": "Urbaneja, Jesus",
-      "role": "Junior Researcher (FRIS)",
+      "group": "current", "category": "researcher",
+      "name": "Urbaneja, Jesus", "role": "Junior Researcher (FRIS)",
       "affiliation": "Master student (Tohoku University)",
       "image": "{% static 'images/jesus.jpeg' %}",
       "theme": "Development of quantum algorithms with a focus on the parameter-shift rule and understanding the barren plateau phenomenon in variational quantum circuits."
     },
-
     {
-      "group": "current",
-      "category": "student",
-      "name": "Matsunaga, Haruki",
-      "role": "Student",
+      "group": "current", "category": "student",
+      "name": "Matsunaga, Haruki", "role": "Student",
       "affiliation": "Imperial College London",
       "image": "{% static 'images/haruki.png' %}",
       "theme": "Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements."
     },
     {
-      "group": "current",
-      "category": "assistant",
-      "name": "Santoso, Adriel",
-      "role": "Administrative Assistant (AA, FRIS URO)",
+      "group": "current", "category": "assistant",
+      "name": "Santoso, Adriel", "role": "Administrative Assistant (AA, FRIS URO)",
       "affiliation": "",
       "image": "{% static 'images/adril.png' %}",
       "theme": "Quantum sensor networks for dark matter detection."
     },
     {
-      "group": "current",
-      "category": "assistant",
-      "name": "Takahashi, Nozomu",
-      "role": "Administrative Assistant (AA, FRIS URO)",
+      "group": "current", "category": "assistant",
+      "name": "Takahashi, Nozomu", "role": "Administrative Assistant (AA, FRIS URO)",
       "affiliation": "B4 student (Matsueda Lab)",
       "image": "{% static 'images/takahashi.png' %}",
       "theme": "Squeezing effects for quantum-enhanced metrology; quantum control for metrology."
     },
     {
-      "group": "current",
-      "category": "assistant",
-      "name": "Adachi, Leon",
-      "role": "Administrative Assistant (AA, FRIS URO)",
+      "group": "current", "category": "assistant",
+      "name": "Adachi, Leon", "role": "Administrative Assistant (AA, FRIS URO)",
       "affiliation": "",
       "image": "{% static 'images/leon.png' %}",
       "theme": "Quantum foundations; nonlocal measurement."
     },
     {
-      "group": "current",
-      "category": "student",
-      "name": "Tatsumi, Ryou",
-      "role": "Master student",
+      "group": "current", "category": "student",
+      "name": "Tatsumi, Ryou", "role": "Master student",
       "affiliation": "Matsueda Lab",
       "image": "{% static 'images/ryou.png' %}",
       "theme": "Critical quantum metrology."
     },
     {
-      "group": "current",
-      "category": "assistant",
-      "name": "Vu, Xuan Tung Duong",
-      "role": "Administrative Assistant (AA, FRIS URO)",
+      "group": "current", "category": "assistant",
+      "name": "Vu, Xuan Tung Duong", "role": "Administrative Assistant (AA, FRIS URO)",
       "affiliation": "",
       "image": "{% static 'images/vu.png' %}",
       "theme": "Squeezing effects in spin ensembles and applications."
     },
     {
-      "group": "current",
-      "category": "assistant",
-      "name": "Otsuka, Utako",
-      "role": "Administrative Assistant (AA, FRIS URO)",
+      "group": "current", "category": "assistant",
+      "name": "Otsuka, Utako", "role": "Administrative Assistant (AA, FRIS URO)",
       "affiliation": "",
       "image": "{% static 'images/otsuka.png' %}",
       "theme": "Quantum optimization."
     }
   ],
   "alumni": [
-    {
-      "group": "alumni",
-      "category": "alumni",
-      "name": "Manlaibaatar, Narantsetseg",
-      "role": "Administrative Assistant (AA, FRIS URO)",
-      "affiliation": "",
-      "image": "{% static 'images/nara.png' %}",
-      "theme": ""
-    },
-    {
-      "group": "alumni",
-      "category": "alumni",
-      "name": "Rawat, Ruchir",
-      "role": "Administrative Assistant (AA, FRIS URO)",
-      "affiliation": "",
-      "image": "{% static 'images/ruchir.png' %}",
-      "theme": ""
-    },
-    {
-      "group": "alumni",
-      "category": "alumni",
-      "name": "Sathyanarayanan, Kamalakkannan Umarani",
-      "role": "Administrative Assistant (AA, FRIS URO)",
-      "affiliation": "",
-      "image": "{% static 'images/sathy.png' %}",
-      "theme": ""
-    },
-    {
-      "group": "alumni",
-      "category": "alumni",
-      "name": "Sharma, Avin",
-      "role": "Administrative Assistant (AA, FRIS URO)",
-      "affiliation": "",
-      "image": "{% static 'images/avin.png' %}",
-      "theme": ""
-    }
+    {"group":"alumni","category":"alumni","name":"Manlaibaatar, Narantsetseg","role":"Administrative Assistant (AA, FRIS URO)","affiliation":"","image":"{% static 'images/nara.png' %}","theme":""},
+    {"group":"alumni","category":"alumni","name":"Rawat, Ruchir","role":"Administrative Assistant (AA, FRIS URO)","affiliation":"","image":"{% static 'images/ruchir.png' %}","theme":""},
+    {"group":"alumni","category":"alumni","name":"Sathyanarayanan, Kamalakkannan Umarani","role":"Administrative Assistant (AA, FRIS URO)","affiliation":"","image":"{% static 'images/sathy.png' %}","theme":""},
+    {"group":"alumni","category":"alumni","name":"Sharma, Avin","role":"Administrative Assistant (AA, FRIS URO)","affiliation":"","image":"{% static 'images/avin.png' %}","theme":""}
   ]
 }
-    </script>
+  </script>
+</main>
+{% endblock %}
 
-    <script>
-      (function(){
-        const app = document.getElementById('app');
-        const searchBox = document.getElementById('searchBox');
-        const chips = Array.from(document.querySelectorAll('.chip'));
-        const visibleCount = document.getElementById('visibleCount');
+{% block extra_js %}
+<script>
+(function(){
+  const app = document.getElementById('app');
+  const searchBox = document.getElementById('searchBox');
+  const chips = Array.from(document.querySelectorAll('.chip'));
+  const visibleCount = document.getElementById('visibleCount');
+  let ALL = [], filter = 'all', query = '';
 
-        let ALL = [];
-        let filter = 'all';
-        let query = '';
+  function safeText(s){ return (s||'').toString(); }
 
-        function safeText(s){ return (s || '').toString(); }
+  function matches(p){
+    if(filter !== 'all' && p.category !== filter) return false;
+    if(!query) return true;
+    const hay = (safeText(p.name)+' '+safeText(p.role)+' '+safeText(p.affiliation)+' '+safeText(p.theme)).toLowerCase();
+    return hay.includes(query);
+  }
 
-        function matches(p){
-          if(filter !== 'all' && p.category !== filter) return false;
-          if(!query) return true;
-          const hay = (
-            safeText(p.name) + ' ' +
-            safeText(p.role) + ' ' +
-            safeText(p.affiliation) + ' ' +
-            safeText(p.theme)
-          ).toLowerCase();
-          return hay.includes(query);
-        }
+  function renderCard(p){
+    const badges = {pi:'PI',researcher:'Researcher',student:'Student',assistant:'Assistant',alumni:'Alumni'};
+    const badgeHtml = badges[p.category] ? `<span class="badge ${p.category}">${badges[p.category]}</span>` : '';
+    const links = (p.links||[]).map(x=>`<a class="member-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.label}</a>`).join('');
+    const emailBtn = p.email ? `<a class="member-link primary" href="mailto:${p.email}">Email</a>` : '';
+    const affLine = p.affiliation ? `<p class="member-role">${p.affiliation}</p>` : '';
+    const theme = safeText(p.theme).trim();
+    const themeHtml = theme ? `<p class="member-theme">${theme}</p>` : `<p class="member-theme" style="opacity:.5">Research theme: (to be updated)</p>`;
+    return `
+      <div class="member-card" data-category="${p.category}">
+        <div class="card-top">
+          <img class="avatar" src="${p.image}" alt="${p.name}">
+          <div>
+            <p class="member-name">${p.name}</p>
+            <p class="member-role"><b>${safeText(p.role)}</b></p>
+            ${affLine}
+          </div>
+        </div>
+        <div class="badges">${badgeHtml}</div>
+        ${themeHtml}
+        <div class="member-links">${emailBtn}${links}</div>
+      </div>`;
+  }
 
-        function renderCard(p){
-          const badges = [];
-          if(p.category === 'pi') badges.push(`<span class="badge pi">PI</span>`);
-          if(p.category === 'researcher') badges.push(`<span class="badge researcher">Researcher</span>`);
-          if(p.category === 'student') badges.push(`<span class="badge student">Student</span>`);
-          if(p.category === 'assistant') badges.push(`<span class="badge assistant">Assistant</span>`);
-          if(p.category === 'alumni') badges.push(`<span class="badge alumni">Alumni</span>`);
+  function renderSection(title, items){
+    if(!items.length) return '';
+    return `
+      <div class="member-section">
+        <div class="section-head">
+          <h2>${title}</h2>
+          <span class="count">${items.length} people</span>
+        </div>
+        <div class="member-grid">${items.map(renderCard).join('')}</div>
+      </div>`;
+  }
 
-          const links = (p.links || []).map(x=>{
-            return `<a class="link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.label}</a>`;
-          }).join('');
+  function render(){
+    const current = ALL.filter(x=>x.group==='current').filter(matches);
+    const alumni  = ALL.filter(x=>x.group==='alumni').filter(matches);
+    const total = current.length + alumni.length;
+    visibleCount.textContent = `${total} people`;
+    if(!total){ app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`; return; }
+    app.innerHTML = filter === 'alumni'
+      ? renderSection('Alumni', alumni) + renderSection('Current Members', current)
+      : renderSection('Current Members', current) + renderSection('Alumni', alumni);
+  }
 
-          const emailBtn = p.email
-            ? `<a class="link primary" href="mailto:${p.email}">Email</a>`
-            : '';
+  function loadData(){
+    const data = JSON.parse(document.getElementById('peopleData').textContent.trim());
+    ALL = [...(data.members||[]).map(x=>({...x,group:'current'})), ...(data.alumni||[]).map(x=>({...x,group:'alumni'}))];
+  }
 
-          const affiliationLine = p.affiliation ? `<div class="role">${p.affiliation}</div>` : '';
+  chips.forEach(ch=>{
+    ch.addEventListener('click', ()=>{
+      chips.forEach(x=>x.classList.remove('active'));
+      ch.classList.add('active');
+      filter = ch.dataset.filter || 'all';
+      render();
+    });
+  });
+  searchBox.addEventListener('input', ()=>{ query=(searchBox.value||'').trim().toLowerCase(); render(); });
 
-          const theme = safeText(p.theme).trim();
-          const themeHtml = theme ? `<p class="theme">${theme}</p>` : `<p class="theme" style="opacity:.7">Research theme: (to be updated)</p>`;
-
-          return `
-            <div class="card" data-category="${p.category}">
-              <div class="top">
-                <img class="avatar" src="${p.image}" alt="${p.name}">
-                <div>
-                  <p class="name">${p.name}</p>
-                  <p class="role"><b>${safeText(p.role)}</b></p>
-                  ${affiliationLine}
-                </div>
-              </div>
-
-              <div class="badges">${badges.join('')}</div>
-
-              ${themeHtml}
-
-              <div class="links">
-                ${emailBtn}
-                ${links}
-              </div>
-            </div>
-          `;
-        }
-
-        function renderSection(title, items){
-          if(items.length === 0) return '';
-          return `
-            <section class="section">
-              <div class="section-title">
-                <h2>${title}</h2>
-                <div class="small">${items.length} people</div>
-              </div>
-              <div class="grid">
-                ${items.map(renderCard).join('')}
-              </div>
-            </section>
-          `;
-        }
-
-        function render(){
-          const current = ALL.filter(x=>x.group==='current').filter(matches);
-          const alumni  = ALL.filter(x=>x.group==='alumni').filter(matches);
-
-          const total = current.length + alumni.length;
-          visibleCount.textContent = `${total} people`;
-
-          if(total === 0){
-            app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`;
-            return;
-          }
-
-          // If user filters "Alumni", show alumni first (feels natural)
-          let html = '';
-          if(filter === 'alumni'){
-            html += renderSection('Alumni', alumni);
-            html += renderSection('Current Members', current);
-          }else{
-            html += renderSection('Current Members', current);
-            html += renderSection('Alumni', alumni);
-          }
-
-          app.innerHTML = html;
-        }
-
-        function loadData(){
-          const raw = document.getElementById('peopleData').textContent.trim();
-          const data = JSON.parse(raw);
-
-          const members = (data.members || []).map(x=>({ ...x, group:'current' }));
-          const alumni  = (data.alumni  || []).map(x=>({ ...x, group:'alumni' }));
-
-          ALL = [...members, ...alumni];
-        }
-
-        chips.forEach(ch=>{
-          ch.addEventListener('click', ()=>{
-            chips.forEach(x=>x.classList.remove('active'));
-            ch.classList.add('active');
-            filter = ch.dataset.filter || 'all';
-            render();
-          });
-        });
-
-        searchBox.addEventListener('input', ()=>{
-          query = (searchBox.value || '').trim().toLowerCase();
-          render();
-        });
-
-        loadData();
-        render();
-
-        // ===== Dropdowns (CLICK to open; click outside to close) =====
-      const items = Array.from(document.querySelectorAll('.item.has-dd'));
-      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
-
-      function closeAll(except=null){
-        items.forEach(it=>{
-          if(it !== except){
-            it.classList.remove('open');
-            const btn = it.querySelector('.dd-toggle');
-            if(btn) btn.setAttribute('aria-expanded', 'false');
-          }
-        });
-      }
-
-      toggles.forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          e.stopPropagation();
-          const item = btn.closest('.item.has-dd');
-          const willOpen = !item.classList.contains('open');
-          closeAll(item);
-          item.classList.toggle('open', willOpen);
-          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-        });
-      });
-
-      document.addEventListener('click', ()=> closeAll());
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') closeAll();
-      });
-      })();
-    </script>
-
-  </main>
-</body>
-</html>
+  loadData();
+  render();
+})();
+</script>
+{% endblock %}

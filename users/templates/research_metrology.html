@@ -1,274 +1,134 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Quantum Metrology & Sensing | Quantar Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    :root{
-      --bg:#f4f6f8;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#334155;
-      --line:#e2e8f0;
-      --accent:#2563eb;
-      --accent2:#1d4ed8;
-      --shadow:0 12px 32px rgba(15,23,42,.08);
-      --radius:18px;
-      --max:1200px;
+{% block title %}Quantum Metrology & Sensing | Quantar Lab{% endblock %}
+{% block nav_research %}active{% endblock %}
 
-      --base:17px;
-      --lh:1.85;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
+{% block extra_css %}
+<style>
+  body{ background:#f4f6f8; }
 
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      font-size:var(--base);
-      line-height:var(--lh);
-    }
+  .res-wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:20px 18px 60px;
+  }
 
-    /* ===== TOPBAR ===== */
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:rgba(255,255,255,.92);
-      backdrop-filter:blur(8px);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:12px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      color:var(--text);
-    }
-    .brand-dot{
-      width:12px;height:12px;border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 0 6px rgba(37,99,235,.12);
-    }
-    .brand-title{font-weight:900}
-    .brand-sub{font-size:13px;color:var(--muted)}
+  .crumbs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 10px;
+    align-items:center;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:16px;
+  }
+  .crumbs a{ text-decoration:none; color:var(--muted); font-weight:600; }
+  .crumbs a:hover{ color:var(--accent); }
 
-    .nav-right{display:flex;gap:10px;flex-wrap:wrap}
-    .pill{
-      padding:11px 16px;
-      border-radius:999px;
-      font-size:14px;
-      font-weight:900;
-      border:1px solid var(--line);
-      background:#fff;
-      text-decoration:none;
-      color:var(--text);
-    }
-    .pill.primary{background:var(--accent);color:#fff;border-color:transparent}
+  .hero{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 30px;
+    margin-bottom:18px;
+  }
+  .hero h1{ margin:0 0 10px 0; font-size:36px; font-weight:800; letter-spacing:-0.02em; }
+  .hero .subtitle{ margin:0 0 16px 0; font-size:16px; color:var(--muted); max-width:800px; line-height:1.6; }
+  .hero-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .h-chip{
+    font-size:13px; font-weight:600; padding:6px 12px; border-radius:999px;
+    border:1px solid rgba(37,99,235,.2); background:rgba(37,99,235,.08); color:#1d4ed8;
+  }
 
-    /* ===== PAGE ===== */
-    .container{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:26px 16px 70px;
-    }
+  .layout{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:18px;
+    align-items:start;
+  }
+  @media(max-width:900px){ .layout{grid-template-columns:1fr;} .toc{display:none;} }
 
-    /* breadcrumb */
-    .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px 14px;
-      font-size:14px;
-      color:var(--muted);
-    }
-    .meta a{color:var(--muted);text-decoration:none;font-weight:800}
+  .toc{
+    position:sticky;
+    top:72px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .toc-title{ font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px 0; }
+  .toc a{
+    display:block; padding:8px 10px; border-radius:8px;
+    text-decoration:none; font-weight:500; font-size:13px; color:var(--muted);
+    transition:background .12s ease, color .12s ease;
+  }
+  .toc a:hover{ background:rgba(37,99,235,.06); color:var(--accent); }
 
-    /* hero */
-    .hero{
-      margin-top:12px;
-      background:linear-gradient(180deg,#fff,#f8fafc);
-      border:1px solid var(--line);
-      border-radius:22px;
-      box-shadow:var(--shadow);
-      padding:28px;
-    }
-    h1{
-      margin:0 0 10px 0;
-      font-size:40px;
-      line-height:1.15;
-      font-weight:900;
-      letter-spacing:-0.02em;
-    }
-    .subtitle{
-      font-size:18px;
-      color:var(--muted);
-      max-width:900px;
-    }
+  .content{ display:grid; gap:14px; }
+  .res-section{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 26px;
+    box-shadow:var(--shadow);
+  }
+  .res-section h2{ margin:0 0 12px 0; font-size:22px; font-weight:800; letter-spacing:-0.01em; }
+  .res-section h3{ margin:16px 0 6px 0; font-size:17px; font-weight:700; }
+  .res-section p{ margin:0 0 12px 0; color:var(--muted); font-size:15px; line-height:1.75; }
+  .res-section ul{ margin:0 0 12px 20px; color:var(--muted); font-size:15px; line-height:1.75; }
+  .res-section li{ margin-bottom:6px; }
 
-    .chips{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-    .chip{
-      font-size:14px;
-      font-weight:900;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(37,99,235,.06);
-      color:var(--accent2);
-    }
+  .callout{
+    border:1px solid rgba(37,99,235,.18);
+    background:rgba(37,99,235,.05);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:12px 0 16px 0;
+    font-size:14px; line-height:1.65;
+  }
+  .callout b{ color:var(--accent); }
 
-    /* layout */
-    .layout{
-      display:grid;
-      grid-template-columns:280px 1fr;
-      gap:18px;
-      margin-top:18px;
-      align-items:start;
-    }
+  .figure{
+    margin:14px 0;
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .figure img{ width:100%; display:block; }
+  .caption{ font-size:13px; color:var(--muted); margin-top:8px; line-height:1.5; }
+</style>
+{% endblock %}
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
+{% block content %}
+<main class="res-wrap">
 
-    /* toc */
-    .toc{
-      position:sticky;
-      top:90px;
-      padding:16px;
-    }
-    .toc-title{
-      font-size:12px;
-      font-weight:900;
-      letter-spacing:.1em;
-      text-transform:uppercase;
-      color:var(--muted);
-      margin-bottom:10px;
-    }
-    .toc a{
-      display:block;
-      padding:10px;
-      border-radius:12px;
-      font-weight:900;
-      text-decoration:none;
-      color:var(--text);
-    }
-    .toc a:hover{background:rgba(37,99,235,.06)}
-
-    /* content */
-    .content{display:grid;gap:18px}
-    .section{padding:24px}
-    .section h2{
-      font-size:24px;
-      font-weight:900;
-      margin:0 0 10px 0;
-    }
-    .section h3{
-      font-size:18px;
-      font-weight:900;
-      margin:14px 0 6px 0;
-    }
-    .section p{font-size:16px;color:var(--muted)}
-    .section ul{margin-left:18px;color:var(--muted)}
-
-    .figure{
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius:16px;
-      overflow:hidden;
-    }
-    .figure img{width:100%;display:block}
-    .caption{font-size:14px;color:var(--muted);margin-top:8px}
-
-    .callout{
-      background:rgba(37,99,235,.06);
-      border:1px solid rgba(37,99,235,.2);
-      border-radius:14px;
-      padding:14px;
-      margin:14px 0;
-    }
-    .callout b{color:var(--accent2)}
-
-    .footer{
-      text-align:center;
-      font-size:13px;
-      color:var(--muted);
-      padding:30px 0 10px;
-    }
-
-    @media (max-width: 980px){
-      h1{font-size:32px}
-      .layout{grid-template-columns:1fr}
-      .toc{position:relative;top:auto}
-    }
-  </style>
-</head>
-
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="{% url 'home' %}">
-      <div class="brand-dot"></div>
-      <div>
-        <div class="brand-title">Quantar Lab</div>
-        <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
-      </div>
-    </a>
-    <nav class="nav-right">
-      <a class="pill" href="{% url 'publication' %}">Publications</a>
-      <a class="pill primary" href="{% url 'position' %}">Positions</a>
-      <a class="pill" href="{% url 'contact' %}">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main class="container">
-
-  <div class="meta">
+  <div class="crumbs">
     <a href="{% url 'home' %}">Home</a> ›
     <span>Research</span> ›
     <b>Quantum Metrology & Sensing</b>
-    <span>• Last updated: 2026</span>
+    <span style="margin-left:8px;">· Last updated: 2026</span>
   </div>
 
-  <section class="hero">
+  <div class="hero">
     <h1>Quantum Metrology & Sensing</h1>
     <p class="subtitle">
       Time-dependent and networked quantum sensing protocols that push measurement precision
       beyond classical limits, with explicit attention to noise, control constraints, and experimental feasibility.
     </p>
-    <div class="chips">
-      <span class="chip">QFI / QFIM</span>
-      <span class="chip">optimal control</span>
-      <span class="chip">noise-robust</span>
-      <span class="chip">networked sensors</span>
+    <div class="hero-chips">
+      <span class="h-chip">QFI / QFIM</span>
+      <span class="h-chip">optimal control</span>
+      <span class="h-chip">noise-robust</span>
+      <span class="h-chip">networked sensors</span>
     </div>
-  </section>
+  </div>
 
   <div class="layout">
 
-    <aside class="card toc">
+    <aside class="toc">
       <div class="toc-title">On this page</div>
       <a href="#what">What is quantum metrology?</a>
       <a href="#workflow">Typical workflow</a>
@@ -280,34 +140,26 @@
 
     <div class="content">
 
-      <section class="card section" id="what">
+      <div class="res-section" id="what">
         <h2>What is quantum metrology?</h2>
-        <p>
-          Quantum metrology studies how quantum effects—such as superposition, entanglement,
-          and squeezing—can be used to measure physical parameters with higher precision
-          than is possible using classical strategies.
-        </p>
+        <p>Quantum metrology studies how quantum effects — such as superposition, entanglement, and squeezing — can be used to measure physical parameters with higher precision than is possible using classical strategies.</p>
         <div class="callout">
-          <b>Key idea:</b> the precision of any measurement is fundamentally limited,
-          but quantum resources allow us to approach or surpass classical bounds.
+          <b>Key idea:</b> the precision of any measurement is fundamentally limited, but quantum resources allow us to approach or surpass classical bounds.
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="workflow">
+      <div class="res-section" id="workflow">
         <h2>Typical sensing workflow</h2>
-        <p>
-          In our work, a sensing protocol is treated as a controlled quantum process
-          rather than a fixed experiment.
-        </p>
+        <p>In our work, a sensing protocol is treated as a controlled quantum process rather than a fixed experiment.</p>
         <div class="figure">
           <img src="{% static 'images/metrology.png' %}" alt="Quantum metrology workflow">
         </div>
         <div class="caption">
           Probe preparation → controlled evolution → optimized measurement → parameter estimation.
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="methods">
+      <div class="res-section" id="methods">
         <h2>Core methods</h2>
         <ul>
           <li>Quantum Fisher information (QFI) and quantum Fisher information matrix (QFIM)</li>
@@ -315,58 +167,36 @@
           <li>Noise modeling and robustness analysis</li>
           <li>Variational and learning-based optimization of states and measurements</li>
         </ul>
-      </section>
+      </div>
 
-      <section class="card section" id="topics">
+      <div class="res-section" id="topics">
         <h2>Research topics</h2>
-
         <h3>Time-dependent sensing</h3>
-        <p>
-          We design control schedules that maximize information gain within finite sensing times.
-        </p>
-
+        <p>We design control schedules that maximize information gain within finite sensing times.</p>
         <h3>Networked quantum sensors</h3>
-        <p>
-          Distributed sensing using multiple nodes, optimized for scalability and realistic noise.
-        </p>
-
+        <p>Distributed sensing using multiple nodes, optimized for scalability and realistic noise.</p>
         <h3>Multiphase and multiparameter estimation</h3>
-        <p>
-          Understanding trade-offs, compatibility conditions, and joint estimation limits.
-        </p>
-
+        <p>Understanding trade-offs, compatibility conditions, and joint estimation limits.</p>
         <h3>Robust measurement design</h3>
-        <p>
-          Constructing POVMs that remain near-optimal under imperfect calibration and readout.
-        </p>
-      </section>
+        <p>Constructing POVMs that remain near-optimal under imperfect calibration and readout.</p>
+      </div>
 
-      <section class="card section" id="results">
+      <div class="res-section" id="results">
         <h2>Selected results</h2>
         <ul>
           <li>Squeezing-induced quantum-enhanced multiphase estimation</li>
           <li>Time-normalized quantum Fisher information</li>
           <li>Noise-robust performance of networked quantum sensors</li>
         </ul>
-      </section>
+      </div>
 
-      <section class="card section" id="impact">
+      <div class="res-section" id="impact">
         <h2>Why it matters</h2>
-        <p>
-          Precision measurement underpins modern science and technology.
-          By explicitly accounting for noise, control, and finite resources,
-          our work helps bridge the gap between fundamental limits
-          and deployable quantum sensors.
-        </p>
-      </section>
+        <p>Precision measurement underpins modern science and technology. By explicitly accounting for noise, control, and finite resources, our work helps bridge the gap between fundamental limits and deployable quantum sensors.</p>
+      </div>
 
     </div>
   </div>
 
-  <div class="footer">
-    © Quantar Lab • Tohoku University, Sendai, Japan
-  </div>
-
 </main>
-</body>
-</html>
+{% endblock %}

@@ -1,432 +1,182 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Quantum Algorithms & Compilation | Quantar Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <style>
-    :root{
-      --bg:#f4f6f8;
-      --card:#ffffff;
-      --text:#0f172a;
-      --muted:#334155;
-      --line:#e2e8f0;
-      --accent:#2563eb;
-      --accent2:#1d4ed8;
-      --shadow:0 12px 32px rgba(15,23,42,.08);
-      --radius:16px;
-      --max:1200px;
+{% block title %}Quantum Algorithms & Compilation | Quantar Lab{% endblock %}
+{% block nav_research %}active{% endblock %}
 
-      /* Typography scale (bigger = easier to read) */
-      --base: 17px;
-      --lh: 1.85;
-    }
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      font-size: var(--base);
-      line-height: var(--lh);
-    }
-    a{color:inherit}
-    .muted{color:var(--muted)}
-    .sr{position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden}
+{% block extra_css %}
+<style>
+  body{ background:#f4f6f8; }
 
-    /* ===== TOPBAR ===== */
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom:1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:12px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      text-decoration:none;
-      color:var(--text);
-      min-width:220px;
-    }
-    .brand-dot{
-      width:12px;height:12px;border-radius:50%;
-      background:var(--accent);
-      box-shadow:0 0 0 6px rgba(37,99,235,.12);
-    }
-    .brand-title{font-weight:900; letter-spacing:-0.01em; line-height:1.1;}
-    .brand-sub{font-size:13px; color:var(--muted); line-height:1.35; margin-top:2px;}
+  .res-wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    padding:20px 18px 60px;
+  }
 
-    .nav-right{display:flex; gap:10px; align-items:center; flex-wrap:wrap; justify-content:flex-end;}
-    .pill{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:11px 16px; min-height:42px;
-      font-size:14px; font-weight:900; line-height:1;
-      border-radius:999px; text-decoration:none;
-      border:1px solid var(--line);
-      background:#fff; color:var(--text);
-      transition:transform .1s ease, background .1s ease;
-      white-space:nowrap;
-    }
-    .pill:hover{transform:translateY(-1px); background:rgba(37,99,235,.06);}
-    .pill.primary{background:var(--accent); color:#fff; border-color:transparent;}
+  /* breadcrumb */
+  .crumbs{
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px 10px;
+    align-items:center;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:16px;
+  }
+  .crumbs a{ text-decoration:none; color:var(--muted); font-weight:600; }
+  .crumbs a:hover{ color:var(--accent); }
 
-    /* ===== PAGE WRAP ===== */
-    .container{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:24px 16px 70px;
-    }
+  /* hero */
+  .hero{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:20px;
+    box-shadow:var(--shadow);
+    padding:28px 30px;
+    margin-bottom:18px;
+  }
+  .hero h1{ margin:0 0 10px 0; font-size:36px; font-weight:800; letter-spacing:-0.02em; }
+  .hero .subtitle{ margin:0 0 16px 0; font-size:16px; color:var(--muted); max-width:800px; line-height:1.6; }
+  .hero-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .h-chip{
+    font-size:13px; font-weight:600; padding:6px 12px; border-radius:999px;
+    border:1px solid rgba(37,99,235,.2); background:rgba(37,99,235,.08); color:#1d4ed8;
+    white-space:nowrap;
+  }
 
-    /* breadcrumb + meta like knowledge bank */
-    .meta{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px 14px;
-      align-items:center;
-      font-size:14px;
-      color:var(--muted);
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-    .crumbs{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-    .crumbs a{
-      text-decoration:none;
-      color:var(--muted);
-      font-weight:800;
-    }
-    .crumbs span{opacity:.8}
+  /* layout */
+  .layout{
+    display:grid;
+    grid-template-columns:260px 1fr;
+    gap:18px;
+    align-items:start;
+  }
+  @media(max-width:900px){ .layout{grid-template-columns:1fr;} .toc{display:none;} }
 
-    .hero{
-      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.75));
-      border:1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      padding: 26px;
-      margin-top: 10px;
-    }
-    h1{
-      margin:0 0 10px 0;
-      font-size: 40px;
-      line-height: 1.15;
-      font-weight: 900;
-      letter-spacing: -0.02em;
-    }
-    .subtitle{
-      margin:0;
-      font-size: 18px;
-      color: var(--muted);
-      max-width: 900px;
-    }
+  /* TOC */
+  .toc{
+    position:sticky;
+    top:72px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:14px;
+    padding:16px;
+    box-shadow:var(--shadow);
+  }
+  .toc-title{ font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--muted); margin:0 0 10px 0; }
+  .toc a{
+    display:block; padding:8px 10px; border-radius:8px;
+    text-decoration:none; font-weight:500; font-size:13px; color:var(--muted);
+    transition:background .12s ease, color .12s ease;
+  }
+  .toc a:hover{ background:rgba(37,99,235,.06); color:var(--accent); }
 
-    /* ===== LAYOUT: sidebar TOC + main ===== */
-    .layout{
-      display:grid;
-      grid-template-columns: 280px 1fr;
-      gap: 18px;
-      margin-top: 18px;
-      align-items:start;
-    }
+  /* content sections */
+  .content{ display:grid; gap:14px; }
+  .res-section{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:24px 26px;
+    box-shadow:var(--shadow);
+  }
+  .res-section h2{ margin:0 0 12px 0; font-size:22px; font-weight:800; letter-spacing:-0.01em; }
+  .res-section h3{ margin:16px 0 6px 0; font-size:17px; font-weight:700; }
+  .res-section p{ margin:0 0 12px 0; color:var(--muted); font-size:15px; line-height:1.75; }
+  .res-section ul{ margin:0 0 12px 20px; color:var(--muted); font-size:15px; line-height:1.75; }
+  .res-section li{ margin-bottom:6px; }
 
-    .card{
-      background:var(--card);
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow: var(--shadow);
-    }
+  .callout{
+    border:1px solid rgba(37,99,235,.18);
+    background:rgba(37,99,235,.05);
+    border-radius:12px;
+    padding:14px 16px;
+    margin:12px 0 16px 0;
+    font-size:14px; line-height:1.65;
+  }
+  .callout b{ color:var(--accent); }
 
-    /* TOC */
-    .toc{
-      position: sticky;
-      top: 84px;
-      padding: 16px;
-    }
-    .toc-title{
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: .10em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin: 0 0 10px 0;
-    }
-    .toc a{
-      display:block;
-      padding: 10px 10px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 900;
-      color: var(--text);
-      border: 1px solid transparent;
-    }
-    .toc a:hover{
-      background: rgba(37,99,235,.06);
-      border-color: rgba(37,99,235,.18);
-    }
+  .mini-grid{ display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0; }
+  @media(max-width:600px){ .mini-grid{grid-template-columns:1fr;} }
+  .mini{
+    border:1px solid var(--line); border-radius:12px; padding:14px; background:#f8fafc;
+  }
+  .mini h4{ margin:0 0 6px 0; font-size:15px; font-weight:700; }
+  .mini p{ margin:0; font-size:14px; color:var(--muted); line-height:1.6; }
 
-    /* MAIN content cards */
-    .content{
-      display:grid;
-      gap: 18px;
-    }
-    .section{
-      padding: 22px;
-    }
-    .section h2{
-      margin: 0 0 10px 0;
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-    }
-    .section h3{
-      margin: 16px 0 6px 0;
-      font-size: 18px;
-      font-weight: 900;
-      letter-spacing: -0.01em;
-    }
-    .section p{margin: 0 0 12px 0; color: var(--muted); font-size: 16px;}
-    .section ul{margin: 0 0 12px 18px; color: var(--muted);}
-    .section li{margin: 6px 0;}
+  .related-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:12px; }
+  @media(max-width:600px){ .related-grid{grid-template-columns:1fr;} }
+  .rel{
+    background:#f8fafc; border:1px solid var(--line); border-radius:12px; padding:14px;
+    text-decoration:none; display:block;
+    transition:transform .12s ease, background .12s ease;
+  }
+  .rel:hover{ transform:translateY(-1px); background:rgba(37,99,235,.04); }
+  .rel b{ display:block; margin-bottom:4px; font-size:14px; }
+  .rel span{ color:var(--muted); font-size:13px; line-height:1.5; }
 
-    /* callout */
-    .callout{
-      border: 1px solid rgba(37,99,235,.18);
-      background: rgba(37,99,235,.06);
-      border-radius: 14px;
-      padding: 14px 14px;
-      color: var(--text);
-      margin: 12px 0 16px 0;
-    }
-    .callout b{color: var(--accent2);}
+  .link-row{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+  .linkbtn{ font-size:14px; font-weight:700; color:var(--accent); text-decoration:none; transition:opacity .12s; }
+  .linkbtn:hover{ opacity:.75; text-decoration:underline; }
+</style>
+{% endblock %}
 
-    /* chips */
-    .chips{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 10px;
-    }
-    .chip{
-      font-size:14px;
-      font-weight:900;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(37,99,235,.06);
-      color: var(--accent2);
-      white-space:nowrap;
-    }
+{% block content %}
+<main class="res-wrap">
 
-    /* figure */
-    .figure{
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius: 16px;
-      overflow:hidden;
-      background:#fff;
-    }
-    .figure img{width:100%; display:block;}
-    .caption{
-      font-size: 14px;
-      color: var(--muted);
-      margin-top: 10px;
-    }
-
-    /* cards grid */
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 12px;
-    }
-    .mini{
-      border:1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      background: #fff;
-    }
-    .mini h4{
-      margin:0 0 6px 0;
-      font-size: 16px;
-      font-weight: 900;
-    }
-    .mini p{margin:0; font-size: 15px; color: var(--muted);}
-
-    .btnrow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top: 12px;
-    }
-    .linkbtn{
-      font-size: 15px;
-      font-weight: 900;
-      color: var(--accent);
-      text-decoration:none;
-    }
-    .linkbtn:hover{text-decoration:underline}
-
-    /* related resources */
-    .related{
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-    .rel{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius: 14px;
-      padding: 14px;
-      text-decoration:none;
-      display:block;
-      transition: transform .12s ease, background .12s ease;
-    }
-    .rel:hover{
-      transform: translateY(-1px);
-      background: rgba(37,99,235,.04);
-    }
-    .rel b{display:block; margin-bottom: 6px;}
-    .rel span{color: var(--muted); font-size: 14px;}
-
-    .footer{
-      text-align:center;
-      color:var(--muted);
-      font-size:13px;
-      padding:26px 0 10px;
-    }
-
-    /* ===== MOBILE ===== */
-    @media (max-width: 980px){
-      h1{font-size: 32px;}
-      .subtitle{font-size: 17px;}
-      .layout{grid-template-columns: 1fr;}
-      .toc{position:relative; top:auto;}
-      .grid{grid-template-columns:1fr;}
-      .related{grid-template-columns:1fr;}
-      .pill{font-size:14px;}
-    }
-  </style>
-</head>
-
-<body>
-
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="{% url 'home' %}">
-      <div class="brand-dot"></div>
-      <div>
-        <div class="brand-title">Quantar Lab</div>
-        <div class="brand-sub">(Quantum algorithms and technologies for advanced research)</div>
-      </div>
-    </a>
-
-    <nav class="nav-right" aria-label="Top navigation">
-      <a class="pill" href="{% url 'publication' %}">Publications</a>
-      <a class="pill primary" href="{% url 'position' %}">Positions</a>
-      <a class="pill" href="{% url 'contact' %}">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main class="container">
-
-  <!-- breadcrumb + date (knowledge-bank feel) -->
-  <div class="meta">
-    <div class="crumbs" aria-label="Breadcrumb">
-      <a href="{% url 'home' %}">Home</a>
-      <span>›</span>
-      <a href="{% url 'resource' %}">Resources</a>
-      <span>›</span>
-      <span><b>Quantum algorithms & compilation</b></span>
-    </div>
-    <div>Last updated: 2026 Jan</div>
+  <div class="crumbs">
+    <a href="{% url 'home' %}">Home</a> ›
+    <a href="{% url 'resource' %}">Resources</a> ›
+    <b>Quantum Algorithms & Compilation</b>
+    <span style="margin-left:8px;">· Last updated: 2026 Jan</span>
   </div>
 
-  <section class="hero card">
+  <div class="hero">
     <h1>Quantum Algorithms & Compilation</h1>
     <p class="subtitle">
-      Efficient, device-aware methods for near-term quantum optimization and simulation — from algorithm ideas
-      to hardware-executable circuits.
+      Efficient, device-aware methods for near-term quantum optimization and simulation —
+      from algorithm ideas to hardware-executable circuits.
     </p>
-
-    <div class="chips" aria-label="Key tags">
-      <span class="chip">quantum compilation</span>
-      <span class="chip">QAOA</span>
-      <span class="chip">VQE</span>
-      <span class="chip">FALQON</span>
-      <span class="chip">gradients</span>
-      <span class="chip">benchmarks</span>
+    <div class="hero-chips">
+      <span class="h-chip">quantum compilation</span>
+      <span class="h-chip">QAOA</span>
+      <span class="h-chip">VQE</span>
+      <span class="h-chip">FALQON</span>
+      <span class="h-chip">gradients</span>
+      <span class="h-chip">benchmarks</span>
     </div>
-  </section>
+  </div>
 
   <div class="layout">
 
-    <!-- TOC -->
-    <aside class="card toc" aria-label="Table of contents">
+    <aside class="toc">
       <div class="toc-title">On this page</div>
-      <a href="#what">What we mean by “practical” quantum algorithms</a>
+      <a href="#what">What we mean by "practical"</a>
       <a href="#compilation">Compilation & circuit synthesis</a>
-      <a href="#qaoa">QAOA for combinatorial optimization</a>
+      <a href="#qaoa">QAOA for optimization</a>
       <a href="#vqe">VQE & ground-state preparation</a>
       <a href="#falqon">FALQON & feedback-based control</a>
       <a href="#evaluation">How we evaluate performance</a>
-      <a href="#applications">Where it can be used</a>
+      <a href="#applications">Applications</a>
       <a href="#faq">FAQ</a>
       <a href="#refs">Selected reading</a>
     </aside>
 
-    <!-- MAIN -->
     <div class="content">
 
-      <section class="card section" id="what">
-        <h2>What we mean by “practical” quantum algorithms</h2>
-        <p>
-          Near-term quantum devices have limited qubit counts and are affected by noise. For that reason,
-          our goal is not only to propose algorithms, but also to make them <b>implementable</b> and <b>measurable</b>
-          under realistic constraints: gate sets, connectivity, depth budgets, and measurement cost.
-        </p>
-
+      <div class="res-section" id="what">
+        <h2>What we mean by "practical" quantum algorithms</h2>
+        <p>Near-term quantum devices have limited qubit counts and are affected by noise. Our goal is not only to propose algorithms, but also to make them <b>implementable</b> and <b>measurable</b> under realistic constraints: gate sets, connectivity, depth budgets, and measurement cost.</p>
         <div class="callout">
-          <b>Key idea:</b> “Algorithm” and “compiler” must be designed together. A good theoretical circuit is not enough
-          if it becomes too deep after routing or too expensive to measure.
+          <b>Key idea:</b> "Algorithm" and "compiler" must be designed together. A good theoretical circuit is not enough if it becomes too deep after routing or too expensive to measure.
         </div>
+      </div>
 
-        <div class="figure">
-          <img src="{% static 'images/quantum_algorithms_overview.png' %}"
-               alt="Algorithm → circuit → compiled circuit → execution/feedback loop" />
-        </div>
-        <div class="caption">
-          Workflow: algorithm design → circuit representation → device-aware compilation → execution and feedback.
-        </div>
-      </section>
-
-      <section class="card section" id="compilation">
+      <div class="res-section" id="compilation">
         <h2>Compilation & circuit synthesis</h2>
-        <p>
-          Quantum compilation translates an abstract circuit into a form that can actually run on a specific device.
-          This includes gate decomposition, qubit routing under limited connectivity, and circuit simplification.
-        </p>
-
-        <div class="grid">
+        <p>Quantum compilation translates an abstract circuit into a form that can actually run on a specific device. This includes gate decomposition, qubit routing under limited connectivity, and circuit simplification.</p>
+        <div class="mini-grid">
           <div class="mini">
             <h4>Device-aware routing</h4>
             <p>Map logical qubits onto physical qubits, insert SWAPs efficiently, and keep two-qubit gates minimal.</p>
@@ -436,71 +186,51 @@
             <p>Reduce depth and entangling gates, because they dominate error on many platforms.</p>
           </div>
         </div>
-
         <h3>Unitary / gate synthesis</h3>
-        <p>
-          For targets like Toffoli or multi-qubit primitives, we study synthesis strategies that minimize resources
-          while keeping gradients reliable for optimization-based compilation.
-        </p>
-        <div class="btnrow">
+        <p>For targets like Toffoli or multi-qubit primitives, we study synthesis strategies that minimize resources while keeping gradients reliable for optimization-based compilation.</p>
+        <div class="link-row">
           <a class="linkbtn" href="{% url 'publication' %}">See related publications →</a>
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="qaoa">
+      <div class="res-section" id="qaoa">
         <h2>QAOA for combinatorial optimization</h2>
-        <p>
-          QAOA (Quantum Approximate Optimization Algorithm) is a leading approach for near-term optimization.
-          We study how to make QAOA work reliably in practice: choosing cost/mixer design, improving trainability,
-          and understanding performance under finite depth and noise.
-        </p>
-        <div class="grid">
+        <p>QAOA (Quantum Approximate Optimization Algorithm) is a leading approach for near-term optimization. We study how to make QAOA work reliably in practice: choosing cost/mixer design, improving trainability, and understanding performance under finite depth and noise.</p>
+        <div class="mini-grid">
           <div class="mini">
             <h4>Problem-aware design</h4>
             <p>Encode structure (constraints, symmetry, hardware limits) into mixers and cost Hamiltonians.</p>
           </div>
           <div class="mini">
             <h4>Trainability</h4>
-            <p>Diagnose optimization difficulty (cost function landscape), use schedules/initializations that converge faster.</p>
+            <p>Diagnose optimization difficulty, use schedules/initializations that converge faster.</p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="vqe">
+      <div class="res-section" id="vqe">
         <h2>VQE & ground-state preparation</h2>
-        <p>
-          VQE (Variational Quantum Eigensolver) targets ground states of Hamiltonians important in simulation and chemistry.
-          Our focus is on ansatz design, gradient stability, and measurement efficiency — so that performance is reproducible.
-        </p>
-
+        <p>VQE (Variational Quantum Eigensolver) targets ground states of Hamiltonians important in simulation and chemistry. Our focus is on ansatz design, gradient stability, and measurement efficiency.</p>
         <h3>What we optimize</h3>
         <ul>
           <li>Ansatz expressibility vs depth (avoid over-parameterized circuits that become noisy)</li>
           <li>Gradient reliability (cross-check PSR/estimators when needed)</li>
           <li>Measurement cost (grouping, shot allocation, and variance control)</li>
         </ul>
-      </section>
+      </div>
 
-      <section class="card section" id="falqon">
+      <div class="res-section" id="falqon">
         <h2>FALQON & feedback-based control</h2>
-        <p>
-          FALQON is a feedback-based quantum algorithm where parameter updates are guided by measurable quantities,
-          reducing reliance on heavy classical outer-loop training. We explore how feedback can improve robustness,
-          and how to hybridize feedback with adaptive schedules.
-        </p>
-
+        <p>FALQON is a feedback-based quantum algorithm where parameter updates are guided by measurable quantities, reducing reliance on heavy classical outer-loop training. We explore how feedback can improve robustness, and how to hybridize feedback with adaptive schedules.</p>
         <div class="callout">
-          <b>Why feedback matters:</b> it can provide a more “physics-guided” update rule, which may help in settings
-          where naive variational training becomes unstable or slow.
+          <b>Why feedback matters:</b> it can provide a more "physics-guided" update rule, which may help in settings where naive variational training becomes unstable or slow.
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="evaluation">
+      <div class="res-section" id="evaluation">
         <h2>How we evaluate performance</h2>
-        <p>
-          We emphasize metrics that matter on real devices, not only ideal simulations.
-        </p>
-        <div class="grid">
+        <p>We emphasize metrics that matter on real devices, not only ideal simulations.</p>
+        <div class="mini-grid">
           <div class="mini">
             <h4>Resource metrics</h4>
             <p>Depth, two-qubit gate count, routing overhead, and measurement cost.</p>
@@ -510,16 +240,12 @@
             <p>Sensitivity to noise, calibration errors, and reproducibility across runs.</p>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="applications">
+      <div class="res-section" id="applications">
         <h2>Where it can be used</h2>
-        <p>
-          Our algorithm + compilation pipelines support research and prototyping across multiple directions:
-          optimization, simulation, and hardware benchmarking.
-        </p>
-
-        <div class="related" aria-label="More resources">
+        <p>Our algorithm + compilation pipelines support research and prototyping across multiple directions: optimization, simulation, and hardware benchmarking.</p>
+        <div class="related-grid">
           <a class="rel" href="{% url 'publication' %}">
             <b>Publications</b>
             <span>Peer-reviewed papers and preprints from our group.</span>
@@ -533,55 +259,36 @@
             <span>Talk to us about joint projects and visits.</span>
           </a>
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="faq">
+      <div class="res-section" id="faq">
         <h2>FAQ</h2>
-
         <h3>Do you focus more on theory or implementation?</h3>
-        <p>
-          Both. We start from clear algorithmic goals, then design compilation and evaluation so the ideas can be tested on
-          realistic devices and simulator baselines.
-        </p>
-
+        <p>Both. We start from clear algorithmic goals, then design compilation and evaluation so the ideas can be tested on realistic devices and simulator baselines.</p>
         <h3>What problems are a good fit for QAOA / VQE?</h3>
-        <p>
-          QAOA is often used for combinatorial objectives (graph and constraint-based problems). VQE targets Hamiltonian
-          ground states and simulation tasks. In practice, problem structure and measurement cost strongly influence feasibility.
-        </p>
-
+        <p>QAOA is often used for combinatorial objectives (graph and constraint-based problems). VQE targets Hamiltonian ground states and simulation tasks.</p>
         <h3>Can I join as a student or visiting researcher?</h3>
-        <p>
-          Yes. If you have interest in quantum software, optimization, or experimental constraints, we welcome collaborations.
-        </p>
-
-        <div class="btnrow">
+        <p>Yes. If you have interest in quantum software, optimization, or experimental constraints, we welcome collaborations.</p>
+        <div class="link-row">
           <a class="linkbtn" href="{% url 'position' %}">Open positions →</a>
           <a class="linkbtn" href="{% url 'contact' %}">Contact us →</a>
         </div>
-      </section>
+      </div>
 
-      <section class="card section" id="refs">
+      <div class="res-section" id="refs">
         <h2>Selected reading</h2>
-        <p>
-          If you want, we can list your lab’s key papers here (with DOI/arXiv) in a clean bullet format.
-          For now, these are placeholders.
-        </p>
         <ul>
-          <li>Algorithm–compiler co-design for near-term devices (placeholder)</li>
-          <li>Verified gradient methods for circuit synthesis (placeholder)</li>
-          <li>Feedback-based quantum control and FALQON-style updates (placeholder)</li>
+          <li>Algorithm–compiler co-design for near-term devices</li>
+          <li>Verified gradient methods for circuit synthesis</li>
+          <li>Feedback-based quantum control and FALQON-style updates</li>
         </ul>
-      </section>
+        <div class="link-row">
+          <a class="linkbtn" href="{% url 'publication' %}">See all publications →</a>
+        </div>
+      </div>
 
     </div>
   </div>
 
-  <div class="footer">
-    © Quantar Lab • Tohoku University, Sendai, Japan
-  </div>
-
 </main>
-
-</body>
-</html>
+{% endblock %}
