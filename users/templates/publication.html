@@ -31,6 +31,8 @@
     font-family:var(--serif); font-size:19px; font-weight:600; color:var(--ink);
     line-height:1.36; margin:0 0 7px;
   }
+  .pub-title a{ color:var(--accent); text-decoration:none; }
+  .pub-title a:hover{ text-decoration:underline; }
   .pub-authors{ font-size:15.5px; color:var(--text); margin:0 0 4px; line-height:1.52; }
   .pub-venue{ font-size:15px; color:var(--muted); margin:0; font-style:italic; line-height:1.52; }
   .pub-venue a{ color:var(--accent); text-decoration:none; font-style:normal; }
@@ -173,7 +175,7 @@
       ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener noreferrer">'+(esc(p.venue)||esc(p.link))+'</a>'
       : esc(p.venue);
     const title = p.link
-      ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">'+esc(p.title)+'</a>'
+      ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener noreferrer">'+esc(p.title)+'</a>'
       : esc(p.title);
     return ''+
       '<div class="pub">'+
