@@ -6,34 +6,20 @@
 
 {% block extra_css %}
 <style>
-  .contact-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:18px;
+  .contact-grid{ display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+  @media(max-width:700px){ .contact-grid{ grid-template-columns:1fr; gap:36px; } }
+  .card{ border:none; padding:22px 0 0; border-top:1px solid var(--line); }
+  .card h2{
+    font-family:var(--serif); font-size:20px; font-weight:600; color:var(--ink);
+    letter-spacing:-.01em; margin:0 0 20px;
   }
-  @media(max-width:700px){
-    .contact-grid{grid-template-columns:1fr;}
-  }
-  .row{
-    margin-bottom:14px;
-    font-size:14px;
-    line-height:1.6;
-  }
+  .row{ margin-bottom:20px; font-size:15px; line-height:1.65; color:var(--text); }
   .label{
-    display:block;
-    font-size:11px;
-    font-weight:700;
-    color:var(--muted);
-    text-transform:uppercase;
-    letter-spacing:.05em;
-    margin-bottom:3px;
+    display:block; font-size:10.5px; font-weight:600; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.14em; margin-bottom:5px;
   }
-  .row a{
-    color:var(--accent);
-    text-decoration:none;
-    font-weight:600;
-  }
-  .row a:hover{text-decoration:underline;}
+  .row a{ color:var(--accent); text-decoration:none; border-bottom:1px solid transparent; }
+  .row a:hover{ border-bottom-color:var(--accent); }
 </style>
 {% endblock %}
 
@@ -46,7 +32,7 @@
 
   <div class="contact-grid">
     <div class="card">
-      <h2>Laboratory Information</h2>
+      <h2>Laboratory</h2>
       <div class="row">
         <span class="label">Laboratory</span>
         Quantum Lab, Frontier Research Institute for Interdisciplinary Sciences (FRIS), Tohoku University
@@ -63,7 +49,7 @@
     </div>
 
     <div class="card">
-      <h2>Get in Touch</h2>
+      <h2>Get in touch</h2>
       <div class="row">
         <span class="label">Email</span>
         <a href="mailto:binho@fris.tohoku.ac.jp">binho@fris.tohoku.ac.jp</a>

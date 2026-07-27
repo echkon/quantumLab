@@ -1,1128 +1,340 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>Quantar Lab</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  {% load static %}
-  <style>
-    :root{
-      --bg:#ffffff;
-      --text:#0f172a;
-      --muted:#475569;
-      --line:#e2e8f0;
-      --card:#ffffff;
-      --shadow: 0 14px 40px rgba(15,23,42,.10);
-      --accent:#2563eb;
-      --accentDark:#0b1220;
-      --radius:16px;
-      --max: 1200px;
-    }
+{% extends 'base.html' %}
+{% load static %}
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: 'Inter', Arial, sans-serif;
-      color:var(--text);
-      background:var(--bg);
-    }
-    a{color:inherit}
+{% block title %}Quantar Lab — Tohoku University{% endblock %}
 
-    /* ===== Header / Top Nav ===== */
-    .topbar{
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-    }
-    .topbar-inner{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 10px 18px;
-      display:flex;
-      align-items:center;
-      gap: 16px;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      min-width: 220px;
-      text-decoration:none;
-    }
-    .brand-dot{
-      width:12px;height:12px;border-radius:50%;
-      background: var(--accent);
-      box-shadow: 0 0 0 6px rgba(37,99,235,0.12);
-    }
-    .brand-title{
-      font-weight: 900;
-      letter-spacing:-0.01em;
-      line-height:1.1;
-    }
-    .brand-sub{
-      font-size:12px;
-      color:var(--muted);
-      margin-top:2px;
-    }
+{% block extra_css %}
+<style>
+  .hero{ padding:80px 0 60px; border-bottom:1px solid var(--line-soft); }
+  .hero .eyebrow{
+    font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); font-weight:600; margin-bottom:22px;
+  }
+  .hero h1{
+    font-family:var(--serif); font-weight:600;
+    font-size:clamp(34px,5.2vw,56px); line-height:1.12; letter-spacing:-.02em;
+    color:var(--ink); margin:0 0 24px; max-width:19ch;
+  }
+  .hero p.lede{ font-size:19px; line-height:1.62; color:var(--text); max-width:62ch; margin:0 0 34px; }
+  .hero .hmeta{
+    display:flex; flex-wrap:wrap; gap:10px 28px; font-size:13px; color:var(--muted);
+    padding-top:26px; border-top:1px solid var(--line-soft);
+  }
+  .hero .hmeta strong{ color:var(--ink); font-weight:600; }
 
-    .nav{
-      display:flex;
-      gap: 6px;
-      align-items:center;
-      flex:1;
-      justify-content:flex-end;
-    }
+  .block{ padding:72px 0; border-bottom:1px solid var(--line-soft); }
+  .sec-head{
+    display:flex; align-items:baseline; justify-content:space-between;
+    gap:20px; margin-bottom:42px;
+  }
+  .sec-head h2{
+    font-family:var(--serif); font-size:13px; font-weight:600;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--muted); margin:0;
+  }
 
-    .item{ position: relative; }
+  /* Research areas */
+  .areas{ display:grid; grid-template-columns:repeat(2,1fr); gap:52px 48px; }
+  .area figure{ margin:0 0 20px; overflow:hidden; }
+  .area img{ width:100%; aspect-ratio:16/9; object-fit:cover; filter:saturate(.8); transition:.4s; }
+  .area:hover img{ filter:saturate(1); transform:scale(1.02); }
+  .area .num{ font-size:11px; letter-spacing:.14em; color:var(--muted); margin-bottom:8px; }
+  .area h3{
+    font-family:var(--serif); font-size:21px; font-weight:600; color:var(--ink);
+    letter-spacing:-.01em; line-height:1.3; margin:0 0 10px;
+  }
+  .area p{ font-size:15px; line-height:1.65; color:var(--text); margin:0 0 14px; }
 
-    .nav-btn{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      border: 1px solid transparent;
-      transition: background .12s ease, border-color .12s ease, transform .12s ease;
-    }
-    .nav-btn:hover{
-      background: rgba(37,99,235,0.06);
-      border-color: rgba(37,99,235,0.18);
-      transform: translateY(-1px);
-    }
+  /* Publications */
+  .pub-list{ border-top:1px solid var(--line-soft); }
+  .pub{
+    display:grid; grid-template-columns:78px 1fr; gap:28px;
+    padding:22px 0; border-bottom:1px solid var(--line-soft); align-items:baseline;
+  }
+  .pub .yr{ font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:2px; }
+  .pub h4{
+    font-family:var(--serif); font-size:17.5px; font-weight:600; color:var(--ink);
+    line-height:1.38; margin:0 0 6px;
+  }
+  .pub h4 a{ text-decoration:none; }
+  .pub h4 a:hover{ color:var(--accent); }
+  .pub .au{ font-size:14px; color:var(--text); margin:0 0 3px; }
+  .pub .au .me{ color:var(--ink); font-weight:600; }
+  .pub .vn{ font-size:13.5px; color:var(--muted); margin:0; font-style:italic; }
 
-    /* Dropdown button reset */
-    .dd-toggle{
-      background: transparent;
-      cursor: pointer;
-      font: inherit;
-    }
-    .dd-toggle:focus{
-      outline: none;
-      border-color: rgba(37,99,235,0.25);
-    }
+  /* News + press */
+  .split{ display:grid; grid-template-columns:1.3fr 1fr; gap:64px; }
+  .nlist{ border-top:1px solid var(--line-soft); }
+  .n-item{
+    display:grid; grid-template-columns:96px 1fr; gap:22px;
+    padding:17px 0; border-bottom:1px solid var(--line-soft);
+  }
+  .n-item .d{ font-size:12.5px; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:2px; }
+  .n-item .t{ font-size:14.5px; line-height:1.58; color:var(--text); }
+  .n-item .t a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line); }
+  .n-item .t a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+  .n-item .t em{ font-family:var(--serif); font-style:italic; color:var(--ink); }
+  .n-item .t strong{ color:var(--ink); font-weight:600; }
 
-    /* Dropdown (CLICK to open) */
-    .dropdown{
-      position:absolute;
-      right:0;
-      top: 46px;
-      width: 260px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      box-shadow: var(--shadow);
-      padding: 10px;
-      display:none;
-      z-index: 1000;
-    }
-    .item.open .dropdown{ display:block; }
+  .press{ border-top:1px solid var(--line-soft); }
+  .p-item{ padding:16px 0; border-bottom:1px solid var(--line-soft); }
+  .p-item .src{
+    font-size:10.5px; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:5px;
+  }
+  .p-item a{ font-size:14.5px; line-height:1.5; color:var(--ink); text-decoration:none; }
+  .p-item a:hover{ color:var(--accent); }
+  .p-item .pd{ font-size:12px; color:var(--muted); margin-top:5px; }
 
-    .dd-title{
-      font-size:11px;
-      font-weight: 900;
-      color: var(--muted);
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      padding: 8px 8px 6px 8px;
-    }
-    .dd-link{
-      display:block;
-      padding: 10px 10px;
-      border-radius: 12px;
-      text-decoration:none;
-      font-weight: 800;
-      color: var(--text);
-      transition: background .12s ease;
-    }
-    .dd-link:hover{background: rgba(37,99,235,0.06);}
+  /* Positions band */
+  .join{ background:var(--tint); border-top:1px solid var(--line-soft); }
+  .join-inner{
+    max-width:var(--max); margin:0 auto; padding:62px 32px;
+    display:grid; grid-template-columns:1fr auto; gap:48px; align-items:center;
+  }
+  .join h2{
+    font-family:var(--serif); font-size:27px; font-weight:600; color:var(--ink);
+    letter-spacing:-.015em; margin:0 0 10px; text-transform:none; letter-spacing:-.015em;
+  }
+  .join p{ font-size:15.5px; margin:0; max-width:58ch; color:var(--text); }
 
-    .nav-cta{
-      margin-left: 8px;
-      display:flex;
-      gap: 8px;
-      align-items:center;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding: 10px 12px;
-      border-radius: 999px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid var(--line);
-    }
-    .pill.primary{
-      background: var(--accent);
-      color:#fff;
-      border-color: transparent;
-    }
-    .pill.ghost{
-      background:#fff;
-      color:var(--text);
-    }
+  @media(max-width:900px){
+    .hero{ padding:52px 0 44px; }
+    .block{ padding:52px 0; }
+    .areas{ grid-template-columns:1fr; gap:42px; }
+    .split{ grid-template-columns:1fr; gap:46px; }
+    .pub{ grid-template-columns:1fr; gap:6px; }
+    .n-item{ grid-template-columns:1fr; gap:4px; }
+    .join-inner{ grid-template-columns:1fr; gap:24px; padding:48px 22px; }
+  }
+</style>
+{% endblock %}
 
-    /* ===== Slider ===== */
-    .slider-wrap{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 18px;
-    }
-    .slider{
-      position:relative;
-      border-radius: 22px;
-      overflow:hidden;
-      border: 1px solid var(--line);
-      min-height: 380px;
-      background:#000;
-    }
-    .slide{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      transition: opacity 300ms ease;
-      background-size: cover;
-      background-position: center;
-    }
-    .slide.active{opacity:1;}
-    .slide::after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background: linear-gradient(90deg, rgba(0,0,0,0.18), rgba(0,0,0,0.03));
-    }
-    .slide-content{
-      position:absolute;
-      left: 26px;
-      bottom: 26px;
-      max-width: 720px;
-      color:#fff;
-      z-index: 2;
-    }
-    .slide-kicker{
-      font-size:12px;
-      letter-spacing:.10em;
-      text-transform:uppercase;
-      opacity:.86;
-      margin-bottom: 10px;
-    }
-    .slide-title{
-      font-size: 34px;
-      line-height:1.15;
-      font-weight: 900;
-      margin:0 0 10px 0;
-      letter-spacing:-0.01em;
-    }
-    .slide-desc{
-      margin:0 0 14px 0;
-      color: rgba(255,255,255,0.88);
-      line-height: 1.6;
-      font-size: 20px;
-    }
-    .slide-actions{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding: 11px 14px;
-      border-radius: 12px;
-      font-weight: 900;
-      text-decoration:none;
-      border: 1px solid rgba(255,255,255,0.20);
-      color:#fff;
-      background: rgba(255,255,255,0.08);
-      transition: transform .12s ease, background .12s ease;
-    }
-    .btn:hover{
-      transform: translateY(-1px);
-      background: rgba(255,255,255,0.12);
-    }
-    .btn.primary{
-      background: var(--accent);
-      border-color: transparent;
-    }
+{% block content %}
 
-    .arrow{
-      position:absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.20);
-      background: rgba(0,0,0,0.35);
-      color:#fff;
-      cursor:pointer;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      z-index: 3;
-      transition: background .12s ease, transform .12s ease;
-    }
-    .arrow:hover{background: rgba(0,0,0,0.5); transform: translateY(-50%) scale(1.03);}
-    .arrow.left{left: 14px;}
-    .arrow.right{right: 14px;}
+<div class="page-wrap" style="padding-bottom:0;">
+  <section class="hero">
+    <div class="eyebrow">Frontier Research Institute for Interdisciplinary Sciences</div>
+    <h1>Quantum algorithms, metrology, and sensing under real-world constraints.</h1>
+    <p class="lede">
+      We develop protocols that stay effective where ideal theory breaks down — under noise,
+      finite measurement data, and limited control. Our work spans quantum estimation theory,
+      variational algorithms, and quantum-enhanced sensing, from foundations through to
+      implementations on near-term devices.
+    </p>
+    <div class="hmeta">
+      <span>Led by <strong>Le Bin Ho</strong>, Assistant Professor</span>
+      <span>FRIS, Tohoku University</span>
+      <span>Sendai, Japan</span>
+    </div>
+  </section>
 
-    .dots{
-      position:absolute;
-      right: 16px;
-      bottom: 16px;
-      display:flex;
-      gap: 8px;
-      z-index: 4;
-    }
-    .dot{
-      width: 10px; height: 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.35);
-      border: 1px solid rgba(255,255,255,0.25);
-      cursor:pointer;
-    }
-    .dot.active{background:#fff;}
+  <!-- ===================== Research ===================== -->
+  <section class="block" id="research">
+    <div class="sec-head">
+      <h2>Research</h2>
+      <a class="more" href="{% url 'research_metrology' %}">All research areas →</a>
+    </div>
 
-    /* ===== Sections ===== */
-    .container{
-      max-width: var(--max);
-      margin: 0 auto;
-      padding: 0 18px 34px 18px;
-    }
+    <div class="areas">
+      <div class="area">
+        <figure><img src="{% static 'images/research1.jpg' %}" alt="Quantum metrology and sensing"></figure>
+        <div class="num">01</div>
+        <h3>Quantum metrology &amp; sensing</h3>
+        <p>Quantum-enhanced protocols that exploit entanglement, squeezing, and optimal control to
+           reach precision beyond classical limits — including time-dependent strategies and
+           networked sensors robust to realistic noise.</p>
+        <a class="more" href="{% url 'research_metrology' %}">Read more →</a>
+      </div>
 
-    .grid-2{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
+      <div class="area">
+        <figure><img src="{% static 'images/research2.jpg' %}" alt="Quantum algorithms and compilation"></figure>
+        <div class="num">02</div>
+        <h3>Quantum algorithms &amp; compilation</h3>
+        <p>Device-aware variational and feedback-based methods — VQE, variational compilation,
+           exact gradients, and FALQON-style control — designed to remain practical under limited
+           circuit depth and hardware noise.</p>
+        <a class="more" href="{% url 'research_algorithms' %}">Read more →</a>
+      </div>
 
-    .grid-1{
-    display:grid;
-    grid-template-columns: 1fr;
-    gap: 16px;
-    }
+      <div class="area">
+        <figure><img src="{% static 'images/research3.jpg' %}" alt="Entanglement and measurement"></figure>
+        <div class="num">03</div>
+        <h3>Entanglement &amp; measurement</h3>
+        <p>Practical methods to detect, certify, and protect entanglement on noisy devices:
+           nonlocality tests, variational entanglement witnesses, and optimized measurement
+           strategies for multipartite systems.</p>
+      </div>
 
-    .section{
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 26px 28px;
-      box-shadow: 0 4px 24px rgba(15,23,42,.05);
-    }
-    .section h2{
-      margin: 0 0 18px 0;
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing:-0.01em;
-      padding-bottom: 14px;
-      border-bottom: 2px solid var(--accent);
-      display: inline-block;
-    }
-    .section p{
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.65;
-      font-size: 14px;
-    }
+      <div class="area">
+        <figure><img src="{% static 'images/research4.jpg' %}" alt="Quantum foundations and nonlocality"></figure>
+        <div class="num">04</div>
+        <h3>Foundations &amp; nonlocality</h3>
+        <p>Quantum correlations beyond classical hidden-variable models, studied in multipartite
+           systems and quantum networks — connecting foundational questions to verification and
+           communication protocols.</p>
+      </div>
+    </div>
+  </section>
 
-    /* News list */
-    .news-item{
-      display:grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      padding: 11px 10px;
-      border-radius: 10px;
-      transition: background .15s ease;
-    }
-    .news-item:hover{ background: rgba(37,99,235,0.04); }
-    .news-date{
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--muted);
-      padding-top: 2px;
-    }
-    .news-title{
-      font-weight: 600;
-      font-size: 14px;
-      line-height:1.55;
-    }
-    .news-title a{
-      text-decoration: none;
-      color: var(--text);
-      transition: color .12s ease;
-    }
-    .news-title a:hover{ color: var(--accent); }
+  <!-- ===================== Selected publications ===================== -->
+  <section class="block" id="publications">
+    <div class="sec-head">
+      <h2>Selected publications</h2>
+      <a class="more" href="{% url 'publication' %}">All publications →</a>
+    </div>
 
-    /* Source badge for Pick up */
-    .source-badge{
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 700;
-      padding: 2px 7px;
-      border-radius: 999px;
-      margin-bottom: 4px;
-      letter-spacing: 0.02em;
-    }
-    .badge-tiasang{ background: #fef3c7; color: #92400e; }
-    .badge-qz{ background: #ede9fe; color: #5b21b6; }
-    .badge-tohoku{ background: #dbeafe; color: #1e40af; }
-
-    .more{
-      margin-top: 14px;
-      display:inline-flex;
-      align-items: center;
-      gap: 4px;
-      text-decoration:none;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--accent);
-      transition: gap .12s ease;
-    }
-    .more:hover{ gap: 8px; }
-
-    /* Research teasers */
-    .teaser{
-      display:grid;
-      grid-template-columns: 440px 1fr;   /* image left, text right */
-      gap: 16px;
-      align-items:center;
-    }
-
-    /* for right_fig */
-    .teaser.teaser-right{
-      grid-template-columns: 1fr 440px;   /* text left, image right */
-    }
-
-    .teaser-img{
-    border-radius: 12px;
-    overflow:hidden;
-    border: 1px solid var(--line);
-
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    max-width: 440px;
-
-    background-size: cover;
-    background-position: center;
-    background-color: #000;
-    }
-    .teaser h3{
-      margin: 0 0 8px 0;
-      font-size: 20px;
-      letter-spacing:-0.01em;
-    }
-    .teaser p{
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.7;
-    color: var(--muted);
-    }
-    .chips{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .chip{
-      font-size: 12px;
-      font-weight: 900;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(37,99,235,0.06);
-      color: #1d4ed8;
-    }
-
-    /* Footer */
-    .footer{
-      margin-top: 32px;
-      padding: 28px 0 40px 0;
-      border-top: 1px solid var(--line);
-      color: var(--muted);
-      font-size: 12px;
-      line-height: 2;
-    }
-    .footer-row{
-      display:flex;
-      justify-content: space-between;
-      gap: 24px;
-      flex-wrap: wrap;
-    }
-    .footer-link{
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 12px;
-      transition: color .12s ease;
-    }
-    .footer-link:hover{ color: var(--accent); }
-
-    /* Responsive */
-    /* ===== Hamburger button (hidden on desktop) ===== */
-    .hamburger{
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      background: transparent;
-      cursor: pointer;
-      padding: 8px;
-      flex-shrink: 0;
-    }
-    .hamburger span{
-      display: block;
-      height: 2px;
-      background: var(--text);
-      border-radius: 2px;
-      transition: transform .2s ease, opacity .2s ease;
-    }
-    .hamburger.open span:nth-child(1){ transform: translateY(7px) rotate(45deg); }
-    .hamburger.open span:nth-child(2){ opacity: 0; }
-    .hamburger.open span:nth-child(3){ transform: translateY(-7px) rotate(-45deg); }
-
-    /* ===== Tablet (980px) ===== */
-    @media (max-width: 980px){
-
-    .topbar-inner{ gap: 10px; }
-    .brand{ min-width: auto; }
-
-    /* Slider */
-    .slider{ min-height: 300px; }
-    .slide-title{ font-size: 24px; }
-    .slide-desc{ font-size: 16px; }
-
-    /* Layout sections */
-    .grid-2{ grid-template-columns: 1fr; }
-
-    /* News */
-    .news-item{ grid-template-columns: 100px 1fr; }
-
-    /* Teaser */
-    .teaser, .teaser.teaser-right{
-        grid-template-columns: 1fr;
-        gap: 12px;
-        align-items: start;
-    }
-    .teaser.teaser-right .teaser-img{ order: -1; }
-    .teaser-img{ width: 100%; max-width: 400px; aspect-ratio: 16/9; }
-
-    .chips{ gap: 6px; }
-    .chip{ font-size: 12px; padding: 5px 9px; }
-    .more{ margin-top: 10px; }
-    }
-
-    /* ===== Mobile (640px) ===== */
-    @media (max-width: 640px){
-
-    /* Nav → hamburger */
-    .nav{ display: none; position: absolute; top: 100%; left: 0; right: 0;
-          background: #fff; border-bottom: 1px solid var(--line);
-          flex-direction: column; align-items: stretch; gap: 0;
-          padding: 8px 12px 14px; box-shadow: 0 8px 24px rgba(15,23,42,.08);
-          z-index: 100; }
-    .nav.open{ display: flex; }
-    .nav .item{ width: 100%; }
-    .nav-btn{ width: 100%; border-radius: 8px; font-size: 15px; padding: 12px 14px; }
-    .nav-cta{ margin-left: 0; padding: 4px 0 0; }
-    .pill{ width: 100%; justify-content: center; border-radius: 8px; padding: 12px; }
-
-    /* Dropdown inside mobile nav */
-    .item.has-dd .dropdown{
-        position: static; width: 100%; box-shadow: none;
-        border: none; border-radius: 0; padding: 0 0 0 14px;
-        background: transparent;
-    }
-    .item.open .dropdown{ display: block; }
-
-    /* Topbar */
-    .topbar-inner{ position: relative; flex-wrap: nowrap; padding: 10px 14px; }
-    .hamburger{ display: flex; }
-    .brand-sub{ display: none; }
-
-    /* Slider */
-    .slider{ min-height: 240px; border-radius: 14px; }
-    .slide-content{ left: 16px; bottom: 16px; max-width: 90%; }
-    .slide-title{ font-size: 20px; margin-bottom: 6px; }
-    .slide-desc{ font-size: 14px; margin-bottom: 10px; }
-    .slide-kicker{ font-size: 11px; margin-bottom: 6px; }
-    .btn{ font-size: 13px; padding: 9px 12px; }
-    .arrow{ width: 34px; height: 34px; }
-    .slider-wrap{ padding: 12px; }
-
-    /* Container */
-    .container{ padding: 0 12px 24px; }
-
-    /* Sections */
-    .section{ padding: 18px 16px; border-radius: 12px; }
-
-    /* News items: stacked, date as small label above title */
-    .news-item{
-        grid-template-columns: 1fr;
-        gap: 3px;
-        padding: 10px 8px;
-    }
-    .news-date{
-        font-size: 11px;
-        font-weight: 600;
-        color: var(--accent);
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-    }
-    .news-title{ font-size: 13px; }
-
-    /* Teaser */
-    .teaser p{ font-size: 14px; }
-    .teaser h3{ font-size: 17px; }
-    .teaser-img{ aspect-ratio: 16/9; max-width: 100%; }
-
-    /* Footer */
-    .footer-row{ flex-direction: column; gap: 20px; }
-    }
-
-  </style>
-</head>
-
-<body>
-
-  <!-- Top Nav -->
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="{% url 'home' %}">
-        <div class="brand-dot"></div>
+    <div class="pub-list">
+      <div class="pub">
+        <div class="yr">2026</div>
         <div>
-          <div class="brand-title">Quantar Lab</div>
-          <div class="brand-sub">Quantum algorithms and technologies for advanced research</div>
-        </div>
-      </a>
-
-      <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-
-      <nav class="nav" id="mainNav">
-        <div class="item">
-          <a class="nav-btn" href="{% url 'home' %}">Home</a>
-        </div>
-
-        <!-- Research dropdown (click) -->
-        <div class="item has-dd">
-          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-            Research ▾
-          </button>
-          <div class="dropdown" role="menu">
-            <div class="dd-title">Research</div>
-            <a class="dd-link" href="{% url 'publication' %}">Publications</a>
-            <a class="dd-link" href="{% url 'resource' %}">Resources</a>
-            <a class="dd-link" href="{% url 'event' %}">Talks / Events</a>
-          </div>
-        </div>
-
-        <!-- Members dropdown (click) -->
-        <div class="item has-dd">
-          <button class="nav-btn dd-toggle" type="button" aria-expanded="false">
-            Members ▾
-          </button>
-          <div class="dropdown" role="menu">
-            <div class="dd-title">Members</div>
-            <a class="dd-link" href="{% url 'me' %}">Profile</a>
-            <a class="dd-link" href="{% url 'member' %}">People</a>
-            <a class="dd-link" href="{% url 'visitor' %}">Visitors</a>
-          </div>
-        </div>
-
-        <div class="item">
-          <a class="nav-btn" href="{% url 'position' %}">Positions</a>
-        </div>
-
-        <div class="item">
-          <a class="nav-btn" href="{% url 'contact' %}">Contact</a>
-        </div>
-
-        <div class="nav-cta">
-          <a class="pill ghost" href="{% url 'login' %}">Staff</a>
-        </div>
-      </nav>
-    </div>
-  </header>
-
-  <!-- Slider -->
-  <div class="slider-wrap">
-    <div class="slider" id="slider">
-      <div class="slide active" style="background-image:url('{% static 'images/slide1.jpg' %}')">
-        <div class="slide-content">
-          <div class="slide-kicker">Quantar Lab</div>
-          <div class="slide-title">Quantum algorithms and compilation</div>
-          <p class="slide-desc">Device-aware workflows for optimization and simulation on near-term platforms.</p>
-          <div class="slide-actions">
-            <a class="btn primary" href="{% url 'publication' %}">Explore publications</a>
-            <a class="btn" href="{% url 'position' %}">Join the lab</a>
-          </div>
+          <h4><a href="https://arxiv.org/abs/2512.21661" target="_blank" rel="noopener noreferrer">Trade-off relation between integrated metrological gain and local dissipation in magnetic-field sensing by quantum spin ensemble</a></h4>
+          <p class="au">Nozomu Takahashi, <span class="me">Le Bin Ho</span>, Hiroaki Matsueda</p>
+          <p class="vn">Advanced Quantum Technologies (2026), accepted · arXiv:2512.21661</p>
         </div>
       </div>
 
-      <div class="slide" style="background-image:url('{% static 'images/slide2.jpg' %}')">
-        <div class="slide-content">
-          <div class="slide-kicker">Quantar Lab</div>
-          <div class="slide-title">Quantum metrology and sensing</div>
-          <p class="slide-desc">Time-dependent and networked sensing protocols beyond classical limits.</p>
-          <div class="slide-actions">
-            <a class="btn primary" href="{% url 'publication' %}">Read results</a>
-            <a class="btn" href="{% url 'contact' %}">Collaborate</a>
-          </div>
+      <div class="pub">
+        <div class="yr">2026</div>
+        <div>
+          <h4><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae894c" target="_blank" rel="noopener noreferrer">Flexible genetic algorithm for quantum support vector machines</a></h4>
+          <p class="au">Nguyen Minh Duc, Vu Tuan Hai, <span class="me">Le Bin Ho</span>, Lan Nguyen Tran</p>
+          <p class="vn">Machine Learning: Science and Technology 7, 045030 (2026)</p>
         </div>
       </div>
 
-      <div class="slide" style="background-image:url('{% static 'images/slide3.jpg' %}')">
-        <div class="slide-content">
-          <div class="slide-kicker">Quantar Lab</div>
-          <div class="slide-title">Entanglement and measurement</div>
-          <p class="slide-desc">Practical strategies for scalable detection and robust quantum measurements.</p>
-          <div class="slide-actions">
-            <a class="btn primary" href="{% url 'resource' %}">Tools / resources</a>
-            <a class="btn" href="{% url 'member' %}">Meet the team</a>
-          </div>
+      <div class="pub">
+        <div class="yr">2026</div>
+        <div>
+          <h4><a href="https://www.sciencedirect.com/science/article/pii/S1877750326001833" target="_blank" rel="noopener noreferrer">Feedback-based quantum control for safe and synergistic drug combination design</a></h4>
+          <p class="au">Mai Nguyen Phuong Nhi, Lan Nguyen Tran, <span class="me">Le Bin Ho</span></p>
+          <p class="vn">Journal of Computational Science 100, 102965 (2026)</p>
         </div>
       </div>
 
-      <div class="slide" style="background-image:url('{% static 'images/slide4.jpg' %}')">
-        <div class="slide-content">
-          <div class="slide-kicker">Quantar Lab</div>
-          <div class="slide-title">Quantum foundations and nonlocality</div>
-          <p class="slide-desc">Probing nonlocal correlations and measurement principles at the foundations of quantum mechanics.</p>
-          <div class="slide-actions">
-            <a class="btn primary" href="{% url 'publication' %}">Learn more</a>
-            <a class="btn" href="{% url 'contact' %}">Contact</a>
-          </div>
+      <div class="pub">
+        <div class="yr">2026</div>
+        <div>
+          <h4><a href="https://journals.aps.org/prd/abstract/10.1103/yx1t-mkgp" target="_blank" rel="noopener noreferrer">Quantum simulation of strong charge-parity violation and the Peccei–Quinn mechanism</a></h4>
+          <p class="au"><span class="me">Le Bin Ho</span></p>
+          <p class="vn">Physical Review D 113, 074507 (2026)</p>
         </div>
       </div>
 
-      <button class="arrow left" id="prev" aria-label="Previous">‹</button>
-      <button class="arrow right" id="next" aria-label="Next">›</button>
-
-      <div class="dots" id="dots">
-        <div class="dot active" data-i="0"></div>
-        <div class="dot" data-i="1"></div>
-        <div class="dot" data-i="2"></div>
-        <div class="dot" data-i="3"></div>
+      <div class="pub">
+        <div class="yr">2025</div>
+        <div>
+          <h4><a href="https://journals.aps.org/prd/abstract/10.1103/rv43-54zq" target="_blank" rel="noopener noreferrer">Optimized quantum sensor networks for ultralight dark matter detection</a></h4>
+          <p class="au">Adriel I. Santoso, <span class="me">Le Bin Ho</span></p>
+          <p class="vn">Physical Review D 112, L081301 (2025)</p>
+        </div>
       </div>
     </div>
+  </section>
+
+  <!-- ===================== News + press ===================== -->
+  <section class="block" id="news">
+    <div class="split">
+
+      <div>
+        <div class="sec-head">
+          <h2>News</h2>
+          <a class="more" href="{% url 'event' %}">Archive →</a>
+        </div>
+        <div class="nlist">
+          <div class="n-item">
+            <div class="d">24 Jul 2026</div>
+            <div class="t">Paper <em>Flexible genetic algorithm for quantum support vector machines</em> published in
+              <a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae894c" target="_blank" rel="noopener noreferrer">Machine Learning: Science and Technology</a>.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">10 Jul 2026</div>
+            <div class="t">Le Bin Ho appointed <strong>Adjunct Professor</strong> at the Faculty of Physics and
+              Engineering Physics, University of Science (HCMUS), VNU-HCM, under the VNU350 Program.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">Jul 2026</div>
+            <div class="t">Paper <em>Feedback-based quantum control for safe and synergistic drug combination design</em>
+              published in <a href="https://www.sciencedirect.com/science/article/pii/S1877750326001833" target="_blank" rel="noopener noreferrer">Journal of Computational Science</a>.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">25 Jun 2026</div>
+            <div class="t">Paper on integrated metrological gain and local dissipation accepted in
+              <a href="https://arxiv.org/abs/2512.21661" target="_blank" rel="noopener noreferrer">Advanced Quantum Technologies</a>.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">01 Apr 2026</div>
+            <div class="t">Leon and Jesus certified as Junior Researchers, FRIS, Tohoku University.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">23 Mar 2026</div>
+            <div class="t">Paper <em>Quantum simulation of strong charge-parity violation and the Peccei–Quinn mechanism</em>
+              accepted in <a href="https://journals.aps.org/prd/abstract/10.1103/yx1t-mkgp" target="_blank" rel="noopener noreferrer">Physical Review D</a>.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">24–26 Feb 2026</div>
+            <div class="t">Mr. Le Duc Tuyen (RIKEN) visits the lab.</div>
+          </div>
+          <div class="n-item">
+            <div class="d">04 Feb 2026</div>
+            <div class="t">Paper <em>Advancing Quantum Process Tomography Through Quantum Compilation</em> accepted in
+              <a href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/qute.202500494" target="_blank" rel="noopener noreferrer">Advanced Quantum Technologies</a>.</div>
+          </div>
+        </div>
+      </div>
+
+      <aside>
+        <div class="sec-head">
+          <h2>In the press</h2>
+        </div>
+        <div class="press">
+          <div class="p-item">
+            <div class="src">Tia Sáng</div>
+            <a href="https://tiasang.com.vn/nha-khoa-hoc-viet-hoa-giai-diem-nghen-trong-hieu-chuan-may-tinh-luong-tu-5070278.html" target="_blank" rel="noopener noreferrer">Nhà khoa học Việt hóa giải điểm nghẽn trong hiệu chuẩn máy tính lượng tử</a>
+            <div class="pd">May 2026</div>
+          </div>
+          <div class="p-item">
+            <div class="src">Quantum Zeitgeist</div>
+            <a href="https://quantumzeitgeist.com/quantum-entanglement-interference-precision/" target="_blank" rel="noopener noreferrer">Quantum Entanglement Harnessed Via Interference Boosts Measurement Precision</a>
+            <div class="pd">29 Mar 2026</div>
+          </div>
+          <div class="p-item">
+            <div class="src">Tohoku University</div>
+            <a href="https://www.tohoku.ac.jp/en/press/whats_going_on_inside_quantum_computers_process_tomography.html" target="_blank" rel="noopener noreferrer">What's Going on Inside Quantum Computers? New Method Simplifies Process Tomography</a>
+            <div class="pd">04 Mar 2026</div>
+          </div>
+          <div class="p-item">
+            <div class="src">Quantum Zeitgeist</div>
+            <a href="https://quantumzeitgeist.com/universal-ground-state-preparation-enables-strong-correlation-simulations/" target="_blank" rel="noopener noreferrer">Universal Ground State Preparation Enables Strong Correlation Simulations</a>
+            <div class="pd">17 Dec 2025</div>
+          </div>
+          <div class="p-item">
+            <div class="src">Tohoku University</div>
+            <a href="https://www.tohoku.ac.jp/en/press/quantum_networks_bring_new_precision_to_dark_matter_searches.html" target="_blank" rel="noopener noreferrer">Quantum networks bring new precision to dark matter searches</a>
+            <div class="pd">17 Oct 2025</div>
+          </div>
+          <div class="p-item">
+            <div class="src">Tohoku University</div>
+            <a href="https://www.tohoku.ac.jp/en/press/quantum_computers_analyze_their_own_entanglement.html" target="_blank" rel="noopener noreferrer">Quantum computers analyze their own entanglement</a>
+            <div class="pd">25 Mar 2025</div>
+          </div>
+        </div>
+        <p style="margin-top:20px;"><a class="more" href="{% url 'event' %}">All coverage →</a></p>
+      </aside>
+
+    </div>
+  </section>
+</div>
+
+<!-- ===================== Positions ===================== -->
+<section class="join">
+  <div class="join-inner">
+    <div>
+      <h2>Join the lab</h2>
+      <p>We welcome students and researchers interested in quantum estimation theory, variational
+         algorithms, and quantum sensing. Postdoctoral, PhD, and master's positions are open.</p>
+    </div>
+    <a class="btn" href="{% url 'position' %}">Open positions</a>
   </div>
+</section>
 
-  <main class="container">
-
-    <div class="grid-2">
-        <section class="section" id="news">
-            <h2>News</h2>
-
-            <div class="news-item">
-            <div class="news-date">2026 July 24</div>
-            <div class="news-title"><a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae894c" target="_blank">
-            Our paper &ldquo;Flexible genetic algorithm for quantum support vector machines&rdquo; has been published in Machine Learning: Science and Technology.</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 July</div>
-            <div class="news-title"><a href="https://www.sciencedirect.com/science/article/pii/S1877750326001833" target="_blank">
-            Our paper &ldquo;Feedback-based quantum control for safe and synergistic drug combination design&rdquo; has been published in Journal of Computational Science.</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 July 10</div>
-            <div class="news-title">Dr. Le Bin Ho has been appointed as Adjunct Professor at the Faculty of Physics and Engineering Physics, University of Science (HCMUS), Vietnam National University Ho Chi Minh City, under the VNU350 Program (2026&ndash;2028).</div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 June 25</div>
-            <div class="news-title"><a href="https://arxiv.org/abs/2512.21661" target="_blank">
-            Our paper &ldquo;Trade-off relation between integrated metrological gain and local dissipation in magnetic-field sensing by quantum spin ensemble&rdquo; has been accepted in Advanced Quantum Technologies.</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 April 1</div>
-            <div class="news-title"><a href="https://journals.aps.org/pra/abstract/10.1103/6s2c-mxgx" target="_blank">
-            Our paper &ldquo;Exact gradient for general cost functions in variational quantum algorithms&rdquo; has been accepted in Physical Review A (PRA)</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 April 1</div>
-            <div class="news-title">
-              <a href="{% static 'pdfs/leon.pdf' %}" target="_blank">
-            Mr. Leon certificated as Junior Researcher, FRIS, Tohoku University.</a></div>
-            </div>
-
-
-            <div class="news-item">
-            <div class="news-date">2026 April 1</div>
-            <div class="news-title">
-              <a href="{% static 'pdfs/jesus.pdf' %}" target="_blank">
-            Mr. Jesus certificated as Junior Researcher, FRIS, Tohoku University.</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 Mar 23</div>
-            <div class="news-title"><a href="https://journals.aps.org/prd/abstract/10.1103/yx1t-mkgp" target="_blank">
-            Our paper &ldquo;Quantum simulation of strong charge-parity violation and the Peccei-Quinn mechanism&rdquo; has been accepted in Physical Review D (PRD)</a></div>
-            </div>
-
-            <div class="news-item">
-            <div class="news-date">2026 Feb 24-26</div>
-            <div class="news-title">Mr. Le Duc Tuyen (RIKEN) will visit our lab.</div>
-            </div>
-            <div class="news-item">
-            <div class="news-date">2026 Feb 04</div>
-            <div class="news-title"><a href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/qute.202500494" target="_blank">
-            Our paper &ldquo;Advancing Quantum Process Tomography Through Quantum Compilation&rdquo; has been accepted in Advanced Quantum Technologies.</a></div>
-            </div>
-            <div class="news-item">
-            <div class="news-date">2025 Jun 19</div>
-            <div class="news-title">Welcome Mr. Vu Tuan Hai as an Adjunct Researcher.</div>
-            </div>
-          
-
-            <a class="more" href="{% url 'event' %}">More →</a>
-        </section>
-
-        <section class="section" id="pickup">
-          <h2>Pick up</h2>
-          <div class="news-item">
-            <div class="news-date">2026 May</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tiasang">Tia Sáng</span></div>
-              <a href="https://tiasang.com.vn/nha-khoa-hoc-viet-hoa-giai-diem-nghen-trong-hieu-chuan-may-tinh-luong-tu-5070278.html"
-                target="_blank" rel="noopener noreferrer">
-                Nhà khoa học Việt hóa giải điểm nghẽn trong hiệu chuẩn máy tính lượng tử
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2026 Mar 29</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
-              <a href="https://quantumzeitgeist.com/quantum-entanglement-interference-precision/"
-                target="_blank" rel="noopener noreferrer">
-                Quantum Entanglement Harnessed Via Interference Boosts Measurement Precision
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2026 Mar 04</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
-              <a href="https://www.tohoku.ac.jp/en/press/whats_going_on_inside_quantum_computers_process_tomography.html"
-                target="_blank" rel="noopener noreferrer">
-                What's Going on Inside Quantum Computers?: New Method Simplifies Process Tomography
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2025 Dec 17</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
-              <a href="https://quantumzeitgeist.com/universal-ground-state-preparation-enables-strong-correlation-simulations/"
-                target="_blank" rel="noopener noreferrer">
-                Universal Ground State Preparation Enables Strong Correlation Simulations
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2025 Oct 17</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
-              <a href="https://www.tohoku.ac.jp/en/press/quantum_networks_bring_new_precision_to_dark_matter_searches.html"
-                target="_blank" rel="noopener noreferrer">
-                Quantum networks bring new precision to dark matter searches
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2025 May 30</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
-              <a href="https://quantumzeitgeist.com/quantum-network-improves-dark-matter-detection-sensitivity-with-superconducting-qubits/"
-                target="_blank" rel="noopener noreferrer">
-                Quantum Network Improves Dark Matter Detection Sensitivity
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2025 Mar 25</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
-              <a href="https://www.tohoku.ac.jp/en/press/quantum_computers_analyze_their_own_entanglement.html"
-                target="_blank" rel="noopener noreferrer">
-                Quantum computers analyze their own entanglement
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2024 Dec 13</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
-              <a href="https://quantumzeitgeist.com/quantum-computers-boost-multitasking-with-new-algorithm/"
-                target="_blank" rel="noopener noreferrer">
-                Quantum Computers Boost Multitasking With New Algorithm
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2024 Dec 10</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
-              <a href="https://www.tohoku.ac.jp/en/press/new_algorithm_boosts_multitasking_in_quantum_machine_learning.html"
-                target="_blank" rel="noopener noreferrer">
-                New Algorithm Boosts Multitasking in Quantum Machine Learning
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2024 Oct 01</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-qz">Quantum Zeitgeist</span></div>
-              <a href="https://quantumzeitgeist.com/quantum-squeezing-boosts-measurement-accuracy-in-multiple-phases-research/"
-                target="_blank" rel="noopener noreferrer">
-                Quantum Squeezing Boosts Measurement Accuracy In Multiple Phases Research
-              </a>
-            </div>
-          </div>
-
-          <div class="news-item">
-            <div class="news-date">2024 Sep 27</div>
-            <div class="news-title">
-              <div><span class="source-badge badge-tohoku">Tohoku Univ.</span></div>
-              <a href="https://www.tohoku.ac.jp/en/press/squeezing_increased_accuracy_out_of_quantum_measurements.html"
-                target="_blank" rel="noopener noreferrer">
-                'Squeezing' Increased Accuracy out of Quantum Measurements
-              </a>
-            </div>
-          </div>
-
-          <a class="more" href="{% url 'publication' %}">More →</a>
-        </section>
-    </div>
-
-    <div style="height:16px"></div>
-
-    <section class="section">
-      <div class="teaser">
-        <div class="teaser-img" style="background-image:url('{% static 'images/research2.jpg' %}')"></div>
-        <div>
-          <h3>Quantum Algorithms & Compilation</h3>
-            <p>
-            We develop efficient, device-aware quantum algorithms for near-term quantum computers, with a strong focus on variational methods such as VQE, variational quantum compilation, variational quantum metrology, and feedback-based optimization frameworks including FALQON. 
-            Our goal is to design practical quantum workflows that can be implemented on realistic hardware while remaining robust against noise and limited circuit depth. 
-            These algorithmic tools are applied to a wide range of problems, including many-body physics simulation, quantum sensing and metrology, combinatorial optimization, and emerging applications such as molecular modeling and drug discovery.
-            </p>
-          <div class="chips">
-            <span class="chip">feedback control</span>
-            <span class="chip">gradients</span>
-            <span class="chip">benchmarks</span>
-          </div>
-          <a class="more" href="{% url 'research_algorithms' %}">More →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="teaser teaser-right">
-        <div>
-          <h3>Quantum Entanglement & Measurement</h3>
-          <p>
-            We investigate quantum entanglement and measurement as fundamental resources for quantum technologies. 
-            Our research focuses on practical methods to detect, certify, and protect entanglement in realistic noisy devices, 
-            including nonlocality tests, variational entanglement witnessing, and optimized measurement strategies. 
-            We also study measurement-induced phenomena and their applications in quantum communication, quantum sensing, 
-            and scalable verification protocols for multipartite quantum systems.
-          </p>
-          <div class="chips">
-            <span class="chip">nonlocality</span>
-            <span class="chip">entanglement witness</span>
-            <span class="chip">measurement design</span>
-          </div>
-        </div>
-        <div class="teaser-img" style="background-image:url('{% static 'images/research3.jpg' %}')"></div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="teaser">
-        <div class="teaser-img" style="background-image:url('{% static 'images/research1.jpg' %}')"></div>
-        <div>
-          <h3>Quantum Metrology & Sensing</h3>
-          <p>We develop quantum-enhanced metrology and sensing protocols that exploit entanglement, squeezing, and optimal control to achieve precision beyond classical limits. 
-            Our research focuses on time-dependent sensing strategies and networked quantum sensors, aiming to improve robustness against realistic noise and experimental imperfections. 
-            These methods provide a foundation for next-generation technologies in weak-signal detection, spectroscopy, and precision measurements in fundamental physics.
-          </p>
-          <div class="chips">
-            <span class="chip">QFI / QFIM</span>
-            <span class="chip">optimal control</span>
-            <span class="chip">noise-robust</span>
-          </div>
-          <a class="more" href="{% url 'research_metrology' %}">More →</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="teaser teaser-right">
-        <div>
-          <h3>Quantum Foundations & Nonlocality</h3>
-          <p>
-            We explore the fundamental principles of quantum mechanics through nonlocality, entanglement, and measurement theory. 
-            Our research focuses on identifying quantum correlations that cannot be explained by classical hidden-variable models, 
-            including multipartite systems and quantum networks. 
-            By developing practical, device-friendly protocols for testing nonlocality and certifying quantum resources, 
-            we aim to connect foundational physics with emerging applications in quantum communication, sensing, and verification.
-          </p>
-          <div class="chips">
-            <span class="chip">Bell inequality</span>
-            <span class="chip">network nonlocality</span>
-            <span class="chip">foundations</span>
-          </div>
-        </div>
-        <div class="teaser-img" style="background-image:url('{% static 'images/research4.jpg' %}')"></div>
-      </div>
-    </section>
-
-
-    <footer class="footer">
-      <div class="footer-row">
-        <div>
-          <b style="font-size:15px;">Quantar Lab</b><br/>
-          Tohoku University, Sendai, Japan<br/>
-          <span style="font-size:11px;opacity:.7;">Quantum algorithms · Metrology · Entanglement · Foundations</span>
-        </div>
-        <div style="display:flex;gap:32px;flex-wrap:wrap;">
-          <div>
-            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Research</div>
-            <a href="{% url 'publication' %}" class="footer-link">Publications</a><br/>
-            <a href="{% url 'resource' %}" class="footer-link">Resources</a><br/>
-            <a href="{% url 'event' %}" class="footer-link">Talks / Events</a>
-          </div>
-          <div>
-            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">People</div>
-            <a href="{% url 'me' %}" class="footer-link">Profile</a><br/>
-            <a href="{% url 'member' %}" class="footer-link">Members</a><br/>
-            <a href="{% url 'visitor' %}" class="footer-link">Visitors</a>
-          </div>
-          <div>
-            <div style="font-weight:700;color:var(--text);margin-bottom:6px;font-size:12px;">Lab</div>
-            <a href="{% url 'position' %}" class="footer-link">Open Positions</a><br/>
-            <a href="{% url 'contact' %}" class="footer-link">Contact</a>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:20px;padding-top:16px;border-top:1px solid var(--line);font-size:11px;opacity:.6;">
-        &copy; 2025 Quantar Lab, Tohoku University. All rights reserved.
-      </div>
-    </footer>
-
-  </main>
-
-  <script>
-    (function(){
-      // ===== Slider =====
-      const slides = Array.from(document.querySelectorAll('.slide'));
-      const dots = Array.from(document.querySelectorAll('.dot'));
-      const prev = document.getElementById('prev');
-      const next = document.getElementById('next');
-      let i = 0;
-      let timer = null;
-
-      function show(idx){
-        i = (idx + slides.length) % slides.length;
-        slides.forEach((s,k)=>s.classList.toggle('active', k===i));
-        dots.forEach((d,k)=>d.classList.toggle('active', k===i));
-      }
-      function start(){
-        stop();
-        timer = setInterval(()=>show(i+1), 6000);
-      }
-      function stop(){
-        if(timer) clearInterval(timer);
-        timer = null;
-      }
-
-      prev.addEventListener('click', ()=>{ show(i-1); start(); });
-      next.addEventListener('click', ()=>{ show(i+1); start(); });
-      dots.forEach(d=>{
-        d.addEventListener('click', ()=>{
-          show(parseInt(d.dataset.i || "0", 10));
-          start();
-        });
-      });
-
-      start();
-
-      // ===== Dropdowns (CLICK to open; click outside to close) =====
-      const items = Array.from(document.querySelectorAll('.item.has-dd'));
-      const toggles = Array.from(document.querySelectorAll('.dd-toggle'));
-
-      function closeAll(except=null){
-        items.forEach(it=>{
-          if(it !== except){
-            it.classList.remove('open');
-            const btn = it.querySelector('.dd-toggle');
-            if(btn) btn.setAttribute('aria-expanded', 'false');
-          }
-        });
-      }
-
-      toggles.forEach(btn=>{
-        btn.addEventListener('click', (e)=>{
-          e.stopPropagation();
-          const item = btn.closest('.item.has-dd');
-          const willOpen = !item.classList.contains('open');
-          closeAll(item);
-          item.classList.toggle('open', willOpen);
-          btn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-        });
-      });
-
-      document.addEventListener('click', ()=> closeAll());
-      document.addEventListener('keydown', (e)=>{
-        if(e.key === 'Escape') closeAll();
-      });
-
-      // ===== Hamburger =====
-      const hamburger = document.getElementById('hamburger');
-      const mainNav = document.getElementById('mainNav');
-      hamburger.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const open = mainNav.classList.toggle('open');
-        hamburger.classList.toggle('open', open);
-        hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
-      });
-      document.addEventListener('click', ()=>{
-        mainNav.classList.remove('open');
-        hamburger.classList.remove('open');
-        hamburger.setAttribute('aria-expanded', 'false');
-      });
-      mainNav.addEventListener('click', (e)=> e.stopPropagation());
-    })();
-  </script>
-
-</body>
-</html>
+{% endblock %}

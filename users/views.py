@@ -9,6 +9,13 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from .forms import RegistrationForm
+import logging
+import os
+
+from django.core.files.storage import default_storage
+from django.utils.text import get_valid_filename
+
+upload_logger = logging.getLogger('users.upload')
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.worksheet.protection import SheetProtection
@@ -49,20 +56,37 @@ def research_algorithms(request):
     return render(request, "research_algorithms.html")
 
 def upload_file(request):
+    """Store an uploaded file on disk.
+
+    Email notification is optional: it is only attempted when SMTP credentials
+    are configured (settings.EMAIL_HOST_PASSWORD). A failing or unconfigured
+    mailer never breaks the upload itself.
+    """
     if request.method == 'POST' and request.FILES.get('uploaded_file'):
         uploaded_file = request.FILES['uploaded_file']
-        try:
-            email = EmailMessage(
-                subject='New File Upload',
-                body='A file has been uploaded.',
-                from_email=settings.DEFAULT_FROM_EMAIL,
-                to=['bin262@gmail.com'],
-            )
-            email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
-            email.send()
-            return HttpResponse('File uploaded and emailed successfully.')
-        except Exception as e:
-            return HttpResponse(f'Failed to send email: {str(e)}', status=500)
+
+        safe_name = get_valid_filename(os.path.basename(uploaded_file.name)) or 'upload.bin'
+        stamped_name = f"{timezone.now():%Y%m%d-%H%M%S}_{safe_name}"
+        saved_path = default_storage.save(f'uploads/{stamped_name}', uploaded_file)
+
+        note = ''
+        if settings.EMAIL_HOST_PASSWORD:
+            try:
+                email = EmailMessage(
+                    subject='New File Upload',
+                    body=f'A file has been uploaded: {stamped_name}',
+                    from_email=settings.DEFAULT_FROM_EMAIL,
+                    to=[settings.UPLOAD_NOTIFY_EMAIL],
+                )
+                uploaded_file.seek(0)
+                email.attach(uploaded_file.name, uploaded_file.read(), uploaded_file.content_type)
+                email.send()
+                note = ' A notification email was sent.'
+            except Exception as exc:
+                upload_logger.warning('Upload notification email failed: %s', exc)
+                note = ' (Notification email could not be sent.)'
+
+        return HttpResponse(f'File uploaded successfully as {saved_path}.{note}')
 
     return render(request, 'upload.html')
 

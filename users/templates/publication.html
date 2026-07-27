@@ -2,89 +2,52 @@
 {% load static %}
 
 {% block title %}Publications | Quantar Lab{% endblock %}
-{% block nav_research %}active{% endblock %}
+{% block nav_publications %}active{% endblock %}
 
 {% block extra_css %}
 <style>
-  .page-head{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:24px;
-    margin-bottom:16px;
+  .pub-year{ padding:0 0 44px; margin-bottom:44px; border-bottom:1px solid var(--line-soft); }
+  .pub-year:last-child{ border-bottom:none; margin-bottom:0; }
+  .year-head{
+    display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+    padding-bottom:14px; margin-bottom:8px; border-bottom:1px solid var(--line);
   }
-  .page-head h1{ margin:0 0 6px 0; font-size:28px; font-weight:800; letter-spacing:-0.02em; }
-  .page-head p{ margin:0 0 14px 0; color:var(--muted); font-size:14px; line-height:1.6; }
-
-  .pub-section{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:20px 24px;
-    margin-bottom:14px;
+  .year-head h2{
+    font-family:var(--serif); font-size:26px; font-weight:600; color:var(--ink);
+    letter-spacing:-.02em; margin:0; text-transform:none;
   }
-  .pub-section-head{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:12px;
-    margin-bottom:10px;
-    padding-bottom:12px;
-    border-bottom:2px solid var(--accent);
-  }
-  .pub-section-head h2{ margin:0; font-size:17px; font-weight:800; display:inline; }
-  .pub-section-head .count{ color:var(--muted); font-size:12px; font-weight:600; }
+  .year-head .count{ font-size:12.5px; color:var(--muted); }
 
   .subhead{
-    margin:14px 0 8px 0;
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:12px;
+    font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); font-weight:600; margin:26px 0 4px;
   }
-  .subhead h3{
-    margin:0;
-    font-size:11px;
-    font-weight:700;
-    color:var(--muted);
-    letter-spacing:.08em;
-    text-transform:uppercase;
-  }
-  .subhead .count{ color:var(--muted); font-size:12px; font-weight:600; }
 
   .pub{
-    border-top:1px dashed var(--line);
-    padding:14px 0;
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:14px;
-    align-items:start;
+    display:grid; grid-template-columns:1fr 118px; gap:26px;
+    padding:19px 0; border-bottom:1px solid var(--line-soft); align-items:start;
   }
-  .pub:first-child{ border-top:none; padding-top:6px; }
-  .pub-title{ margin:0 0 5px 0; font-size:15px; font-weight:700; line-height:1.35; letter-spacing:-0.01em; }
-  .pub-authors{ margin:0 0 4px 0; font-size:13px; color:var(--muted); line-height:1.5; }
-  .pub-venue{ margin:0; font-size:13px; color:var(--text); line-height:1.5; }
-  .pub-venue a{ color:var(--accent); font-weight:600; text-decoration:none; }
+  .pub-title{
+    font-family:var(--serif); font-size:17px; font-weight:600; color:var(--ink);
+    line-height:1.38; margin:0 0 6px;
+  }
+  .pub-authors{ font-size:14px; color:var(--text); margin:0 0 3px; line-height:1.5; }
+  .pub-venue{ font-size:13.5px; color:var(--muted); margin:0; font-style:italic; line-height:1.5; }
+  .pub-venue a{ color:var(--accent); text-decoration:none; font-style:normal; }
   .pub-venue a:hover{ text-decoration:underline; }
 
-  .right-col{ display:flex; flex-direction:column; align-items:flex-end; gap:6px; min-width:150px; }
-  .badges{ display:flex; gap:6px; flex-wrap:wrap; justify-content:flex-end; }
+  .right-col{ display:flex; justify-content:flex-end; padding-top:3px; }
   .badge{
-    font-size:11px; font-weight:600; padding:4px 9px; border-radius:999px;
-    border:1px solid var(--line); background:#fff; color:var(--muted); white-space:nowrap;
+    font-size:10.5px; font-weight:500; letter-spacing:.08em; text-transform:uppercase;
+    padding:3px 9px; border:1px solid var(--line); border-radius:2px;
+    color:var(--muted); white-space:nowrap; background:#fff;
   }
-  .badge.peer{ background:rgba(16,185,129,.10); border-color:rgba(16,185,129,.25); color:#047857; }
-  .badge.preprint{ background:rgba(37,99,235,.10); border-color:rgba(37,99,235,.25); color:#1d4ed8; }
-  .badge.year{ background:rgba(15,23,42,.05); border-color:rgba(15,23,42,.12); color:var(--muted); }
-
-  .empty{ background:#fff; border:1px dashed var(--line); border-radius:12px; padding:14px; color:var(--muted); font-size:13px; }
+  .badge.peer{ border-color:#cfe0d6; background:#f2f8f4; color:#2f6b4a; }
+  .badge.preprint{ border-color:#d9e3f0; background:var(--accent-soft); color:var(--accent); }
 
   @media(max-width:760px){
-    .pub{ grid-template-columns:1fr; }
-    .right-col{ align-items:flex-start; min-width:auto; }
-    .badges{ justify-content:flex-start; }
+    .pub{ grid-template-columns:1fr; gap:8px; }
+    .right-col{ justify-content:flex-start; }
   }
 </style>
 {% endblock %}
@@ -94,12 +57,13 @@
 
   <div class="page-head">
     <h1>Publications</h1>
-    <p>Publications and preprints from Quantar Lab. Use search, filter, and sorting to quickly find papers.</p>
+    <p>Peer-reviewed articles and preprints from Quantar Lab. Search, filter by type, or change the
+       sort order to find a specific paper.</p>
 
     <div class="controls">
       <div class="search">
-        <span style="color:var(--muted)">⌕</span>
-        <input id="searchBox" type="text" placeholder="Search by title, author, venue, arXiv…" />
+        <span style="color:var(--muted)">&#8981;</span>
+        <input id="searchBox" type="text" placeholder="Search title, author, venue, arXiv number…" />
       </div>
       <div class="filters">
         <div class="chip active" data-filter="all">All</div>
@@ -107,15 +71,15 @@
         <div class="chip" data-filter="preprint">Preprints</div>
       </div>
       <select id="sortSelect" class="select">
-        <option value="newest">Newest → Oldest</option>
-        <option value="oldest">Oldest → Newest</option>
-        <option value="title">Title A → Z</option>
-        <option value="author">First author A → Z</option>
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="title">Title A–Z</option>
+        <option value="author">First author A–Z</option>
       </select>
     </div>
     <div class="meta-row">
+      <span class="meta-pill">Showing <span id="visibleCount">0</span></span>
       <span class="meta-pill">Source: <span id="sourceLabel">loading…</span></span>
-      <span class="meta-pill">Showing: <span id="visibleCount">0</span></span>
     </div>
   </div>
 
@@ -171,6 +135,7 @@
   let ALL = [], filter = 'all', query = '', sortMode = 'newest';
 
   function safeText(s){ return (s||'').toString(); }
+  function esc(s){ return safeText(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
   function firstAuthorSurname(authors){
     const a = safeText(authors).replace(/\s+/g,' ').trim();
@@ -195,50 +160,57 @@
     return arr;
   }
 
+  function highlightPI(authors){
+    return esc(authors).replace(/(Le Bin Ho|Le, Binho|LB Ho|Bin Ho Le)/g,
+      '<span style="color:var(--ink);font-weight:600">$1</span>');
+  }
+
   function pubRow(p){
-    const badgeType = p.type==='peer'
-      ? `<span class="badge peer">Peer-reviewed</span>`
-      : `<span class="badge preprint">Preprint</span>`;
-    const venueHtml = p.link
-      ? `<a href="${p.link}" target="_blank" rel="noopener noreferrer">${safeText(p.venue)||p.link}</a>`
-      : safeText(p.venue);
-    return `
-      <div class="pub">
-        <div>
-          <p class="pub-title">${safeText(p.title)}</p>
-          <p class="pub-authors">${safeText(p.authors)}</p>
-          <p class="pub-venue">${venueHtml}</p>
-        </div>
-        <div class="right-col">
-          <div class="badges">${badgeType}<span class="badge year">${p.year||p.fy||''}</span></div>
-        </div>
-      </div>`;
+    const badge = p.type==='peer'
+      ? '<span class="badge peer">Peer&#8209;reviewed</span>'
+      : '<span class="badge preprint">Preprint</span>';
+    const venue = p.link
+      ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener noreferrer">'+(esc(p.venue)||esc(p.link))+'</a>'
+      : esc(p.venue);
+    const title = p.link
+      ? '<a href="'+esc(p.link)+'" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit">'+esc(p.title)+'</a>'
+      : esc(p.title);
+    return ''+
+      '<div class="pub">'+
+        '<div>'+
+          '<p class="pub-title">'+title+'</p>'+
+          '<p class="pub-authors">'+highlightPI(p.authors)+'</p>'+
+          '<p class="pub-venue">'+venue+'</p>'+
+        '</div>'+
+        '<div class="right-col">'+badge+'</div>'+
+      '</div>';
   }
 
   function render(){
     const visible = sortPubs(ALL.filter(match));
-    visibleCount.textContent = `${visible.length} items`;
-    if(!visible.length){ app.innerHTML = `<div class="empty">No results. Try clearing filters or searching different keywords.</div>`; return; }
+    visibleCount.textContent = visible.length + ' items';
+    if(!visible.length){
+      app.innerHTML = '<div class="empty">No results. Try clearing the filters or a different keyword.</div>';
+      return;
+    }
 
     const map = new Map();
-    visible.forEach(p=>{ const fy=p.fy||p.year||'?'; if(!map.has(fy)) map.set(fy,[]); map.get(fy).push(p); });
+    visible.forEach(function(p){ const fy=p.fy||p.year||'?'; if(!map.has(fy)) map.set(fy,[]); map.get(fy).push(p); });
     const groups = Array.from(map.entries()).sort((a,b)=>Number(b[0])-Number(a[0]));
 
-    app.innerHTML = groups.map(([fy, items])=>{
+    app.innerHTML = groups.map(function(entry){
+      const fy = entry[0], items = entry[1];
       const peers = items.filter(x=>x.type==='peer');
       const pres  = items.filter(x=>x.type==='preprint');
-      const block = (title, arr) => arr.length ? `
-        <div class="subhead"><h3>${title}</h3><span class="count">${arr.length} items</span></div>
-        <div>${arr.map(pubRow).join('')}</div>` : '';
-      return `
-        <div class="pub-section">
-          <div class="pub-section-head">
-            <h2>FY${fy}</h2>
-            <span class="count">${items.length} total</span>
-          </div>
-          ${block('Peer Reviewed', peers)}
-          ${block('Preprints', pres)}
-        </div>`;
+      const block = function(title, arr){
+        return arr.length ? '<div class="subhead">'+title+'</div><div>'+arr.map(pubRow).join('')+'</div>' : '';
+      };
+      return ''+
+        '<div class="pub-year">'+
+          '<div class="year-head"><h2>'+fy+'</h2><span class="count">'+items.length+' publications</span></div>'+
+          block('Peer reviewed', peers)+
+          block('Preprints', pres)+
+        '</div>';
     }).join('');
   }
 
@@ -249,18 +221,25 @@
       const data = await res.json();
       ALL = (data.publications||[]);
       sourceLabel.textContent = "static/data/publications.json";
-    }catch{
+    }catch(e){
       const data = JSON.parse(document.getElementById('pubData').textContent.trim());
       ALL = (data.publications||[]);
-      sourceLabel.textContent = "embedded JSON (fallback)";
+      sourceLabel.textContent = "embedded data";
     }
   }
 
-  chips.forEach(ch=>{ ch.addEventListener('click', ()=>{ chips.forEach(x=>x.classList.remove('active')); ch.classList.add('active'); filter=ch.dataset.filter||'all'; render(); }); });
-  searchBox.addEventListener('input', ()=>{ query=(searchBox.value||'').trim().toLowerCase(); render(); });
-  sortSelect.addEventListener('change', ()=>{ sortMode=sortSelect.value; render(); });
+  chips.forEach(function(ch){
+    ch.addEventListener('click', function(){
+      chips.forEach(x=>x.classList.remove('active'));
+      ch.classList.add('active');
+      filter = ch.dataset.filter || 'all';
+      render();
+    });
+  });
+  searchBox.addEventListener('input', function(){ query=(searchBox.value||'').trim().toLowerCase(); render(); });
+  sortSelect.addEventListener('change', function(){ sortMode=sortSelect.value; render(); });
 
-  (async()=>{ await loadData(); render(); })();
+  (async function(){ await loadData(); render(); })();
 })();
 </script>
 {% endblock %}

@@ -1,96 +1,38 @@
-<!-- templates/download.html -->
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Download Video</title>
 
+{% block title %}Downloads | Quantar Lab{% endblock %}
+
+{% block extra_css %}
 <style>
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    padding:0;
-    background-color:rgb(222,224,232);
-}
-
-.header{
-    text-align:center;
-    padding:20px;
-    background-color:rgb(12,9,28);
-}
-
-.main{
-    flex:1;
-    margin-left:0px;
-    background-color:#ffffff;
-    padding:20px;
-}
-
-.position-entry{
-    border-left:4px solid #007ACC;
-    padding-left:16px;
-    margin-bottom:24px;
-    max-width:900px;
-}
-
-.position-entry h2{
-    margin:0;
-    color:#007ACC;
-}
-
-.download-btn{
-    display:inline-block;
-    padding:12px 22px;
-    background:#007ACC;
-    color:white;
-    text-decoration:none;
-    border-radius:6px;
-    font-weight:bold;
-}
-
-.download-btn:hover{
-    background:#005fa3;
-}
+  .dl-list{ border-top:1px solid var(--line); }
+  .dl-item{ padding:28px 0; border-bottom:1px solid var(--line-soft); max-width:72ch; }
+  .dl-kicker{
+    font-size:10.5px; font-weight:600; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--muted); margin-bottom:8px;
+  }
+  .dl-item h2{
+    font-family:var(--serif); font-size:22px; font-weight:600; color:var(--ink);
+    letter-spacing:-.015em; margin:0 0 8px;
+  }
+  .dl-item p{ margin:0 0 18px; font-size:15.5px; line-height:1.65; color:var(--text); }
 </style>
+{% endblock %}
 
-</head>
+{% block content %}
+<main class="page-wrap">
+  <div class="page-header">
+    <h1>Downloads</h1>
+    <p>Video and media material from Quantar Lab.</p>
+  </div>
 
-<body>
-
-<div class="header">
-<p style="text-align:left;">
-<a href="{% url 'home' %}" style="font-size:28px;color:white;text-decoration:none;">
-Quantar Lab <br>
-<span style="font-size:18px;color:#ddd;">
-Quantum algorithms and technologies for advanced research
-</span>
-</a>
-</p>
-</div>
-
-<div class="main">
-
-<h1>Download Video</h1>
-
-<section>
-<div class="position-entry">
-
-<h2>NEDO Challenge </h2>
-
-<p>Quantum Computing, Solve Social Issues</p>
-<p>Season 1 </p>
-
-<a class="download-btn"
-   href="{% static 'videos/MAR-W18-8-Le-Binho.mp4' %}"
-   download>
-   Download Video
-</a>
-
-</div>
-</section>
-
-</div>
-
-</body>
-</html>
+  <div class="dl-list">
+    <div class="dl-item">
+      <div class="dl-kicker">NEDO Challenge · Season 1</div>
+      <h2>Quantum Computing, Solve Social Issues</h2>
+      <p>Presentation video submitted to the NEDO Challenge programme.</p>
+      <a class="btn" href="{% static 'videos/MAR-W18-8-Le-Binho.mp4' %}" download>Download video</a>
+    </div>
+  </div>
+</main>
+{% endblock %}

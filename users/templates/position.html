@@ -6,49 +6,27 @@
 
 {% block extra_css %}
 <style>
-  .position-grid{ display:grid; gap:16px; }
-  .position-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:24px;
-    transition: box-shadow .15s ease, transform .15s ease;
-  }
-  .position-card:hover{
-    box-shadow: 0 10px 32px rgba(15,23,42,.10);
-    transform: translateY(-1px);
-  }
+  .position-grid{ display:grid; gap:0; border-top:1px solid var(--line-soft); }
+  .position-card{ padding:30px 0; border-bottom:1px solid var(--line-soft); max-width:74ch; }
   .position-card h2{
-    margin:0 0 10px 0;
-    font-size:18px;
-    font-weight:700;
+    font-family:var(--serif); font-size:22px; font-weight:600; color:var(--ink);
+    letter-spacing:-.015em; margin:0 0 10px; text-transform:none;
   }
-  .position-card p{
-    margin:0 0 12px 0;
-    font-size:14px;
-    line-height:1.7;
-    color:var(--muted);
-  }
-  .position-actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:12px; }
+  .position-card p{ margin:0 0 12px; font-size:15.5px; line-height:1.7; color:var(--text); }
+  .position-card strong{ color:var(--ink); font-weight:600; }
+  .position-actions{ display:flex; gap:12px 26px; flex-wrap:wrap; margin-top:4px; }
   .link-btn{
-    display:inline-flex;
-    align-items:center;
-    gap:4px;
-    font-size:13px;
-    font-weight:700;
-    text-decoration:none;
-    color:var(--accent);
-    transition: gap .12s ease;
+    font-size:14px; color:var(--accent); text-decoration:none;
+    border-bottom:1px solid transparent;
   }
-  .link-btn:hover{ gap:8px; }
+  .link-btn:hover{ border-bottom-color:var(--accent); }
 </style>
 {% endblock %}
 
 {% block content %}
 <main class="page-wrap">
   <div class="page-header">
-    <h1>Open Positions</h1>
+    <h1>Open positions</h1>
     <p>Quantar Lab welcomes motivated students and researchers interested in quantum algorithms,
     quantum sensing, quantum metrology, and quantum technologies. Below are current and recurring
     opportunities to join our group.</p>

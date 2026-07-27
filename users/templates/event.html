@@ -2,51 +2,25 @@
 {% load static %}
 
 {% block title %}Events | Quantar Lab{% endblock %}
-{% block nav_research %}active{% endblock %}
+{% block nav_events %}active{% endblock %}
 
 {% block extra_css %}
 <style>
-  .event-list{ display:grid; gap:10px; }
+  .event-list{ border-top:1px solid var(--line-soft); margin-bottom:44px; }
   .event-item{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:14px;
-    padding:16px 20px;
-    display:grid;
-    grid-template-columns:160px 1fr;
-    gap:16px;
-    align-items:flex-start;
-    transition: box-shadow .15s ease, transform .15s ease;
+    display:grid; grid-template-columns:170px 1fr; gap:24px;
+    padding:18px 0; border-bottom:1px solid var(--line-soft); align-items:start;
   }
-  .event-item:hover{
-    box-shadow: 0 8px 28px rgba(15,23,42,.10);
-    transform: translateY(-1px);
-  }
-  .event-date{
-    font-weight:700;
-    font-size:13px;
-    color:var(--accent);
-    white-space:nowrap;
-    padding-top:2px;
-  }
-  .event-desc{
-    font-size:14px;
-    color:var(--text);
-    line-height:1.6;
-  }
+  .event-date{ font-size:13px; color:var(--muted); white-space:nowrap; padding-top:2px; }
+  .event-desc{ font-size:15px; color:var(--text); line-height:1.6; }
+  .event-desc em{ font-family:var(--serif); font-style:italic; color:var(--ink); }
   .section-label{
-    font-size:13px;
-    font-weight:700;
-    letter-spacing:.06em;
-    text-transform:uppercase;
-    color:var(--muted);
-    margin:24px 0 10px 0;
-    padding-left:2px;
+    font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--muted); margin:0 0 14px;
   }
-  .section-label:first-child{ margin-top:0; }
+  .section-label.next{ margin-top:10px; }
   @media(max-width:640px){
-    .event-item{ grid-template-columns:1fr; gap:6px; }
-    .event-date{ font-size:12px; }
+    .event-item{ grid-template-columns:1fr; gap:5px; }
   }
 </style>
 {% endblock %}
@@ -54,7 +28,7 @@
 {% block content %}
 <main class="page-wrap">
   <div class="page-header">
-    <h1>Events & News</h1>
+    <h1>Talks &amp; events</h1>
     <p>Talks, conferences, schools, and seminars involving Quantar Lab members.</p>
   </div>
 
@@ -78,7 +52,7 @@
     </div>
   </div>
 
-  <div class="section-label">Past</div>
+  <div class="section-label next">Past</div>
   <div class="event-list">
     <div class="event-item">
       <div class="event-date">Feb 27, 2026</div>

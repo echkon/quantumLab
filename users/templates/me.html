@@ -7,57 +7,30 @@
 {% block extra_css %}
 <style>
   .profile-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:var(--radius);
-    box-shadow:var(--shadow);
-    padding:28px;
-    display:grid;
-    grid-template-columns:200px 1fr;
-    gap:28px;
-    margin-bottom:16px;
-    align-items:start;
+    display:grid; grid-template-columns:210px 1fr; gap:44px;
+    align-items:start; padding:64px 0 44px; margin-bottom:52px;
+    border-bottom:1px solid var(--line);
   }
-  .avatar{
-    width:100%;
-    border-radius:16px;
-    border:1px solid var(--line);
-    object-fit:cover;
-  }
+  .avatar{ width:100%; border-radius:2px; border:1px solid var(--line); object-fit:cover; filter:saturate(.92); }
   .name{
-    margin:0 0 4px 0;
-    font-size:28px;
-    font-weight:800;
-    letter-spacing:-0.02em;
+    font-family:var(--serif); font-size:38px; font-weight:600; color:var(--ink);
+    letter-spacing:-.025em; line-height:1.1; margin:0 0 10px;
   }
-  .title-line{
-    margin:0 0 14px 0;
-    color:var(--muted);
-    font-size:14px;
-    line-height:1.55;
-  }
-  .badges{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-bottom:14px;
-  }
+  .title-line{ margin:0 0 18px; color:var(--muted); font-size:14.5px; line-height:1.7; }
+  .badges{ display:flex; flex-wrap:wrap; gap:7px; margin-bottom:20px; }
   .badge{
-    font-size:12px;
-    font-weight:600;
-    padding:5px 10px;
-    border-radius:999px;
-    border:1px solid var(--line);
-    background:#fff;
-    color:var(--muted);
-    white-space:nowrap;
+    font-size:10.5px; font-weight:500; letter-spacing:.09em; text-transform:uppercase;
+    padding:4px 10px; border-radius:2px; border:1px solid var(--line);
+    background:var(--tint); color:var(--muted); white-space:nowrap;
   }
-  .badge.pi{ background:rgba(245,158,11,0.12); border-color:rgba(245,158,11,0.25); color:#92400e; }
-  .badge.fellow{ background:rgba(37,99,235,0.10); border-color:rgba(37,99,235,0.25); color:#1d4ed8; }
-  .bio{ margin:0; color:var(--muted); font-size:14px; line-height:1.75; }
+  .badge.pi{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .bio{ margin:0; color:var(--text); font-size:16px; line-height:1.7; max-width:64ch; }
+  .bio a{ color:var(--accent); text-decoration:none; }
+  .bio a:hover{ text-decoration:underline; }
   @media(max-width:760px){
-    .profile-card{ grid-template-columns:1fr; }
-    .avatar{ max-width:160px; }
+    .profile-card{ grid-template-columns:1fr; gap:26px; padding:40px 0 30px; margin-bottom:36px; }
+    .avatar{ max-width:170px; }
+    .name{ font-size:30px; }
   }
 </style>
 {% endblock %}
