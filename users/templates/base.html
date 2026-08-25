@@ -13,15 +13,15 @@
        one accent colour, no shadows, no rounded cards.
        ===================================================================== */
     :root{
-      --ink:#14181f;         /* headings */
-      --text:#3c4450;        /* body copy */
-      --muted:#78818f;       /* metadata */
+      --ink:#000000;         /* headings — pure black */
+      --text:#000000;        /* body copy — pure black */
+      --muted:#4a5260;       /* metadata */
       --line:#e3e6ea;        /* structural rules */
       --line-soft:#eef0f3;   /* list separators */
       --paper:#ffffff;
       --tint:#f7f8f9;        /* section wash */
-      --accent:#1f4b8e;      /* single accent */
-      --accent-soft:#eaf0f8;
+      --accent:#0b57d0;      /* links — clearly clickable blue */
+      --accent-soft:#e8f0fd;
       --max:1080px;
       --serif:"Iowan Old Style","Charter","Source Serif 4",Georgia,"Times New Roman",serif;
       --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
@@ -41,8 +41,8 @@
       background:var(--paper);
       color:var(--text);
       font-family:var(--sans);
-      font-size:16px;
-      line-height:1.65;
+      font-size:17px;
+      line-height:1.7;
       -webkit-font-smoothing:antialiased;
     }
     a{ color:inherit; }
@@ -74,7 +74,7 @@
     .item{ position:relative; }
     .nav-btn{
       display:inline-block; padding:4px 0;
-      font-family:inherit; font-size:14px; font-weight:500; color:var(--text);
+      font-family:inherit; font-size:15px; font-weight:600; color:var(--text);
       text-decoration:none; background:none; border:none;
       border-bottom:1.5px solid transparent; cursor:pointer;
       transition:color .15s, border-color .15s;
@@ -90,7 +90,7 @@
     .item.open .dropdown{ display:block; }
     .dd-title{ display:none; }
     .dd-link{
-      display:block; padding:7px 16px; font-size:13.5px;
+      display:block; padding:8px 16px; font-size:14.5px;
       color:var(--text); text-decoration:none; white-space:nowrap;
     }
     .dd-link:hover{ background:var(--tint); color:var(--ink); }
@@ -98,7 +98,7 @@
     .nav-cta{ margin-left:2px; }
     .pill{
       display:inline-flex; align-items:center; justify-content:center;
-      padding:5px 13px; font-size:13px; font-weight:500;
+      padding:6px 13px; font-size:14px; font-weight:500;
       color:var(--muted); text-decoration:none;
       border:1px solid var(--line); border-radius:2px; background:#fff;
       transition:.15s;
@@ -127,7 +127,7 @@
       color:var(--ink); margin:0 0 16px; max-width:22ch;
     }
     .page-header p{
-      margin:0; font-size:17px; line-height:1.62; color:var(--text); max-width:64ch;
+      margin:0; font-size:18.5px; line-height:1.65; color:var(--text); max-width:64ch;
     }
     /* legacy alias used by some pages */
     .page-head{ padding:64px 0 40px; border-bottom:1px solid var(--line); margin-bottom:36px; }
@@ -136,27 +136,32 @@
       font-size:clamp(30px,4.4vw,44px); line-height:1.16; letter-spacing:-.02em;
       color:var(--ink); margin:0 0 16px; max-width:22ch;
     }
-    .page-head p{ margin:0 0 26px; font-size:17px; line-height:1.62; color:var(--text); max-width:64ch; }
+    .page-head p{ margin:0 0 26px; font-size:18.5px; line-height:1.65; color:var(--text); max-width:64ch; }
 
     /* ================= Sections ================= */
     .section{ padding:0 0 52px; margin-bottom:52px; border-bottom:1px solid var(--line-soft); }
     .section:last-child{ border-bottom:none; margin-bottom:0; }
     .section h2{
-      font-family:var(--serif); font-size:13px; font-weight:600;
-      letter-spacing:.18em; text-transform:uppercase; color:var(--muted);
+      font-family:var(--serif); font-size:13.5px; font-weight:700;
+      letter-spacing:.16em; text-transform:uppercase; color:var(--text);
       margin:0 0 26px; padding:0; border:none; display:block;
     }
     .section h3{
-      font-family:var(--serif); font-size:19px; font-weight:600; color:var(--ink);
+      font-family:var(--serif); font-size:21px; font-weight:600; color:var(--ink);
       letter-spacing:-.01em; margin:28px 0 10px;
     }
-    .section p{ margin:0 0 14px; font-size:15.5px; line-height:1.7; color:var(--text); }
-    .section ul, .section ol{ margin:0 0 14px; padding-left:20px; font-size:15.5px; line-height:1.75; color:var(--text); }
+    .section p{ margin:0 0 15px; font-size:17px; line-height:1.72; color:var(--text); }
+    .section ul, .section ol{ margin:0 0 15px; padding-left:20px; font-size:17px; line-height:1.78; color:var(--text); }
     .section li{ margin-bottom:9px; }
     .section li::marker{ color:var(--muted); }
     .section strong{ color:var(--ink); font-weight:600; }
-    .section a{ color:var(--accent); text-decoration:none; }
+    .section a{ color:var(--accent); text-decoration:none; font-weight:500; }
     .section a:hover{ text-decoration:underline; }
+
+    /* Any link inside page content is blue so it reads as clickable.
+       Nav, footer and buttons opt out below. */
+    .page-wrap a:not(.btn):not(.pill):not(.footer-link):not(.chip){ color:var(--accent); }
+    .page-wrap a:not(.btn):not(.pill):not(.footer-link):not(.chip):hover{ text-decoration:underline; }
 
     .card{ border:1px solid var(--line); border-radius:2px; padding:24px 26px; background:#fff; }
     .card h2{
@@ -172,26 +177,26 @@
     }
     .search input{
       width:100%; border:none; outline:none; background:none;
-      font-family:inherit; font-size:14px; color:var(--ink);
+      font-family:inherit; font-size:15.5px; color:var(--ink);
     }
     .search input::placeholder{ color:var(--muted); }
     .filters{ display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
     .chip{
       padding:7px 14px; border:1px solid var(--line); border-radius:2px; background:#fff;
-      font-family:inherit; font-size:13px; font-weight:500; color:var(--muted);
+      font-family:inherit; font-size:14px; font-weight:600; color:var(--muted);
       cursor:pointer; user-select:none; white-space:nowrap; transition:.15s;
     }
     .chip:hover{ color:var(--ink); border-color:var(--muted); }
     .chip.active{ background:var(--ink); border-color:var(--ink); color:#fff; }
     .select{
       border:1px solid var(--line); border-radius:2px; background:#fff;
-      padding:8px 12px; font-family:inherit; font-size:13px; color:var(--text);
+      padding:9px 12px; font-family:inherit; font-size:14px; color:var(--text);
       outline:none; cursor:pointer;
     }
     .meta-row{ display:flex; gap:20px; flex-wrap:wrap; align-items:center; margin-top:12px; }
     .meta-pill{
       padding:0; border:none; background:none;
-      font-size:12.5px; color:var(--muted); display:inline-flex; align-items:center; gap:6px;
+      font-size:13.5px; color:var(--muted); display:inline-flex; align-items:center; gap:6px;
     }
 
     /* ================= Small utilities ================= */
@@ -202,7 +207,7 @@
     }
     .more{
       display:inline-flex; align-items:center; gap:5px;
-      font-size:13.5px; font-weight:500; color:var(--accent); text-decoration:none;
+      font-size:14.5px; font-weight:600; color:var(--accent); text-decoration:none;
       transition:gap .15s;
     }
     .more:hover{ gap:9px; text-decoration:underline; }
@@ -224,14 +229,14 @@
     .footer{ margin-top:0; padding:56px 0 48px; border-top:1px solid var(--line); }
     .footer-row{ display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:44px; }
     .footer-brand{ font-family:var(--serif); font-size:18px; font-weight:600; color:var(--ink); margin-bottom:12px; }
-    .footer p{ margin:0 0 6px; font-size:13.5px; line-height:1.65; color:var(--muted); }
+    .footer p{ margin:0 0 6px; font-size:14.5px; line-height:1.65; color:var(--muted); }
     .footer-col-title{
       font-size:11px; letter-spacing:.14em; text-transform:uppercase;
       color:var(--ink); font-weight:600; margin-bottom:14px;
     }
     .footer-link{
-      display:block; font-size:13.5px; color:var(--muted);
-      text-decoration:none; margin-bottom:8px; transition:color .15s;
+      display:block; font-size:14.5px; color:var(--text);
+      text-decoration:none; margin-bottom:9px; transition:color .15s;
     }
     .footer-link:hover{ color:var(--ink); }
     .footer-copy{
