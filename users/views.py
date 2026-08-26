@@ -21,6 +21,7 @@ from openpyxl import load_workbook
 from openpyxl.worksheet.protection import SheetProtection
 from django.core.mail import EmailMessage
 from django.conf import settings
+from .publications_data import PUBLICATIONS
 
 def home(request):
     return render(request, 'home.html')  # Render a simple home page template
@@ -49,11 +50,21 @@ def resource_view(request):
 def contact_view(request):
     return render(request, 'contact.html')
 
+def _papers_by_category(category):
+    papers = [p for p in PUBLICATIONS if p.get("category") == category]
+    return sorted(papers, key=lambda p: (p.get("year") or 0, p.get("title") or ""), reverse=True)
+
 def research_metrology(request):
-    return render(request, "research_metrology.html")
+    return render(request, "research_metrology.html", {"papers": _papers_by_category("metrology")})
 
 def research_algorithms(request):
-    return render(request, "research_algorithms.html")
+    return render(request, "research_algorithms.html", {"papers": _papers_by_category("algorithms")})
+
+def research_foundations(request):
+    return render(request, "research_foundations.html", {"papers": _papers_by_category("foundations")})
+
+def research_simulation(request):
+    return render(request, "research_simulation.html", {"papers": _papers_by_category("simulation")})
 
 def upload_file(request):
     """Store an uploaded file on disk.

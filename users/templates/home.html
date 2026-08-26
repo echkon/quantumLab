@@ -150,10 +150,10 @@
     </div>
   </section>
 
-  <!-- ===================== Featured research ===================== -->
-  <section class="block" id="featured">
+  <!-- ===================== Research directions ===================== -->
+  <section class="block" id="research">
     <div class="sec-head">
-      <h2>Featured research</h2>
+      <h2>Research</h2>
       <a class="more" href="{% url 'publication' %}">All publications →</a>
     </div>
 
@@ -161,43 +161,43 @@
       <div class="slider-viewport">
         <div class="slides-track">
 
-          <a class="slide" href="https://iopscience.iop.org/article/10.1088/2632-2153/ae894c" target="_blank" rel="noopener noreferrer">
-            <div class="slide-media"><img src="{% static 'images/slide1.jpg' %}" alt="Genetic-like evolution of a variational quantum circuit for support vector machines"></div>
+          <a class="slide" href="{% url 'research_algorithms' %}">
+            <div class="slide-media"><img src="{% static 'images/research2.jpg' %}" alt="Variational quantum circuit optimized through a genetic-like evolution and quantum compilation loop"></div>
             <div class="slide-info">
-              <div class="slide-venue">Machine Learning: Science and Technology &middot; 2026</div>
-              <h3>Flexible genetic algorithm for quantum support vector machines</h3>
-              <p class="slide-authors">Nguyen Minh Duc, Vu Tuan Hai, <strong>Le Bin Ho</strong>, Lan Nguyen Tran</p>
-              <span class="slide-link">Read the paper →</span>
+              <div class="slide-venue">Research direction</div>
+              <h3>Quantum algorithms</h3>
+              <p class="slide-authors">Variational and feedback-based methods designed to stay practical under real hardware noise and limited circuit depth.</p>
+              <span class="slide-link">Explore this direction →</span>
             </div>
           </a>
 
-          <a class="slide" href="https://journals.aps.org/prd/abstract/10.1103/rv43-54zq" target="_blank" rel="noopener noreferrer">
-            <div class="slide-media"><img src="{% static 'images/slide2.jpg' %}" alt="Networked quantum sensors used to search for ultralight dark matter"></div>
+          <a class="slide" href="{% url 'research_metrology' %}">
+            <div class="slide-media"><img src="{% static 'images/research1.jpg' %}" alt="A networked array of quantum sensors sharing correlated measurements"></div>
             <div class="slide-info">
-              <div class="slide-venue">Physical Review D &middot; 2025</div>
-              <h3>Optimized quantum sensor networks for ultralight dark matter detection</h3>
-              <p class="slide-authors">Adriel I. Santoso, <strong>Le Bin Ho</strong></p>
-              <span class="slide-link">Read the paper →</span>
+              <div class="slide-venue">Research direction</div>
+              <h3>Quantum metrology &amp; sensing</h3>
+              <p class="slide-authors">Protocols that extract more precision per resource — from single sensors to distributed sensor networks.</p>
+              <span class="slide-link">Explore this direction →</span>
             </div>
           </a>
 
-          <a class="slide" href="https://journals.aps.org/prresearch/abstract/10.1103/PhysRevResearch.7.013239" target="_blank" rel="noopener noreferrer">
-            <div class="slide-media"><img src="{% static 'images/slide3.jpg' %}" alt="Classifying separable and entangled states with a variational entanglement witness"></div>
+          <a class="slide" href="{% url 'research_foundations' %}">
+            <div class="slide-media"><img src="{% static 'images/research3.jpg' %}" alt="Classifying entangled and separable quantum states in a variational entanglement witness"></div>
             <div class="slide-info">
-              <div class="slide-venue">Physical Review Research &middot; 2025</div>
-              <h3>Detecting and protecting entanglement through nonlocality, variational entanglement witness, and nonlocal measurements</h3>
-              <p class="slide-authors">Haruki Matsunaga, <strong>Le Bin Ho</strong></p>
-              <span class="slide-link">Read the paper →</span>
+              <div class="slide-venue">Research direction</div>
+              <h3>Quantum foundations</h3>
+              <p class="slide-authors">Nonlocality, entanglement witnesses, and the weak and modular values behind what measurement can reveal.</p>
+              <span class="slide-link">Explore this direction →</span>
             </div>
           </a>
 
-          <a class="slide" href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/qute.70376" target="_blank" rel="noopener noreferrer">
-            <div class="slide-media"><img src="{% static 'images/metrology.png' %}" alt="A quantum probe evolving under a magnetic-field signal for metrological measurement"></div>
+          <a class="slide" href="{% url 'research_simulation' %}">
+            <div class="slide-media"><img src="{% static 'images/research4.jpg' %}" alt="Simulated quantum dynamics illustrated through a Schrödinger-equation motif"></div>
             <div class="slide-info">
-              <div class="slide-venue">Advanced Quantum Technologies &middot; 2026</div>
-              <h3>Trade-off relation between integrated metrological gain and local dissipation in magnetic-field sensing by quantum spin ensemble</h3>
-              <p class="slide-authors">Nozomu Takahashi, <strong>Le Bin Ho</strong>, Hiroaki Matsueda</p>
-              <span class="slide-link">Read the paper →</span>
+              <div class="slide-venue">Research direction</div>
+              <h3>Quantum simulation</h3>
+              <p class="slide-authors">Simulating dynamics that are hard to access classically, from spin ensembles and quantum batteries to lattice models.</p>
+              <span class="slide-link">Explore this direction →</span>
             </div>
           </a>
 

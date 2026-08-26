@@ -1,20 +1,20 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Quantum algorithms | Quantar Lab{% endblock %}
+{% block title %}Quantum simulation | Quantar Lab{% endblock %}
 {% block nav_research %}active{% endblock %}
 
 {% block content %}
 <main class="page-wrap">
 
   <div class="page-header">
-    <h1>Quantum algorithms</h1>
-    <p>We design variational and feedback-based algorithms that stay practical under today&rsquo;s hardware constraints &mdash; limited circuit depth, noisy gates, and scarce qubits.</p>
-    <p>Our work spans quantum compilation, state preparation, trainable feature maps, and machine-learning-assisted optimization, with an emphasis on methods that degrade gracefully rather than fail outright as problems scale up.</p>
+    <h1>Quantum simulation</h1>
+    <p>We use quantum circuits and controlled open systems to simulate dynamics that are hard to access classically &mdash; from spin ensembles and quantum batteries to lattice models such as the Peccei&ndash;Quinn mechanism.</p>
+    <p>The goal is both practical &mdash; efficient state and ground-state preparation on near-term devices &mdash; and exploratory, using simulation to probe physics with no simple classical description.</p>
   </div>
 
   <div class="section">
-    <img src="{% static 'images/research2.jpg' %}" alt="Variational quantum circuit optimized through a genetic-like evolution and quantum compilation loop" style="width:100%; border:1px solid var(--line); display:block; margin-bottom:8px;">
+    <img src="{% static 'images/research4.jpg' %}" alt="Simulated quantum dynamics illustrated through a Schrödinger-equation motif" style="width:100%; border:1px solid var(--line); display:block; margin-bottom:8px;">
   </div>
 
   <div class="section">

@@ -22,5 +22,7 @@ urlpatterns = [
     path('upload/', views.upload_file, name='upload_file'),
     path("metrology/", views.research_metrology, name="research_metrology"),
     path("algorithms/", views.research_algorithms, name="research_algorithms"),
+    path("foundations/", views.research_foundations, name="research_foundations"),
+    path("simulation/", views.research_simulation, name="research_simulation"),
     path('download/', views.download, name='download')
 ]

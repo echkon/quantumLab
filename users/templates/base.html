@@ -169,6 +169,34 @@
       letter-spacing:-.01em; text-transform:none; margin:0 0 12px;
     }
 
+    /* ================= Paper list (used on research-direction pages) ================= */
+    .paper-list{ border-top:1px solid var(--line-soft); }
+    .paper-row{
+      display:grid; grid-template-columns:1fr 110px; gap:24px;
+      padding:20px 0; border-bottom:1px solid var(--line-soft); align-items:start;
+    }
+    .paper-title{
+      font-family:var(--serif); font-size:18.5px; font-weight:600; color:var(--ink);
+      line-height:1.38; margin:0 0 6px;
+    }
+    .paper-title a{ color:var(--accent); text-decoration:none; }
+    .paper-title a:hover{ text-decoration:underline; }
+    .paper-authors{ font-size:15px; color:var(--text); margin:0 0 4px; line-height:1.52; }
+    .paper-authors .me{ color:var(--ink); font-weight:600; }
+    .paper-venue{ font-size:14.5px; color:var(--muted); margin:0; font-style:italic; }
+    .paper-badges{ display:flex; justify-content:flex-end; padding-top:3px; }
+    .badge{
+      font-size:10.5px; font-weight:500; letter-spacing:.08em; text-transform:uppercase;
+      padding:3px 9px; border:1px solid var(--line); border-radius:2px;
+      color:var(--muted); white-space:nowrap; background:#fff;
+    }
+    .badge.peer{ border-color:#cfe0d6; background:#f2f8f4; color:#2f6b4a; }
+    .badge.preprint{ border-color:#d9e3f0; background:var(--accent-soft); color:var(--accent); }
+    @media(max-width:760px){
+      .paper-row{ grid-template-columns:1fr; gap:8px; }
+      .paper-badges{ justify-content:flex-start; }
+    }
+
     /* ================= Controls (search / filter / sort) ================= */
     .controls{ display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-bottom:14px; }
     .search{
@@ -297,8 +325,10 @@
         <div class="item has-dd">
           <button class="nav-btn dd-toggle {% block nav_research %}{% endblock %}" type="button" aria-expanded="false">Research</button>
           <div class="dropdown" role="menu">
+            <a class="dd-link" href="{% url 'research_algorithms' %}">Algorithms</a>
             <a class="dd-link" href="{% url 'research_metrology' %}">Metrology &amp; sensing</a>
-            <a class="dd-link" href="{% url 'research_algorithms' %}">Algorithms &amp; control</a>
+            <a class="dd-link" href="{% url 'research_foundations' %}">Foundations</a>
+            <a class="dd-link" href="{% url 'research_simulation' %}">Simulation</a>
             <a class="dd-link" href="{% url 'resource' %}">Resources &amp; software</a>
           </div>
         </div>
