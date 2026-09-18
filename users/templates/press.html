@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Press | Quantar Lab{% endblock %}
+{% block nav_events %}active{% endblock %}
+
+{% block extra_css %}
+<style>
+  .press-list{ border-top:1px solid var(--line-soft); }
+  .press-item{
+    display:grid; grid-template-columns:1fr 110px; gap:24px;
+    padding:20px 0; border-bottom:1px solid var(--line-soft); align-items:start;
+  }
+  .press-item .src{
+    font-size:12.5px; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:6px;
+  }
+  .press-item a{ font-size:17px; line-height:1.5; color:var(--ink); text-decoration:none; font-weight:500; font-family:var(--serif); }
+  .press-item a:hover{ color:var(--accent); text-decoration:underline; }
+  .press-item .pd{ font-size:13px; color:var(--muted); white-space:nowrap; padding-top:3px; text-align:right; }
+  @media(max-width:640px){
+    .press-item{ grid-template-columns:1fr; gap:6px; }
+    .press-item .pd{ text-align:left; }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<main class="page-wrap">
+  <div class="page-header">
+    <h1>Press</h1>
+    <p>Media coverage and institutional press releases about Quantar Lab's research.</p>
+  </div>
+
+  <div class="press-list">
+    <div class="press-item">
+      <div>
+        <div class="src">Tia Sáng</div>
+        <a href="https://tiasang.com.vn/nha-khoa-hoc-viet-hoa-giai-diem-nghen-trong-hieu-chuan-may-tinh-luong-tu-5070278.html" target="_blank" rel="noopener noreferrer">Nhà khoa học Việt hóa giải điểm nghẽn trong hiệu chuẩn máy tính lượng tử</a>
+      </div>
+      <div class="pd">May 2026</div>
+    </div>
+    <div class="press-item">
+      <div>
+        <div class="src">Quantum Zeitgeist</div>
+        <a href="https://quantumzeitgeist.com/quantum-entanglement-interference-precision/" target="_blank" rel="noopener noreferrer">Quantum Entanglement Harnessed Via Interference Boosts Measurement Precision</a>
+      </div>
+      <div class="pd">29 Mar 2026</div>
+    </div>
+    <div class="press-item">
+      <div>
+        <div class="src">Tohoku University</div>
+        <a href="https://www.tohoku.ac.jp/en/press/whats_going_on_inside_quantum_computers_process_tomography.html" target="_blank" rel="noopener noreferrer">What's Going on Inside Quantum Computers? New Method Simplifies Process Tomography</a>
+      </div>
+      <div class="pd">04 Mar 2026</div>
+    </div>
+    <div class="press-item">
+      <div>
+        <div class="src">Quantum Zeitgeist</div>
+        <a href="https://quantumzeitgeist.com/universal-ground-state-preparation-enables-strong-correlation-simulations/" target="_blank" rel="noopener noreferrer">Universal Ground State Preparation Enables Strong Correlation Simulations</a>
+      </div>
+      <div class="pd">17 Dec 2025</div>
+    </div>
+    <div class="press-item">
+      <div>
+        <div class="src">Tohoku University</div>
+        <a href="https://www.tohoku.ac.jp/en/press/quantum_networks_bring_new_precision_to_dark_matter_searches.html" target="_blank" rel="noopener noreferrer">Quantum networks bring new precision to dark matter searches</a>
+      </div>
+      <div class="pd">17 Oct 2025</div>
+    </div>
+    <div class="press-item">
+      <div>
+        <div class="src">Tohoku University</div>
+        <a href="https://www.tohoku.ac.jp/en/press/quantum_computers_analyze_their_own_entanglement.html" target="_blank" rel="noopener noreferrer">Quantum computers analyze their own entanglement</a>
+      </div>
+      <div class="pd">25 Mar 2025</div>
+    </div>
+  </div>
+</main>
+{% endblock %}

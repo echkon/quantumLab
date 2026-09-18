@@ -1,11 +1,24 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Events | Quantar Lab{% endblock %}
+{% block title %}News &amp; events | Quantar Lab{% endblock %}
 {% block nav_events %}active{% endblock %}
 
 {% block extra_css %}
 <style>
+  .news-list{ border-top:1px solid var(--line-soft); margin-bottom:44px; }
+  .news-item{
+    display:grid; grid-template-columns:130px 1fr; gap:24px;
+    padding:14px 0; border-bottom:1px solid var(--line-soft); align-items:start;
+  }
+  .news-item .d{ font-size:13px; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:2px; white-space:nowrap; }
+  .news-item .t{ font-size:15px; line-height:1.6; color:var(--text); }
+  .news-item .t a{ color:var(--accent); text-decoration:none; font-weight:500; }
+  .news-item .t a:hover{ text-decoration:underline; }
+  .news-item .t em{ font-family:var(--serif); font-style:italic; color:var(--ink); }
+  .news-item .t strong{ color:var(--ink); font-weight:600; }
+  @media(max-width:640px){ .news-item{ grid-template-columns:1fr; gap:4px; } }
+
   .event-list{ border-top:1px solid var(--line-soft); margin-bottom:44px; }
   .event-item{
     display:grid; grid-template-columns:170px 1fr; gap:24px;
@@ -28,11 +41,64 @@
 {% block content %}
 <main class="page-wrap">
   <div class="page-header">
-    <h1>Talks &amp; events</h1>
-    <p>Talks, conferences, schools, and seminars involving Quantar Lab members.</p>
+    <h1>News &amp; events</h1>
+    <p>Lab news, talks, conferences, schools, and seminars involving Quantar Lab members.</p>
   </div>
 
-  <div class="section-label">Upcoming</div>
+  <div class="section-label">News</div>
+  <div class="news-list">
+    <div class="news-item">
+      <div class="d">24 Aug 2026</div>
+      <div class="t">Paper <em>Interference-induced state engineering and Hamiltonian control for noisy collective-spin metrology</em> published in
+        <a href="https://journals.aps.org/pra/accepted/10.1103/sxxg-77b1" target="_blank" rel="noopener noreferrer">Physical Review A</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">5 Aug 2026</div>
+      <div class="t">Paper <em>Boosting the performance of a Lipkin-Meshkov-Glick quantum battery via symmetry-breaking quenches or a single-mode bosonic charger</em> published in
+        <a href="https://doi.org/10.1103/8yq7-jp7r" target="_blank" rel="noopener noreferrer">Physical Review A</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">26 Jul 2026</div>
+      <div class="t">Paper <em>Trade-off relation between integrated metrological gain and local dissipation in
+        magnetic-field sensing by quantum spin ensemble</em> published in
+        <a href="https://advanced.onlinelibrary.wiley.com/doi/10.1002/qute.70376" target="_blank" rel="noopener noreferrer">Advanced Quantum Technologies</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">24 Jul 2026</div>
+      <div class="t">Paper <em>Flexible genetic algorithm for quantum support vector machines</em> published in
+        <a href="https://iopscience.iop.org/article/10.1088/2632-2153/ae894c" target="_blank" rel="noopener noreferrer">Machine Learning: Science and Technology</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">10 Jul 2026</div>
+      <div class="t">Le Bin Ho appointed <strong>Adjunct Professor</strong> at the Faculty of Physics and
+        Engineering Physics, University of Science (HCMUS), VNU-HCM, under the VNU350 Program.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">Jul 2026</div>
+      <div class="t">Paper <em>Feedback-based quantum control for safe and synergistic drug combination design</em>
+        published in <a href="https://www.sciencedirect.com/science/article/pii/S1877750326001833" target="_blank" rel="noopener noreferrer">Journal of Computational Science</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">01 Apr 2026</div>
+      <div class="t">Leon and Jesus certified as Junior Researchers, FRIS, Tohoku University.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">23 Mar 2026</div>
+      <div class="t">Paper <em>Quantum simulation of strong charge-parity violation and the Peccei–Quinn mechanism</em>
+        accepted in <a href="https://journals.aps.org/prd/abstract/10.1103/yx1t-mkgp" target="_blank" rel="noopener noreferrer">Physical Review D</a>.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">24–26 Feb 2026</div>
+      <div class="t">Mr. Le Duc Tuyen (RIKEN) visits the lab.</div>
+    </div>
+    <div class="news-item">
+      <div class="d">04 Feb 2026</div>
+      <div class="t">Paper <em>Advancing Quantum Process Tomography Through Quantum Compilation</em> accepted in
+        <a href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/qute.202500494" target="_blank" rel="noopener noreferrer">Advanced Quantum Technologies</a>.</div>
+    </div>
+  </div>
+
+  <div class="section-label next">Upcoming</div>
   <div class="event-list">
     <div class="event-item">
       <div class="event-date">April 22–25, 2026</div>

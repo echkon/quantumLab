@@ -44,6 +44,9 @@ def position_view(request):
 def event_view(request):
     return render(request, 'event.html')
 
+def press_view(request):
+    return render(request, 'press.html')
+
 def resource_view(request):
     return render(request, 'resource.html')
 
@@ -52,7 +55,10 @@ def contact_view(request):
 
 def _papers_by_category(category):
     papers = [p for p in PUBLICATIONS if p.get("category") == category]
-    return sorted(papers, key=lambda p: (p.get("year") or 0, p.get("title") or ""), reverse=True)
+    # PUBLICATIONS is authored newest-first within each year; Python's sort is stable,
+    # so sorting on year alone (no title tiebreaker) preserves that true chronological
+    # order instead of silently re-alphabetizing same-year papers.
+    return sorted(papers, key=lambda p: p.get("year") or 0, reverse=True)
 
 def research_metrology(request):
     return render(request, "research_metrology.html", {"papers": _papers_by_category("metrology")})

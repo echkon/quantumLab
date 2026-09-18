@@ -17,6 +17,7 @@ urlpatterns = [
     path('contact/', views.contact_view, name='contact'),
     path('position/', views.position_view, name='position'),
     path('event/', views.event_view, name='event'),
+    path('press/', views.press_view, name='press'),
     path('resource/', views.resource_view, name='resource'),
     path('me/', views.me_view, name='me'),
     path('upload/', views.upload_file, name='upload_file'),
