@@ -32,6 +32,11 @@
     color:var(--muted); margin:0 0 14px;
   }
   .section-label.next{ margin-top:10px; }
+
+  .split{ display:grid; grid-template-columns:1.4fr 1fr; gap:64px; align-items:start; }
+  @media(max-width:900px){
+    .split{ grid-template-columns:1fr; gap:46px; }
+  }
   @media(max-width:640px){
     .event-item{ grid-template-columns:1fr; gap:5px; }
   }
@@ -45,6 +50,8 @@
     <p>Lab news, talks, conferences, schools, and seminars involving Quantar Lab members.</p>
   </div>
 
+  <div class="split">
+  <div>
   <div class="section-label">News</div>
   <div class="news-list">
     <div class="news-item">
@@ -97,8 +104,10 @@
         <a href="https://advanced.onlinelibrary.wiley.com/doi/full/10.1002/qute.202500494" target="_blank" rel="noopener noreferrer">Advanced Quantum Technologies</a>.</div>
     </div>
   </div>
+  </div>
 
-  <div class="section-label next">Upcoming</div>
+  <div>
+  <div class="section-label">Upcoming</div>
   <div class="event-list">
     <div class="event-item">
       <div class="event-date">April 22–25, 2026</div>
@@ -173,6 +182,8 @@
         FRIS seminar: Quantum network sensors for dark matter detection.
       </div>
     </div>
+  </div>
+  </div>
   </div>
 </main>
 {% endblock %}
