@@ -13,6 +13,8 @@
 # four current research directions.
 
 PUBLICATIONS = [
+    {"fy": 2026, "type": "preprint", "title": "Multiparameter sensing of axion dark matter with superconducting-qubit networks", "authors": "Le Bin Ho", "venue": "arXiv:2609.20254", "year": 2026, "link": "https://arxiv.org/abs/2609.20254", "category": "metrology"},
+    {"fy": 2026, "type": "preprint", "title": "Majoron dark matter detection via hybrid magnon transmon qubit system", "authors": "Le Bin Ho, Do Thi Huong", "venue": "arXiv:2609.19056", "year": 2026, "link": "https://arxiv.org/abs/2609.19056", "category": "metrology"},
     {"fy": 2026, "type": "peer", "title": "Trade-off relation between integrated metrological gain and local dissipation in magnetic-field sensing by quantum spin ensemble", "authors": "Nozomu Takahashi, Le Bin Ho, Hiroaki Matsueda", "venue": "Advanced Quantum Technologies 9, e70376 (2026)", "year": 2026, "link": "https://advanced.onlinelibrary.wiley.com/doi/10.1002/qute.70376", "category": "metrology"},
     {"fy": 2026, "type": "peer", "title": "Flexible genetic algorithm for quantum support vector machines", "authors": "Nguyen Minh Duc, Vu Tuan Hai, Le Bin Ho, Lan Nguyen Tran", "venue": "Machine Learning: Science and Technology 7, 045030 (2026)", "year": 2026, "link": "https://iopscience.iop.org/article/10.1088/2632-2153/ae894c", "category": "algorithms"},
     {"fy": 2026, "type": "peer", "title": "Feedback-based quantum control for safe and synergistic drug combination design", "authors": "Mai Nguyen Phuong Nhi, Lan Nguyen Tran, Le Bin Ho", "venue": "Journal of Computational Science 100, 102965 (2026)", "year": 2026, "link": "https://www.sciencedirect.com/science/article/pii/S1877750326001833", "category": "algorithms"},
