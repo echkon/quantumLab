@@ -24,34 +24,34 @@ from django.conf import settings
 from .publications_data import PUBLICATIONS
 
 def home(request):
-    return render(request, 'home.html')  # Render a simple home page template
+    return render(request, 'public/home.html')  # Render a simple home page template
 
 def me_view(request):
-    return render(request, 'me.html')  # me
+    return render(request, 'public/me.html')  # me
 
 def member_view(request):
-    return render(request, 'member.html')
+    return render(request, 'public/member.html')
 
 def publication_view(request):
-    return render(request, 'publication.html')
+    return render(request, 'public/publication.html')
 
 def visitor_view(request):
-    return render(request, 'visitor.html')
+    return render(request, 'public/visitor.html')
 
 def position_view(request):
-    return render(request, 'position.html')
+    return render(request, 'public/position.html')
 
 def event_view(request):
-    return render(request, 'event.html')
+    return render(request, 'public/event.html')
 
 def press_view(request):
-    return render(request, 'press.html')
+    return render(request, 'public/press.html')
 
 def resource_view(request):
-    return render(request, 'resource.html')
+    return render(request, 'public/resource.html')
 
 def contact_view(request):
-    return render(request, 'contact.html')
+    return render(request, 'public/contact.html')
 
 def _papers_by_category(category):
     papers = [p for p in PUBLICATIONS if p.get("category") == category]
@@ -61,16 +61,16 @@ def _papers_by_category(category):
     return sorted(papers, key=lambda p: p.get("year") or 0, reverse=True)
 
 def research_metrology(request):
-    return render(request, "research_metrology.html", {"papers": _papers_by_category("metrology")})
+    return render(request, "public/research_metrology.html", {"papers": _papers_by_category("metrology")})
 
 def research_algorithms(request):
-    return render(request, "research_algorithms.html", {"papers": _papers_by_category("algorithms")})
+    return render(request, "public/research_algorithms.html", {"papers": _papers_by_category("algorithms")})
 
 def research_foundations(request):
-    return render(request, "research_foundations.html", {"papers": _papers_by_category("foundations")})
+    return render(request, "public/research_foundations.html", {"papers": _papers_by_category("foundations")})
 
 def research_simulation(request):
-    return render(request, "research_simulation.html", {"papers": _papers_by_category("simulation")})
+    return render(request, "public/research_simulation.html", {"papers": _papers_by_category("simulation")})
 
 def upload_file(request):
     """Store an uploaded file on disk.
@@ -105,10 +105,10 @@ def upload_file(request):
 
         return HttpResponse(f'File uploaded successfully as {saved_path}.{note}')
 
-    return render(request, 'upload.html')
+    return render(request, 'auth/upload.html')
 
 def download(request):
-    return render(request, "download.html")
+    return render(request, "public/download.html")
 
 def register(request):
     if request.method == 'POST':
@@ -122,7 +122,7 @@ def register(request):
             messages.error(request, 'There was an error with your registration. Please try again.')
     else:
         form = RegistrationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'auth/register.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -133,7 +133,7 @@ def user_login(request):
             return redirect('dashboard')
     else:
         form = AuthenticationForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'auth/login.html', {'form': form})
 
 @login_required
 def dashboard(request):
@@ -197,7 +197,7 @@ def dashboard(request):
             return response  # Return the response to download the file
 
     work_sessions = WorkSession.objects.filter(user=request.user)
-    return render(request, 'dashboard.html', {'work_sessions': work_sessions})
+    return render(request, 'auth/dashboard.html', {'work_sessions': work_sessions})
 
 def user_logout(request):
     logout(request)
