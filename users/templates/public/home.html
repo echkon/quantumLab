@@ -93,7 +93,7 @@
     padding:17px 0; border-bottom:1px solid var(--line-soft);
   }
   .n-item .d{ font-size:14.5px; color:var(--muted); font-variant-numeric:tabular-nums; padding-top:3px; }
-  .n-item .t{ font-size:21px; line-height:1.6; color:var(--text); }
+  .n-item .t{ font-size:18.5px; line-height:1.6; color:var(--text); }
   .n-item .t a{ color:var(--accent); text-decoration:none; font-weight:500; }
   .n-item .t a:hover{ text-decoration:underline; }
   .n-item .t em{ font-family:var(--serif); font-style:italic; color:var(--ink); }
@@ -105,7 +105,7 @@
     font-size:12.5px; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
     color:var(--muted); margin-bottom:6px;
   }
-  .p-item a{ font-size:21px; line-height:1.5; color:var(--accent); text-decoration:none; font-weight:500; }
+  .p-item a{ font-size:18.5px; line-height:1.5; color:var(--accent); text-decoration:none; font-weight:500; }
   .p-item a:hover{ text-decoration:underline; }
   .p-item .pd{ font-size:14px; color:var(--muted); margin-top:6px; }
 
@@ -251,6 +251,7 @@
       <aside>
         <div class="sec-head">
           <h2>In the press</h2>
+          <a class="more" href="{% url 'press' %}">All coverage →</a>
         </div>
         <div class="press">
           <div class="p-item">
@@ -279,7 +280,6 @@
             <div class="pd">17 Oct 2025</div>
           </div>
         </div>
-        <p style="margin-top:20px;"><a class="more" href="{% url 'press' %}">All coverage →</a></p>
       </aside>
 
     </div>
